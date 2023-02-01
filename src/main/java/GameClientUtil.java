@@ -13,6 +13,7 @@ public class GameClientUtil {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     public static void printGameLogo(){
         BufferedImage bufferedImage = new BufferedImage(
@@ -36,7 +37,7 @@ public class GameClientUtil {
             if (logoStringBuilder.toString().trim().isEmpty()) {
                 continue;
             }
-            System.out.println(ANSI_PURPLE + logoStringBuilder);
+            System.out.println(ANSI_PURPLE + logoStringBuilder + ANSI_RESET);
         }
     }
 
@@ -51,21 +52,21 @@ public class GameClientUtil {
         Thread.sleep(1000);
         System.out.println("Your life and your sister's life DEPENDS on it!");
         Thread.sleep(2000);
-        System.out.println("Complete the quest by traveling to the next village over and bring back the potion to cure your sister's illness.");
+        System.out.println("Complete the quest by traveling to the next village over and bring back the potion to cure your sister's illness." + ANSI_RESET);
     }
 
-//    public static void availableCommands(){
-//        System.out.println(ANSI_PURPLE + "======================================================================================");
-//        System.out.println("Available commands: go [direction], get [item], use [item], help, quit");
-//        System.out.println("======================================================================================");
-//    }
+    public static void availableCommands(){
+        System.out.println(ANSI_PURPLE + "======================================================================================");
+        System.out.println("Available commands: go [direction], get [item], use [item], help, quit");
+        System.out.println("======================================================================================" + ANSI_RESET);
+    }
 
     public static void playerHelpCall() {
         System.out.println(ANSI_GREEN + "You have asked for help. Here are some suggestions:");
         System.out.println();
         System.out.println("You can interact with items, by typing get [item] or use [item].");
         System.out.println("You can move from your location to another location by typing go [direction].");
-        System.out.println("Examples: go north or use rope");
+        System.out.println("Examples: go north or use rope" + ANSI_RESET);
     }
 
 //    public static void main(String[] args) throws InterruptedException {
