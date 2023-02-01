@@ -40,7 +40,21 @@ public class GameClientUtil {
         }
     }
 
-    public static void main(String[] args) {
+    public static void gameStartMessage() throws InterruptedException {
+        Thread.sleep(2000);
+        System.out.println();
+        System.out.println(ANSI_CYAN + "Welcome to Potion Quest");
+        System.out.println();
+        System.out.println("Potion Quest is a text-based RPG game. Go on an adventure to get the potion to cure your sister!");
+        Thread.sleep(2000);
+        System.out.println("During this quest you will be faced with many choices and obstacles. Choose wisely....");
+        Thread.sleep(1000);
+        System.out.println("Your life and your sister's life DEPENDS on it!");
+        Thread.sleep(2000);
+        System.out.println("Complete the quest by traveling to the next village over and bring back the potion to cure your sister's illness.");
+    }
+    public static void main(String[] args) throws InterruptedException {
         printGameLogo();
+        gameStartMessage();
     }
 }
