@@ -39,8 +39,4 @@ public class GameClientUtil {
             System.out.println(ANSI_PURPLE + logoStringBuilder);
         }
     }
-
-    public static void main(String[] args) {
-        printGameLogo();
-    }
 }
