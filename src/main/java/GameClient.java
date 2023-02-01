@@ -4,6 +4,7 @@ public class GameClient {
     public static void main(String[] args) {
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
+        // flag to allow user to quickly exit the game
         boolean quitGame = false;
 
         // Welcome the user to the game
