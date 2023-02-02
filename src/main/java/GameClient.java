@@ -1,17 +1,16 @@
 import java.util.Scanner;
 
 public class GameClient {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         // flag to allow user to quickly exit the game
         boolean quitGame = false;
 
         // Welcome the user to the game
-        // WelcomeMessage()
-
+        GameClientUtil.gameStartMessage();
         // Prompt the user for input about starting the game
-        System.out.println("Would you like to start Potion Quest?\n");
+        System.out.println("\nWould you like to start Potion Quest?\n");
 
         // Capture input, if yes, create the game Singleton
         String userInput = input.nextLine();
@@ -25,7 +24,7 @@ public class GameClient {
         if(userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
             // create new Game here
             Game.createGameInstance();
-            System.out.println(Game.getGameInstance());
+            GameClientUtil.printGameLogo();
         } else  {
             System.out.println("Why would you start up a game if you don't want to play?");
             System.exit(0);
@@ -33,21 +32,12 @@ public class GameClient {
 
         // game runs below:
         while(!quitGame) {
+            GameClientUtil.availableCommands();
             userInput = input.nextLine();
-            // The user can type 'quit' at any time to exit the game
             if(userInput.equalsIgnoreCase("quit")) {
                 quitGame = true;
-                // destroy game, display exit message
-                Game.destroyGameInstance();
-                System.out.println(Game.getGameInstance());
-                // ExitMessage()
             }
-            if(userInput.equalsIgnoreCase("help")) {
-                // display help message
-                // HelpMessage()
-            }
-
-
+            UserInputParser.RunCommand(userInput);
         }
     }
 }
