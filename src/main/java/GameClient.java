@@ -1,7 +1,12 @@
 import java.util.Scanner;
 
 public class GameClient {
+
     public static void main(String[] args) throws InterruptedException {
+
+
+        Game potionQuest = null;
+
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         // flag to allow user to quickly exit the game
@@ -18,21 +23,26 @@ public class GameClient {
                 !userInput.equalsIgnoreCase("y") &&
         !userInput.equalsIgnoreCase("no") &&
         !userInput.equalsIgnoreCase("n")) {
-            System.out.println("Please enter 'yes' or 'no'");
+            System.out.println("Please enter '[y]es' or '[n]o'");
             userInput = input.nextLine();
         }
         if(userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
             // create new Game here
+
             Game.createGameInstance();
             GameClientUtil.printGameLogo();
+
         } else  {
             System.out.println("Why would you start up a game if you don't want to play?");
             System.exit(0);
         }
-
+        //print game logo / title screen
+        GameClientUtil.printGameLogo();
         // game runs below:
         while(!quitGame) {
+
             GameClientUtil.availableCommands();
+
             userInput = input.nextLine();
             if(userInput.equalsIgnoreCase("quit")) {
                 quitGame = true;
