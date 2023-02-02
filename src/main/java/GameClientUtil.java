@@ -69,11 +69,9 @@ public class GameClientUtil {
         System.out.println("Examples: go north or use rope" + ANSI_RESET);
     }
 
-//    public static void main(String[] args) throws InterruptedException {
-//        printGameLogo();
-//        gameStartMessage();
-//        availableCommands();
-//        playerHelpCall();
-//    }
+
+    public static void gameExitMessage() {
+        System.out.println("Thank you for playing Potion Quest, have a nice day!");
+    }
 
 }

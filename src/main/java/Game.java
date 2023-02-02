@@ -2,6 +2,8 @@ import java.util.Map;
 
 public class Game {
     private static Game gameInstance = null;
+<<<<<<< HEAD
+=======
     private Player player;
     //private Location currentLocation;
     //private Location previousLocation;
@@ -9,6 +11,7 @@ public class Game {
     private Directions directions;
     private Verbs verbs;
     private Nouns nouns;
+>>>>>>> e5b9441caba3adb40dc53a9354d04f556268330b
 
     private Game(Player player) {
         setPlayer(player);

@@ -9,23 +9,48 @@ public class UserInputParser {
         String verb;
         String noun;
 
-        List<String> commandVerbList = new ArrayList<>(Arrays.asList("get", "give", "drop", "talk", "attack", "inspect"));
-        List<String> commandNounList = new ArrayList<>(Arrays.asList("trinket", "potion", "rope", "dagger"));
+        Verbs[] commandVerbList = Verbs.values();
+        Nouns[] commandNounList = Nouns.values();
+        Directions[] commandDirectionList = Directions.values();
 
-        if (wordlist.size() > 2) {
+        List<Directions> directionsAsList = Arrays.asList(commandDirectionList);
+        List<Verbs> verbsAsList = Arrays.asList(commandVerbList);
+        List<Nouns> nounsAsList = Arrays.asList(commandNounList);
+
+        verb = wordlist.get(0);
+        noun = wordlist.get(1);
+        if(wordlist.size() > 2) {
             System.out.println("Only 2 word commands allowed.");
         }
-        else {
-            verb = wordlist.get(0);
-            noun = wordlist.get(1);
-            if (!commandVerbList.contains(verb)) {
-                System.out.println(verb + " is not a known verb!");
+        // special case of if verb is 'go', it must be paired with a valid direction
+        // handle that here
+        else if (verb.equalsIgnoreCase("go")) {
+            try {
+                Directions validDirectionEnum = Directions.valueOf(noun.toUpperCase());
+                if (directionsAsList.contains(validDirectionEnum)) {
+                    // update player location
+                    //TO-DO:
+
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input, please match go with a direction: North, East, South, or West");
             }
-            if (!commandNounList.contains(noun)) {
-                System.out.println(noun + " is not a known noun!");
+        } else {
+            try {
+                Verbs validVerbEnums = Verbs.valueOf(verb.toUpperCase());
+                Nouns validNounEnums = Nouns.valueOf(noun.toUpperCase());
+                if(verbsAsList.contains(validVerbEnums)) {
+                    if(nounsAsList.contains(validNounEnums)) {
+                        // interact here
+
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid verb or noun. Error message - " + e);
             }
         }
     }
+
 
     public static List<String> WordList(String trimmedInput) {
         String delims = " \t,.:;?!\"'";
@@ -39,43 +64,32 @@ public class UserInputParser {
         return strlist;
     }
 
-    public static void RunCommand(String inputStr) {
+    public static void RunCommand(String userInput) {
         List<String> wordlist;
-//        String s = "ok";
-        String lowStr = inputStr.trim().toLowerCase();
-
-        if (lowStr.equals("q")) {
+        if(userInput.equalsIgnoreCase("quit")) {
+            // destroy game, display exit message
+            Game.destroyGameInstance();
+            // ExitMessage()
+            GameClientUtil.gameExitMessage();
             System.exit(0);
         }
-        if (lowStr.equals("")) {
-//            s = "You must enter a command!";
+        if(userInput.equalsIgnoreCase("help")) {
+            // display help message
+            GameClientUtil.playerHelpCall();
+        }
+        if(userInput.equalsIgnoreCase("")) {
             System.out.println("You must enter a command!");
         }
         else {
-            wordlist = WordList(lowStr);
+            wordlist = WordList(userInput);
             if (wordlist.size() > 1) {
                 wordlist.forEach((aStr) -> System.out.println(aStr));
                 ParseCommand(wordlist);
             }
             else {
-                System.out.println("You must enter at least 2 words!");
+                System.out.println("Try entering commands in a [verb] [direction/noun] format such as" +
+                        " [go] [north] or [take] [sword]");
             }
         }
-//        return s;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader in;
-        String input;
-        String output;
-
-        in = new BufferedReader(new InputStreamReader(System.in));
-        do {
-            System.out.println("> Enter a Command");
-            input = in.readLine();
-//            output = RunCommand(input);
-            RunCommand(input);
-//            System.out.println(output);
-        } while (!"q".equals(input));
     }
 }
