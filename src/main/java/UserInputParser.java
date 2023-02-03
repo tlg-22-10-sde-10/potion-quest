@@ -96,14 +96,29 @@ public class UserInputParser {
         return listOfStrings;
     }
 
-    public static void handleUserInput(String userInput) throws IOException {
+    public static void handleUserInput(String userInput, GameClient gameClient) throws IOException, InterruptedException {
+        // Scanner object for accepting user keyboard input
+        Scanner input = new Scanner(System.in);
         List<String> listOfTrimmedInput;
         if(userInput.equalsIgnoreCase("quit")) {
-            // destroy game, display exit message
-            Game.destroyGameInstance();
-            // ExitMessage()
-            GameClientUtil.gameExitMessage();
-            System.exit(0);
+            System.out.println("Are you sure you want to quit?");
+            userInput = input.next();
+            boolean invalidInput = !userInput.equalsIgnoreCase("yes") &&
+                    !userInput.equalsIgnoreCase("y") &&
+                    !userInput.equalsIgnoreCase("no") &&
+                    !userInput.equalsIgnoreCase("n");
+            while (invalidInput) {
+                System.out.println("Please enter yes or no.");
+                userInput = input.next();
+            }
+            if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
+                gameClient.setQuitGame(true);
+                GameClientUtil.gameExitMessage();
+                System.exit(0);
+            } else {
+                System.out.println("Exiting quit menu...");
+                Thread.sleep(2000);
+            }
         }
         if(userInput.equalsIgnoreCase("help")) {
             // display help message
