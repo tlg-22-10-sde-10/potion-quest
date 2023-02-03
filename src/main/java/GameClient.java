@@ -1,7 +1,12 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameClient {
+
+//    static Game game;
+//    static UserInputParser parser;
 
     public static void main(String[] args) throws InterruptedException, IOException {
         // Scanner object for accepting user keyboard input
@@ -25,6 +30,9 @@ public class GameClient {
             if(userInput.equalsIgnoreCase("quit")) {
                 quitGame = true;
             }
+//            else {
+//                parser.convertUserInputToList(userInput);
+//            }
             UserInputParser.handleUserInput(userInput);
         }
     }

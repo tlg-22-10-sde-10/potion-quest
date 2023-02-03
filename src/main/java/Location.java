@@ -85,9 +85,9 @@ public class Location {
     public String description() {
         potentialExitsAvailable.values().stream();
         return "You are in the " + name
-                + "\n" + "Paths are: " + Arrays.asList(displayExits())
-                + "\n" + "You can find these items here: " + Arrays.asList(items)
-                + "\n" + "Adjacent to your location is: " + Arrays.asList(displayAdjacentLocations());
+                + "\n" + "Paths are: " + displayExits()
+                + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
+                + "\n" + "You can find these items here: " + Arrays.asList(items);
     }
 
     //method will iterate through printing out each location on file.
