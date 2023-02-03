@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class GameClientUtil {
 
@@ -14,7 +15,7 @@ public class GameClientUtil {
     private static int width = 130;
     private static int height = 15;
     private static int fontSize = 15;
-    private static int x_offset =10;
+    private static int x_offset = 10;
     private static int y_offset = 12;
 
     private static String titleGame = "POTION QUEST";
@@ -41,7 +42,7 @@ public class GameClientUtil {
         this.playerHelpCallMessage = playerHelpCallMessage;
     }
 
-    public static void printGameLogo(){
+    public static void printGameLogo() {
         BufferedImage bufferedImage = new BufferedImage(
                 width,
                 height,
@@ -78,7 +79,7 @@ public class GameClientUtil {
         Thread.sleep(2000);
     }
 
-    public static void availableCommands(){
+    public static void availableCommands() {
         System.out.println(ANSI_PURPLE + "======================================================================================");
         System.out.println("Available commands: go [direction], get [item], use [item], help, quit");
         System.out.println("======================================================================================" + ANSI_RESET);
@@ -93,9 +94,27 @@ public class GameClientUtil {
         System.out.println(ANSI_GREEN + gameHelpMessage.getPlayerHelpCallMessage() + ANSI_RESET);
     }
 
-
     public static void gameExitMessage() {
         System.out.println("Thank you for playing Potion Quest, have a nice day!");
     }
 
+    public static void startGame() {
+        Scanner input = new Scanner(System.in);
+        String userInput = input.nextLine();
+        while (!userInput.equalsIgnoreCase("yes") &&
+                !userInput.equalsIgnoreCase("y") &&
+                !userInput.equalsIgnoreCase("no") &&
+                !userInput.equalsIgnoreCase("n")) {
+            System.out.println("Please enter '[y]es' or '[n]o'");
+            userInput = input.nextLine();
+        }
+        if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
+            // create new Game here
+            Game.createGameInstance();
+            GameClientUtil.printGameLogo();
+        } else {
+            System.out.println("Why would you start up a game if you don't want to play?");
+            System.exit(0);
+        }
+    }
 }

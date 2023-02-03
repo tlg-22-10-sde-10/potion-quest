@@ -3,7 +3,7 @@ import java.util.*;
 
 public class UserInputParser {
 
-    public static void ParseCommand(List<String> wordlist) {
+    public static void parseCommand(List<String> wordlist) {
         String firstArgumentOfUserInput;
         String secondArgumentOfUserInput;
         final ArrayList<String> movementVerbs = new ArrayList<>() {
@@ -84,20 +84,20 @@ public class UserInputParser {
     }
 
 
-    public static List<String> WordList(String trimmedInput) {
-        String delims = " \t,.:;?!\"'";
-        List<String> strlist = new ArrayList<>();
-        StringTokenizer tokenizer = new StringTokenizer(trimmedInput, delims);
-        String t;
+    public static List<String> convertUserInputToList(String trimmedInput) {
+        String punctuation = " \t,.:;?!\"'";
+        List<String> listOfStrings = new ArrayList<>();
+        StringTokenizer tokenizer = new StringTokenizer(trimmedInput, punctuation);
+        String token;
         while (tokenizer.hasMoreTokens()) {
-            t = tokenizer.nextToken();
-            strlist.add(t);
+            token = tokenizer.nextToken();
+            listOfStrings.add(token);
         }
-        return strlist;
+        return listOfStrings;
     }
 
-    public static void RunCommand(String userInput) throws IOException {
-        List<String> wordlist;
+    public static void handleUserInput(String userInput) throws IOException {
+        List<String> listOfTrimmedInput;
         if(userInput.equalsIgnoreCase("quit")) {
             // destroy game, display exit message
             Game.destroyGameInstance();
@@ -113,14 +113,13 @@ public class UserInputParser {
             System.out.println("You must enter a command!");
         }
         else {
-            wordlist = WordList(userInput);
-            if (wordlist.size() > 1) {
-                wordlist.forEach((aStr) -> System.out.println(aStr));
-                ParseCommand(wordlist);
+            listOfTrimmedInput = convertUserInputToList(userInput);
+            if (listOfTrimmedInput.size() > 1) {
+                parseCommand(listOfTrimmedInput);
             }
             else {
                 System.out.println("Try entering commands in a [verb] [direction/noun] format such as" +
-                        " [go] [north] or [take] [sword]");
+                        " go north or take sword");
             }
         }
     }
