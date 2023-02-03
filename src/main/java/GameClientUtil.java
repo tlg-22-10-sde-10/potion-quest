@@ -98,14 +98,17 @@ public class GameClientUtil {
         System.out.println("Thank you for playing Potion Quest, have a nice day!");
     }
 
-    public static void startGame() {
+    public static void askPlayerIfTheyWantToStartGame() {
+        // Prompt the user for input about starting the game
+        System.out.println("\nWould you like to start Potion Quest?\n");
         Scanner input = new Scanner(System.in);
         String userInput = input.nextLine();
-        while (!userInput.equalsIgnoreCase("yes") &&
+        boolean invalidInput = !userInput.equalsIgnoreCase("yes") &&
                 !userInput.equalsIgnoreCase("y") &&
                 !userInput.equalsIgnoreCase("no") &&
-                !userInput.equalsIgnoreCase("n")) {
-            System.out.println("Please enter '[y]es' or '[n]o'");
+                !userInput.equalsIgnoreCase("n");
+        while (invalidInput) {
+            System.out.println("Please enter 'yes' or 'yo'");
             userInput = input.nextLine();
         }
         if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
