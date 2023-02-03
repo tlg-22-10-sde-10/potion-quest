@@ -1,4 +1,4 @@
-public enum Nouns {
+public enum Noun {
     DOOR,
     TRINKET,
     ROPE,

@@ -6,9 +6,9 @@ public class Game {
     //private Location currentLocation;
     //private Location previousLocation;
     //private int time
-    private Directions directions;
-    private Verbs verbs;
-    private Nouns nouns;
+    private Direction direction;
+    private InteractionVerb interactionVerb;
+    private Noun noun;
 
     private Game(Player player) {
         setPlayer(player);

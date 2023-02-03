@@ -1,6 +1,4 @@
-public enum Verbs {
-    GO,
-    MOVE,
+public enum InteractionVerb {
     TAKE,
     GRAB,
     STORE,
