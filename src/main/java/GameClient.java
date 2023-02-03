@@ -4,36 +4,30 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GameClient {
+    // flag to allow user to quickly exit the game
+    private boolean quitGame = false;
 
-//    static Game game;
-//    static UserInputParser parser;
-
-    public static void main(String[] args) throws InterruptedException, IOException {
+   public static void main(String[] args) throws InterruptedException, IOException {
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
-        // flag to allow user to quickly exit the game
-        boolean quitGame = false;
-
+        GameClient gameClient = new GameClient();
         // Welcome the user to the game
         GameClientUtil.gameStartMessage();
-        // Prompt the user for input about starting the game
-        System.out.println("\nWould you like to start Potion Quest?\n");
-
-        GameClientUtil.startGame();
-        //print game logo / title screen
-        GameClientUtil.printGameLogo();
+        GameClientUtil.askPlayerIfTheyWantToStartGame();
 
         // game runs below:
-        while(!quitGame) {
+        while(!gameClient.isQuitGame()) {
             GameClientUtil.availableCommands();
             String userInput = input.nextLine();
-            if(userInput.equalsIgnoreCase("quit")) {
-                quitGame = true;
-            }
-//            else {
-//                parser.convertUserInputToList(userInput);
-//            }
-            UserInputParser.handleUserInput(userInput);
+            UserInputParser.handleUserInput(userInput, gameClient);
         }
+    }
+
+    public boolean isQuitGame() {
+        return quitGame;
+    }
+
+    public void setQuitGame(boolean quitGame) {
+        this.quitGame = quitGame;
     }
 }
