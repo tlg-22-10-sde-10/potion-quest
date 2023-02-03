@@ -64,7 +64,7 @@ public class UserInputParser {
         return strlist;
     }
 
-    public static void RunCommand(String userInput) {
+    public static void RunCommand(String userInput) throws IOException {
         List<String> wordlist;
         if(userInput.equalsIgnoreCase("quit")) {
             // destroy game, display exit message

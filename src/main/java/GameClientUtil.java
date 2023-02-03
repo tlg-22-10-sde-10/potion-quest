@@ -1,7 +1,16 @@
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GameClientUtil {
+
+    private String welcomeMessage = null;
+    private String playerHelpCallMessage = null;
+
     private static int width = 130;
     private static int height = 15;
     private static int fontSize = 15;
@@ -14,6 +23,23 @@ public class GameClientUtil {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_RESET = "\u001B[0m";
+
+    public String getWelcomeMessage() {
+        return welcomeMessage;
+    }
+
+    public void setWelcomeMessage(String welcomeMessage) {
+        this.welcomeMessage = welcomeMessage;
+    }
+
+
+    public String getPlayerHelpCallMessage() {
+        return playerHelpCallMessage;
+    }
+
+    public void setPlayerHelpCallMessage(String playerHelpCallMessage) {
+        this.playerHelpCallMessage = playerHelpCallMessage;
+    }
 
     public static void printGameLogo(){
         BufferedImage bufferedImage = new BufferedImage(
@@ -41,18 +67,15 @@ public class GameClientUtil {
         }
     }
 
-    public static void gameStartMessage() throws InterruptedException {
+    public static void gameStartMessage() throws InterruptedException, IOException {
         Thread.sleep(2000);
+        File file = new File("src/main/resources/messages.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        GameClientUtil gameWelcomeMessage = objectMapper.readValue(file, GameClientUtil.class);
+        System.out.println(ANSI_CYAN + gameWelcomeMessage.getWelcomeMessage() + ANSI_RESET);
         System.out.println();
-        System.out.println(ANSI_CYAN + "Welcome to Potion Quest");
-        System.out.println();
-        System.out.println("Potion Quest is a text-based RPG game. Go on an adventure to get the potion to cure your sister!");
         Thread.sleep(2000);
-        System.out.println("During this quest you will be faced with many choices and obstacles. Choose wisely....");
-        Thread.sleep(1000);
-        System.out.println("Your life and your sister's life DEPENDS on it!");
-        Thread.sleep(2000);
-        System.out.println("Complete the quest by traveling to the next village over and bring back the potion to cure your sister's illness." + ANSI_RESET);
     }
 
     public static void availableCommands(){
@@ -61,12 +84,13 @@ public class GameClientUtil {
         System.out.println("======================================================================================" + ANSI_RESET);
     }
 
-    public static void playerHelpCall() {
-        System.out.println(ANSI_GREEN + "You have asked for help. Here are some suggestions:");
-        System.out.println();
-        System.out.println("You can interact with items, by typing get [item] or use [item].");
-        System.out.println("You can move from your location to another location by typing go [direction].");
-        System.out.println("Examples: go north or use rope" + ANSI_RESET);
+    public static void playerHelpCall() throws IOException {
+
+        File file = new File("src/main/resources/messages.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        GameClientUtil gameHelpMessage = objectMapper.readValue(file, GameClientUtil.class);
+        System.out.println(ANSI_GREEN + gameHelpMessage.getPlayerHelpCallMessage() + ANSI_RESET);
     }
 
 
