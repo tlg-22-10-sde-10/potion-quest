@@ -2,12 +2,12 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class Player {
-    private String name;
-    private int health;
-    private String[] inventory;
-    private Map<String, Integer> stats;
+    private static String name;
+    private static int health;
+    private static String[] inventory;
+    private static Map<String, Integer> stats;
 
-    private Location currentLocation;
+    private static Location currentLocation;
 
     public Player(String name, int health, Location startingLocation) {
         this.name = name;
@@ -22,11 +22,16 @@ public class Player {
         setCurrentLocation(currentLocation);
     }
 
-    public void move(Direction direction) {
+    public Player() {
+
+    }
+
+    public static void move(Direction direction) {
         Location targetLocation = currentLocation.getAdjacentLocation(direction);
         if (targetLocation != null) {
-            this.currentLocation = targetLocation;
+            currentLocation = targetLocation;
             System.out.println("You moved to the " + targetLocation.getName());
+            System.out.println(description());
         }
         else {
             System.out.println("Cannot move in that direction.");
@@ -65,7 +70,7 @@ public class Player {
         this.currentLocation = currentLocation;
     }
 
-    public String description() {
+    public static String description() {
         return "Name: " + name + "\nHealth: " + health + "\n" + currentLocation.description();
     }
 

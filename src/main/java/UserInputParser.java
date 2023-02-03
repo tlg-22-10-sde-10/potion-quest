@@ -60,12 +60,33 @@ public class UserInputParser {
         };
         firstArgumentOfUserInput = wordlist.get(0).toLowerCase();
         secondArgumentOfUserInput = wordlist.get(1).toLowerCase();
+
         if (wordlist.size() > 2) {
             System.out.println("Only 2 word commands allowed.");
         } else if (movementVerbs.contains(firstArgumentOfUserInput)) {
             if (directions.contains(secondArgumentOfUserInput)) {
+                Direction direction;
                 // movement and direction are valid, move player
-
+                switch (secondArgumentOfUserInput.toLowerCase()) {
+                    case "north":
+                        direction = Direction.NORTH;
+                        Player.move(direction);
+                        break;
+                    case "south":
+                        direction = Direction.SOUTH;
+                        Player.move(direction);
+                        break;
+                    case "east":
+                        direction = Direction.EAST;
+                        Player.move(direction);
+                        break;
+                    case "west":
+                        direction = Direction.WEST;
+                        Player.move(direction);
+                        break;
+                    default:
+                        System.out.println("Not a valid direction input.");
+                }
             } else {
                 System.out.println("Invalid direction. Try 'North', 'East', 'South', or 'West' after 'Go' or 'Move'");
             }
