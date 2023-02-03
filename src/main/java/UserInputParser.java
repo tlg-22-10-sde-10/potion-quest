@@ -1,53 +1,85 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 public class UserInputParser {
 
     public static void ParseCommand(List<String> wordlist) {
-        String verb;
-        String noun;
-
-        Verbs[] commandVerbList = Verbs.values();
-        Nouns[] commandNounList = Nouns.values();
-        Directions[] commandDirectionList = Directions.values();
-
-        List<Directions> directionsAsList = Arrays.asList(commandDirectionList);
-        List<Verbs> verbsAsList = Arrays.asList(commandVerbList);
-        List<Nouns> nounsAsList = Arrays.asList(commandNounList);
-
-        verb = wordlist.get(0);
-        noun = wordlist.get(1);
-        if(wordlist.size() > 2) {
+        String firstArgumentOfUserInput;
+        String secondArgumentOfUserInput;
+        final ArrayList<String> movementVerbs = new ArrayList<>() {
+            {
+                add("go");
+                add("move");
+            }
+        };
+        final ArrayList<String> interactionVerbs = new ArrayList<>() {
+            {
+                add("take");
+                add("open");
+                add("grab");
+                add("store");
+                add("drop");
+                add("trade");
+                add("use");
+                add("look");
+                add("talk");
+            }
+        };
+        final ArrayList<String> nouns = new ArrayList<>() {
+            {
+                add("door");
+                add("trinket");
+                add("rope");
+                add("sword");
+                add("potion");
+                add("bread");
+                add("ale");
+                add("water");
+                add("rabbit");
+                add("river");
+                add("forest");
+                add("mountain path");
+                add("starting village");
+                add("potion village");
+                add("tavern");
+                add("armor");
+                add("hermit");
+                add("shack");
+                add("house");
+                add("bag");
+                add("torch");
+            }
+        };
+        ArrayList<String> directions = new ArrayList<>() {
+            {
+                add("north");
+                add("south");
+                add("east");
+                add("west");
+            }
+        };
+        firstArgumentOfUserInput = wordlist.get(0).toLowerCase();
+        secondArgumentOfUserInput = wordlist.get(1).toLowerCase();
+        if (wordlist.size() > 2) {
             System.out.println("Only 2 word commands allowed.");
-        }
-        // special case of if verb is 'go', it must be paired with a valid direction
-        // handle that here
-        else if (verb.equalsIgnoreCase("go")) {
-            try {
-                Directions validDirectionEnum = Directions.valueOf(noun.toUpperCase());
-                if (directionsAsList.contains(validDirectionEnum)) {
-                    // update player location
-                    //TO-DO:
+        } else if (movementVerbs.contains(firstArgumentOfUserInput)) {
+            if (directions.contains(secondArgumentOfUserInput)) {
+                // movement and direction are valid, move player
 
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid input, please match go with a direction: North, East, South, or West");
+            } else {
+                System.out.println("Invalid direction. Try 'North', 'East', 'South', or 'West' after 'Go' or 'Move'");
+            }
+        } else if(interactionVerbs.contains(firstArgumentOfUserInput)) {
+            if(directions.contains(secondArgumentOfUserInput)) {
+                System.out.println("Invalid command. Please pair 'go' and 'move' with directions only.");
+            } else if(nouns.contains(secondArgumentOfUserInput)) {
+                // interact with nouns here
+
+            } else {
+                System.out.println("Invalid noun.");
             }
         } else {
-            try {
-                Verbs validVerbEnums = Verbs.valueOf(verb.toUpperCase());
-                Nouns validNounEnums = Nouns.valueOf(noun.toUpperCase());
-                if(verbsAsList.contains(validVerbEnums)) {
-                    if(nounsAsList.contains(validNounEnums)) {
-                        // interact here
-
-                    }
-                }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid verb or noun. Error message - " + e);
-            }
+            System.out.println("Invalid interaction verb. Maybe try 'take', 'open', or 'use'.");
         }
     }
 
