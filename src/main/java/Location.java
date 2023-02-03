@@ -4,16 +4,90 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
-public abstract class Location {
+public class Location {
     private String name;
     private String[] items;
     private String[] exits;
+    private Map<Direction, Location> potentialExitsAvailable = new HashMap<>();
+
     public Location(String name, String[] items, String[] exits) {
-        setName(name);
-        setItems(items);
-        setExits(exits);
+        this.name = name;
+        this.items = items;
+        this.exits = exits;
+    }
+
+    public Location(String name) {
+        this.name = name;
+        this.potentialExitsAvailable = new HashMap<>();
+    }
+
+    public Location(String name, List<Location> adjacentLocations) {
+        this.name = name;
+    }
+
+    public void addAdjacentLocation(Direction direction, Location location) {
+        potentialExitsAvailable.put(direction, location);
+    }
+
+    public Location getAdjacentLocation(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                return getNorthLocation();
+            case SOUTH:
+                return getSouthLocation();
+            case EAST:
+                return getEastLocation();
+            case WEST:
+                return getWestLocation();
+            default:
+                return null;
+        }
+    }
+
+    private Location getNorthLocation() {
+        return potentialExitsAvailable.get(Direction.NORTH);
+    }
+
+    private Location getSouthLocation() {
+        return potentialExitsAvailable.get(Direction.SOUTH);
+    }
+
+    private Location getEastLocation() {
+        return potentialExitsAvailable.get(Direction.EAST);
+    }
+
+    private Location getWestLocation() {
+        return potentialExitsAvailable.get(Direction.WEST);
+    }
+
+    public List<Direction> displayExits() {
+        List<Direction> exits = new ArrayList<>();
+        for (Direction direction : potentialExitsAvailable.keySet()) {
+            exits.add(direction);
+        }
+        return  exits;
+    }
+
+    public List<String> displayAdjacentLocations() {
+        List<Location> adjacentLocations = new ArrayList<>();
+        List<String> adjacentLocationNames = new ArrayList<>();
+        String name;
+        for (Location adjacentLocation : potentialExitsAvailable.values()) {
+            adjacentLocations.add(adjacentLocation);
+            name = adjacentLocation.getName();
+            adjacentLocationNames.add(name);
+        }
+        return  adjacentLocationNames;
+    }
+
+    public String description() {
+        potentialExitsAvailable.values().stream();
+        return "You are in the " + name
+                + "\n" + "Paths are: " + Arrays.asList(displayExits())
+                + "\n" + "You can find these items here: " + Arrays.asList(items)
+                + "\n" + "Adjacent to your location is: " + Arrays.asList(displayAdjacentLocations());
     }
 
     //method will iterate through printing out each location on file.
@@ -32,7 +106,6 @@ public abstract class Location {
 //            System.out.println();
         }
     }
-    public abstract void locationDescription();
 
     public String getName() {
         return name;
