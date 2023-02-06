@@ -14,6 +14,7 @@ public class GameClient {
         // Welcome the user to the game
         GameClientUtil.gameStartMessage();
         GameClientUtil.askPlayerIfTheyWantToStartGame();
+        GameClientUtil.startingVillageMessage();
 
         // game runs below:
         while(!gameClient.isQuitGame()) {
