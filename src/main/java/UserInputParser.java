@@ -1,8 +1,18 @@
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * UserInputParser accepts user input from the keyboard and handles situations from command combinations.
+ */
 public class UserInputParser {
 
+    /**
+     * parseCommand takes a list of Strings called wordList and parses it based on a verb and direction/noun combination.
+     * If 'go' or 'move' are the first word in the list, parseCommand expects a direction. Otherwise, it will check the
+     * list of interactions verbs with the list of nouns.
+     *
+     * @param wordlist  - a List of String from the user input.
+     */
     public static void parseCommand(List<String> wordlist) {
         String firstArgumentOfUserInput;
         String secondArgumentOfUserInput;
@@ -15,13 +25,9 @@ public class UserInputParser {
         final ArrayList<String> interactionVerbs = new ArrayList<>() {
             {
                 add("take");
-                add("open");
                 add("grab");
-                add("store");
                 add("drop");
-                add("trade");
                 add("use");
-                add("look");
                 add("talk");
             }
         };
@@ -38,9 +44,6 @@ public class UserInputParser {
                 add("rabbit");
                 add("river");
                 add("forest");
-                add("mountain path");
-                add("starting village");
-                add("potion village");
                 add("tavern");
                 add("armor");
                 add("hermit");
@@ -85,7 +88,7 @@ public class UserInputParser {
                         Player.move(direction);
                         break;
                     default:
-                        System.out.println("Not a valid direction input.");
+                        System.out.println("Not a valid direction.");
                 }
             } else {
                 System.out.println("Invalid direction. Try 'North', 'East', 'South', or 'West' after 'Go' or 'Move'");
@@ -100,15 +103,15 @@ public class UserInputParser {
                 System.out.println("Invalid noun.");
             }
         } else {
-            System.out.println("Invalid interaction verb. Maybe try 'take', 'open', or 'use'.");
+            System.out.println("Invalid interaction verb. For interacting with items, try 'take', 'grab', 'drop', or " +
+                    "'use'. For NPCs try 'talk'");
         }
     }
 
-
-    public static List<String> convertUserInputToList(String trimmedInput) {
+    public static List<String> trimUserInput(String userInput) {
         String punctuation = " \t,.:;?!\"'";
         List<String> listOfStrings = new ArrayList<>();
-        StringTokenizer tokenizer = new StringTokenizer(trimmedInput, punctuation);
+        StringTokenizer tokenizer = new StringTokenizer(userInput, punctuation);
         String token;
         while (tokenizer.hasMoreTokens()) {
             token = tokenizer.nextToken();
@@ -117,6 +120,16 @@ public class UserInputParser {
         return listOfStrings;
     }
 
+    /**
+     * handleUserInput works direction with user input from the GameClient main method. If the user enters 'inventory',
+     * 'quit' or 'help' a menu is shown. Any other one word command is not recognized. An empty String is also handled.
+     * If the user enters in 2 Strings, the input is sent to trimUserInput to trim the input before sending it to
+     * parseCommand.
+     * @param userInput - input from the user
+     * @param gameClient - instance of the GameClient
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public static void handleUserInput(String userInput, GameClient gameClient) throws IOException, InterruptedException {
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
@@ -148,8 +161,13 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("")) {
             System.out.println("You must enter a command!");
         }
+        if(userInput.equalsIgnoreCase("inventory")) {
+            // display player inventory
+            System.out.println("Your current inventory: " +
+                    Arrays.toString(Game.getGameInstance().getPlayer().getInventory()));
+        }
         else {
-            listOfTrimmedInput = convertUserInputToList(userInput);
+            listOfTrimmedInput = trimUserInput(userInput);
             if (listOfTrimmedInput.size() > 1) {
                 parseCommand(listOfTrimmedInput);
             }

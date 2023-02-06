@@ -6,13 +6,13 @@ public class Player {
     private static int health;
     private static String[] inventory;
     private static Map<String, Integer> stats;
-
     private static Location currentLocation;
 
-    public Player(String name, int health, Location startingLocation) {
+    public Player(String name, int health, Location startingLocation, String[] inventory) {
         this.name = name;
         this.health = health;
         this.currentLocation = startingLocation;
+        this.inventory = inventory;
     }
 
     public Player(int health, String[] inventory, Map<String, Integer> stats, Location currentLocation) {
@@ -71,9 +71,11 @@ public class Player {
     }
 
     public static String description() {
-        return "Name: " + name + "\nHealth: " + health + "\n" + currentLocation.description();
+        return "Name: " + name + "\nHealth: " + health + "\n" + currentLocation.description() + "\nInventory " +
+                Arrays.toString(inventory);
     }
 
+    @Override
     public String toString() {
         StringBuilder playerInformation = new StringBuilder();
         playerInformation.append("Current Location: ")

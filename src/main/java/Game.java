@@ -45,7 +45,7 @@ public class Game {
             mountains.addAdjacentLocation(Direction.EAST, riverSouth);
             riverNorth.addAdjacentLocation(Direction.WEST, woods);
             riverSouth.addAdjacentLocation(Direction.WEST, mountains);
-            Player joe = new Player("Joe", 100, village);
+            Player joe = new Player("Joe", 100, village, new String[5]);
 
             String[] villageItems = {"Trinket", "Backpack"};
             village.setItems(villageItems);
@@ -71,7 +71,7 @@ public class Game {
         gameInstance = null;
     }
 
-    public Game getGameInstance() {
+    public static Game getGameInstance() {
         return gameInstance;
     }
 
