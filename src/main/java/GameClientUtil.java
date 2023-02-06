@@ -92,7 +92,7 @@ public class GameClientUtil {
 
     public static void availableCommands() {
         System.out.println(ANSI_PURPLE + "======================================================================================");
-        System.out.println("Available commands: go [direction], get [item], use [item], help, quit");
+        System.out.println("Available commands: go [direction], get [item], use [item], inventory, help, quit");
         System.out.println("======================================================================================" + ANSI_RESET);
     }
 
