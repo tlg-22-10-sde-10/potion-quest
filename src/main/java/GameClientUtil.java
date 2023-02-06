@@ -11,6 +11,7 @@ public class GameClientUtil {
 
     private String welcomeMessage = null;
     private String playerHelpCallMessage = null;
+    private String villageStartMessage = null;
 
     private static int width = 130;
     private static int height = 15;
@@ -42,6 +43,14 @@ public class GameClientUtil {
         this.playerHelpCallMessage = playerHelpCallMessage;
     }
 
+    public String getVillageStartMessage() {
+        return villageStartMessage;
+    }
+
+    public void setVillageStartMessage(String villageStartMessage) {
+        this.villageStartMessage = villageStartMessage;
+    }
+
     public static void printGameLogo() {
         BufferedImage bufferedImage = new BufferedImage(
                 width,
@@ -66,6 +75,8 @@ public class GameClientUtil {
             }
             System.out.println(ANSI_PURPLE + logoStringBuilder + ANSI_RESET);
         }
+
+
     }
 
     public static void gameStartMessage() throws InterruptedException, IOException {
@@ -94,11 +105,20 @@ public class GameClientUtil {
         System.out.println(ANSI_GREEN + gameHelpMessage.getPlayerHelpCallMessage() + ANSI_RESET);
     }
 
+    public static void startingVillageMessage() throws IOException {
+
+        File file = new File("src/main/resources/messages.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        GameClientUtil gameVillageMessage = objectMapper.readValue(file, GameClientUtil.class);
+        System.out.println(ANSI_CYAN + gameVillageMessage.getVillageStartMessage() + ANSI_RESET);
+    }
+
     public static void gameExitMessage() {
         System.out.println("Thank you for playing Potion Quest, have a nice day!");
     }
 
-    public static void askPlayerIfTheyWantToStartGame() {
+    public static void askPlayerIfTheyWantToStartGame() throws InterruptedException {
         // Prompt the user for input about starting the game
         System.out.println("\nWould you like to start Potion Quest?\n");
         Scanner input = new Scanner(System.in);
@@ -115,6 +135,7 @@ public class GameClientUtil {
             // create new Game here
             Game.createGameInstance();
             GameClientUtil.printGameLogo();
+
         } else {
             System.out.println("Why would you start up a game if you don't want to play?");
             System.exit(0);
