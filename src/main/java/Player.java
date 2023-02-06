@@ -87,8 +87,8 @@ public class Player {
                 .append(" \\ 100")
                 .append("\tInventory: ")
                 .append(Arrays.toString(getInventory()))
-                .append("\tPossible exits: ")
-                .append(Arrays.toString(getCurrentLocation().getExits()));
+                .append("\tPossible exits: ");
+//                .append(Arrays.toString(getCurrentLocation().getExits()));
         return playerInformation.toString();
     }
 }
