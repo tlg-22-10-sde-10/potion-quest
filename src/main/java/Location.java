@@ -4,15 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Location {
     private String name;
     private String[] items;
-    private String[] exits;
+    private Map<String, String> exits;
     private Map<Direction, Location> potentialExitsAvailable = new HashMap<>();
 
-    public Location(String name, String[] items, String[] exits) {
+    public Location() {
+    }
+
+    public Location(String name, String[] items, Map<String, String>exits) {
         this.name = name;
         this.items = items;
         this.exits = exits;
@@ -67,7 +73,7 @@ public class Location {
         for (Direction direction : potentialExitsAvailable.keySet()) {
             exits.add(direction);
         }
-        return  exits;
+        return exits;
     }
 
     public List<String> displayAdjacentLocations() {
@@ -79,7 +85,7 @@ public class Location {
             name = adjacentLocation.getName();
             adjacentLocationNames.add(name);
         }
-        return  adjacentLocationNames;
+        return adjacentLocationNames;
     }
 
     public String description() {
@@ -93,17 +99,23 @@ public class Location {
     //method will iterate through printing out each location on file.
     //need to continue researching the creation of each location and accessing individual elements
     public static void locationJsonParser() throws IOException {
-        File file = new File("src/main/resources/locations.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        List<Location> locations = objectMapper.readValue(file, new TypeReference<List<Location>>() {
-        });
-        for(int i = 0; i < locations.size(); i++) {
-            System.out.println(locations.get(i).getName());
+//        File file = new File("src/main/resources/locations.json");
+        try (InputStream inputStream = Location.class.getClassLoader().getResourceAsStream("locations.json")) {
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<Location> locations = objectMapper.readValue(inputStream, new TypeReference<List<Location>>() {
+            });
+            Map<String, Location> locationMap = locations
+                    .stream()
+                    .collect(Collectors.toMap(Location::getName, Function.identity()));
+            for (int i = 0; i < locations.size(); i++) {
+                System.out.println(locations.get(i).getName());
 //            System.out.println(locations.get(i).getDescription());
 //            System.out.println(locations.get(i).getItems());
 //            System.out.println(locations.get(i).getExits());
 //            System.out.println();
+            }
         }
     }
 
@@ -123,11 +135,11 @@ public class Location {
         this.items = items;
     }
 
-    public String[] getExits() {
+    public Map<String, String>getExits() {
         return exits;
     }
 
-    public void setExits(String[] exits) {
+    public void setExits(Map<String, String> exits) {
         this.exits = exits;
     }
 }

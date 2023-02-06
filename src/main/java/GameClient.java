@@ -8,6 +8,7 @@ public class GameClient {
     private boolean quitGame = false;
 
    public static void main(String[] args) throws InterruptedException, IOException {
+       Location.locationJsonParser();
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         GameClient gameClient = new GameClient();
