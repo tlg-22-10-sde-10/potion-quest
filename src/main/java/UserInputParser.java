@@ -69,7 +69,6 @@ public class UserInputParser {
         UserInputParser inputParser = new UserInputParser();
         String firstArgumentOfUserInput;
         String secondArgumentOfUserInput;
-
         firstArgumentOfUserInput = wordlist.get(0).toLowerCase();
         secondArgumentOfUserInput = wordlist.get(1).toLowerCase();
 
@@ -87,7 +86,17 @@ public class UserInputParser {
                 System.out.println("Invalid command. Please pair 'go' and 'move' with directions only.");
             } else if(inputParser.getNouns().contains(secondArgumentOfUserInput)) {
                 // interact with nouns here
-
+                Item item = Player.convertInputNounToTargetObject(secondArgumentOfUserInput);
+                if (firstArgumentOfUserInput.equalsIgnoreCase("take")
+                || firstArgumentOfUserInput.equalsIgnoreCase("grab")) {
+                    Player.takeItem(item);
+                }
+                if (firstArgumentOfUserInput.equalsIgnoreCase("drop")) {
+                    Player.dropItem(item);
+                }
+                if (firstArgumentOfUserInput.equalsIgnoreCase("look")) {
+                    Player.lookAtItem(item);
+                }
             } else {
                 System.out.println("Invalid noun.");
             }

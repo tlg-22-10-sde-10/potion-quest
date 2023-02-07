@@ -11,18 +11,15 @@ import java.util.stream.Collectors;
 
 public class Location {
     private String name;
-    private static List<Item> items;
+    private List<Item> items;
     private Map<String, Location> exits;
-    private List<Location> allLocations;
-//    private Map<Direction, Location> potentialExitsAvailable = new HashMap<>();
+    private String description;
 
     public Location() {
     }
 
-    public Location(String name, List<Item> items, Map<String, Location>exits) {
+    public Location(String name, List<Location> adjacentLocations) {
         this.name = name;
-        this.items = items;
-        this.exits = exits;
     }
 
     public Location(String name) {
@@ -30,8 +27,10 @@ public class Location {
         this.exits = new HashMap<>();
     }
 
-    public Location(String name, List<Location> adjacentLocations) {
+    public Location(String name, List<Item> items, Map<String, Location> exits) {
         this.name = name;
+        this.items = items;
+        this.exits = exits;
     }
 
     public void addAdjacentLocation(String direction, Location location) {
@@ -77,7 +76,7 @@ public class Location {
         return "You are in the " + this.name
                 + "\n" + "Paths are: " + this.exits.values()
                 + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
-                + "\n" + "You can find these items here: " + Arrays.asList(items);
+                + "\n" + "You can find these items here: " + getItems();
     }
 
     //method will iterate through printing out each location on file.
@@ -86,7 +85,6 @@ public class Location {
 //        File file = new File("src/main/resources/locations.json");
         Map<String, Location> locationMap;
         try (InputStream inputStream = Location.class.getClassLoader().getResourceAsStream("locations.json")) {
-
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             List<Location> locations = objectMapper.readValue(inputStream, new TypeReference<List<Location>>() {
@@ -106,15 +104,15 @@ public class Location {
         this.name = name;
     }
 
-    public static List<Item> getItems() {
+    public List<Item> getItems() {
         return items;
     }
 
-    public static void setItems(List<Item> items) {
+    public void setItems(List<Item> items) {
         items = items;
     }
 
-    public Map<String, Location>getExits() {
+    public Map<String, Location> getExits() {
         return exits;
     }
 
@@ -122,11 +120,11 @@ public class Location {
         this.exits = exits;
     }
 
-    public List<Location> getAllLocations() {
-        return allLocations;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAllLocations(List<Location> allLocations) {
-        this.allLocations = allLocations;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
