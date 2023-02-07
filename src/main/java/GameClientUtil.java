@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -5,7 +6,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GameClientUtil {
 
@@ -140,5 +146,21 @@ public class GameClientUtil {
             System.out.println("Why would you start up a game if you don't want to play?");
             System.exit(0);
         }
+    }
+
+    public static Map<String, Item> itemJsonParser() throws IOException {
+        Map<String, Item> itemsMap;
+//        File file = new File("src/main/resources/item.json");
+        try (InputStream inputStream = Item.class.getClassLoader().getResourceAsStream("item.json")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<Item> items = objectMapper.readValue(inputStream, new TypeReference<List<Item>>() {
+            });
+            itemsMap = items
+                    .stream()
+                    .collect(Collectors.toMap(Item::getName, Function.identity()));
+
+        }
+        return itemsMap;
     }
 }
