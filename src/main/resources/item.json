@@ -30,5 +30,21 @@
   {
     "name": "Ale",
     "description": "Ale is a unique source of nutrition if you drink the ale it might have benefits but it might impact other areas of your defense."
+  },
+  {
+    "name": "Rope",
+    "description": "You may want to take the rope with you. In case you need to climb or cross an obstacle"
+  },
+  {
+    "name": "Bag",
+    "description": "You can use this to carry your items."
+  },
+  {
+    "name": "Water Bottle",
+    "description": "Use the water bottle to water and improve your health."
+  },
+  {
+    "name": "Torch",
+    "description": "Use this torch to light your way or fight off enemies."
   }
 ]
