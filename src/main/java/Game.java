@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ public class Game {
     private Direction direction;
     private InteractionVerb interactionVerb;
     private Noun noun;
+    private Item item;
 
     private Game(Player player) {
         setPlayer(player);
@@ -30,6 +32,14 @@ public class Game {
             Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
 
             Location startingVillage = mapOfAllLocations.get("Starting Village");
+            List<Item> startingVillageItems = startingVillage.getItems();
+            Item trinket = new Item("trinket", "a small locket");
+            Item bag = new Item("bag", "a small bag that can take 5 items");
+            List<Item> listOfItems = new ArrayList<>();
+            listOfItems.add(trinket);
+            listOfItems.add(bag);
+            startingVillage.setItems(listOfItems);
+
             Location forest = mapOfAllLocations.get("Forest");
             Location mountainPass = mapOfAllLocations.get("Mountain Pass");
             Location riverNorth = mapOfAllLocations.get("River North");
@@ -37,8 +47,7 @@ public class Game {
             Location village2 = mapOfAllLocations.get("Village2");
 
             Player joe = new Player("Joe", 100, startingVillage);
-
-            System.out.println(startingVillage.description());
+            joe.setInventory(listOfItems);
 
             startingVillage.addAdjacentLocation("NORTH", forest);
             startingVillage.addAdjacentLocation("SOUTH", mountainPass);
