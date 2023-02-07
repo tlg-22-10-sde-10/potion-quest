@@ -118,7 +118,7 @@ public class GameClientUtil {
         System.out.println("Thank you for playing Potion Quest, have a nice day!");
     }
 
-    public static void askPlayerIfTheyWantToStartGame() throws InterruptedException {
+    public static void askPlayerIfTheyWantToStartGame() throws InterruptedException, IOException {
         // Prompt the user for input about starting the game
         System.out.println("\nWould you like to start Potion Quest?\n");
         Scanner input = new Scanner(System.in);
