@@ -29,6 +29,7 @@ public class UserInputParser {
                 add("drop");
                 add("use");
                 add("talk");
+                add("look");
             }
         };
         final ArrayList<String> nouns = new ArrayList<>() {
@@ -98,8 +99,17 @@ public class UserInputParser {
                 System.out.println("Invalid command. Please pair 'go' and 'move' with directions only.");
             } else if(nouns.contains(secondArgumentOfUserInput)) {
                 // interact with nouns here
-
-
+                Item item = Player.convertInputNounToTargetObject(secondArgumentOfUserInput);
+                if (firstArgumentOfUserInput.equalsIgnoreCase("take")
+                || firstArgumentOfUserInput.equalsIgnoreCase("grab")) {
+                    Player.takeItem(item);
+                }
+                if (firstArgumentOfUserInput.equalsIgnoreCase("drop")) {
+                    Player.dropItem(item);
+                }
+                if (firstArgumentOfUserInput.equalsIgnoreCase("look")) {
+                    Player.lookAtItem(item);
+                }
             } else {
                 System.out.println("Invalid noun.");
             }
