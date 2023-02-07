@@ -99,6 +99,7 @@ public class UserInputParser {
             } else if(nouns.contains(secondArgumentOfUserInput)) {
                 // interact with nouns here
 
+
             } else {
                 System.out.println("Invalid noun.");
             }
@@ -164,7 +165,7 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
             System.out.println("Your current inventory: " +
-                    Arrays.toString(Game.getGameInstance().getPlayer().getInventory()));
+                    Arrays.asList(Game.getGameInstance().getPlayer().getInventory()));
         }
         else {
             listOfTrimmedInput = trimUserInput(userInput);

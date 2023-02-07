@@ -1,11 +1,12 @@
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Game {
     private static Game gameInstance = null;
     private Player player;
-    //private Location currentLocation;
-    //private Location previousLocation;
+    private Location currentLocation;
     //private int time
     private Direction direction;
     private InteractionVerb interactionVerb;
@@ -15,7 +16,7 @@ public class Game {
         setPlayer(player);
     }
 
-    public static Game createGameInstance() {
+    public static Game createGameInstance() throws IOException {
         if(gameInstance == null) {
             int playerHealth = 100;
             String[] inventory = new String[5];
@@ -26,41 +27,36 @@ public class Game {
                     "Intelligence", 10,
                     "Charisma", 10,
                     "Luck", 10);
-            ArrayList<Location> woodsAdjacent = new ArrayList<>();
-            ArrayList<Location> villageAdjacent = new ArrayList<>();
-            ArrayList<Location> mountainAdjacent = new ArrayList<>();
-            ArrayList<Location> riverNorthAdjacent = new ArrayList<>();
-            ArrayList<Location> riverSouthAdjacent = new ArrayList<>();
-            Location village = new Location("Village", villageAdjacent);
-            Location woods = new Location("Woods", woodsAdjacent);
-            Location mountains = new Location("Mountains", mountainAdjacent);
-            Location riverNorth = new Location("Woods River", riverNorthAdjacent);
-            Location riverSouth = new Location("Mountains River", riverSouthAdjacent);
+            Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
 
-            village.addAdjacentLocation(Direction.NORTH, woods);
-            village.addAdjacentLocation(Direction.SOUTH, mountains);
-            woods.addAdjacentLocation(Direction.SOUTH, village);
-            woods.addAdjacentLocation(Direction.EAST, riverNorth);
-            mountains.addAdjacentLocation(Direction.NORTH, village);
-            mountains.addAdjacentLocation(Direction.EAST, riverSouth);
-            riverNorth.addAdjacentLocation(Direction.WEST, woods);
-            riverSouth.addAdjacentLocation(Direction.WEST, mountains);
-            Player joe = new Player("Joe", 100, village, new String[5]);
+            Location startingVillage = mapOfAllLocations.get("Starting Village");
+            Location forest = mapOfAllLocations.get("Forest");
+            Location mountainPass = mapOfAllLocations.get("Mountain Pass");
+            Location riverNorth = mapOfAllLocations.get("River North");
+            Location riverSouth = mapOfAllLocations.get("River South");
+            Location village2 = mapOfAllLocations.get("Village2");
 
-            String[] villageItems = {"Trinket", "Backpack"};
-            village.setItems(villageItems);
+            Player joe = new Player("Joe", 100, startingVillage);
 
-            String[] woodsItems = {"Rope", "Dagger"};
-            woods.setItems(woodsItems);
+            System.out.println(startingVillage.description());
 
-            String[] mountainItems = {"Rope", "Bread"};
-            mountains.setItems(mountainItems);
+            startingVillage.addAdjacentLocation("NORTH", forest);
+            startingVillage.addAdjacentLocation("SOUTH", mountainPass);
 
-            String[] riverNorthItems = {"No items available"};
-            riverNorth.setItems(riverNorthItems);
+            forest.addAdjacentLocation("SOUTH", startingVillage);
+            forest.addAdjacentLocation("EAST", riverNorth);
 
-            String[] riverSouthItems = {"No items available"};
-            riverSouth.setItems(riverSouthItems);
+            mountainPass.addAdjacentLocation("NORTH", startingVillage);
+            mountainPass.addAdjacentLocation("EAST", riverSouth);
+
+            riverNorth.addAdjacentLocation("EAST", village2);
+            riverNorth.addAdjacentLocation("WEST", forest);
+
+            riverSouth.addAdjacentLocation("WEST", mountainPass);
+            riverSouth.addAdjacentLocation("EAST", village2);
+
+            village2.addAdjacentLocation("NORTH", riverNorth);
+            village2.addAdjacentLocation("SOUTH", riverSouth);
 
             gameInstance = new Game(joe);
         }
