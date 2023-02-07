@@ -23,7 +23,6 @@ public class GameClient {
 
         //starts timer thread, will print out the Game
        (new Thread(new Timer())).start();
-//       Timer.timerSet();
     // game runs below:
     while (!gameClient.isQuitGame()) {
         GameClientUtil.availableCommands();
