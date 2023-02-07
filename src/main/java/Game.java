@@ -6,14 +6,16 @@ import java.util.Map;
 public class Game {
     private static Game gameInstance = null;
     private Player player;
+    private Monster monster;
     private Location currentLocation;
     //private int time
     private Direction direction;
     private InteractionVerb interactionVerb;
     private Noun noun;
 
-    private Game(Player player) {
+    private Game(Player player, Monster wolf) {
         setPlayer(player);
+        setMonster(wolf);
     }
 
     public static Game createGameInstance() throws IOException {
@@ -36,7 +38,14 @@ public class Game {
             Location riverSouth = mapOfAllLocations.get("River South");
             Location village2 = mapOfAllLocations.get("Village2");
 
-            Player joe = new Player("Joe", 100, startingVillage);
+           // Player joe = new Player("Joe", 100, startingVillage);
+            Player bryce = new Player("Bryce", 100, new ArrayList<>(5), playerStats, startingVillage);
+            Map<String, Integer> monsterStats = Map.of(
+                    "Health", 20,
+                    "Strength", 10,
+                    "Defense", 5
+            );
+            Monster wolf = new Monster("Wolf", monsterStats);
 
             System.out.println(startingVillage.description());
 
@@ -58,7 +67,7 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(joe);
+            gameInstance = new Game(bryce, wolf);
         }
         return gameInstance;
     }
@@ -77,5 +86,13 @@ public class Game {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public Monster getMonster() {
+        return monster;
+    }
+
+    public void setMonster(Monster wolf) {
+        this.monster = wolf;
     }
 }

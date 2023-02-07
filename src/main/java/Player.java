@@ -28,11 +28,12 @@ public class Player {
         this.inventory = inventory;
     }
 
-    public Player(int health, List<Item> inventory, Map<String, Integer> stats, Location currentLocation) {
+    public Player(String name, int health, List<Item> inventory, Map<String, Integer> stats, Location startingLocation) {
+        this.name = name;
         setHealth(health);
         setInventory(inventory);
         setStats(stats);
-        setCurrentLocation(currentLocation);
+        setCurrentLocation(startingLocation);
     }
 
     private void transferOb(Item itemToInventory, List<Item> takeObjectFromLocation, List<Item> toInventory) {
