@@ -110,7 +110,7 @@ public class UserInputParser {
             }
         } else if(firstArgumentOfUserInput.equalsIgnoreCase("attack")) {
             if(inputParser.getMonsters().contains(secondArgumentOfUserInput)) {
-                handleCombatEncounter();
+                System.out.println(handleCombatEncounter());
             } else {
                 System.out.println("Invalid command, please pair 'attack' with a monster name.");
             }
@@ -144,25 +144,39 @@ public class UserInputParser {
         }
     }
 
-    private static void handleCombatEncounter() {
+    private static String handleCombatEncounter() {
+        String combatReport = "";
         Player player = Game.getGameInstance().getPlayer();
         int playerHealth = player.getHealth();
         Monster monster = Game.getGameInstance().getMonster();
         int monsterHealth = monster.getStats().get("Health");
+        int totalMonsterDamageTaken = 0;
+        int totalPlayerDamageTaken = 0;
         while(monsterHealth > 0) {
             int playerAttack = Combat.playerAttack(player);
             int playerDefend = Combat.playerDefend(player);
             int monsterAttack = Combat.monsterAttack(monster);
             int monsterDefend = Combat.monsterDefend(monster);
             int monsterDamageTaken = Combat.monsterTakeDamage(playerAttack, monsterDefend);
+            totalMonsterDamageTaken += monsterDamageTaken;
             int playerDamageTaken = Combat.playerTakeDamage(playerDefend, monsterAttack);
-            System.out.println("You did " + monsterDamageTaken + " damage to the " + monster.getName());
+            totalPlayerDamageTaken += playerDamageTaken;
             monsterHealth -= monsterDamageTaken;
-            System.out.println(monster.getName() + " health:\t[" + monsterHealth + "/20]");
+            monster.setStats(Map.of(
+                    "Health", monsterHealth,
+                    "Strength", 10,
+                    "Defense", 5
+            ));
             playerHealth -= playerDamageTaken;
-            System.out.println("You took " + playerDamageTaken + " damage.\nYour current hp is " + playerHealth);
+            player.setHealth(playerHealth);
+            String monsterName = monster.getName();
+            combatReport = "After a hard fought battle, you did " + totalMonsterDamageTaken + " total damage to the " +
+                    monsterName + " and slayed it." +
+                            "\nYou took " + totalPlayerDamageTaken + " damage." +
+                            "\nYour current hp is " + playerHealth + "." +
+                            "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
         }
-        System.out.println("You slayed the " + monster.getName());
+        return combatReport;
     }
 
     private static List<String> trimUserInput(String userInput) {
@@ -193,22 +207,18 @@ public class UserInputParser {
         List<String> listOfTrimmedInput;
         if(userInput.equalsIgnoreCase("quit")) {
             System.out.println("Are you sure you want to quit?");
-            userInput = input.next();
-            boolean invalidInput = !userInput.equalsIgnoreCase("yes") &&
-                    !userInput.equalsIgnoreCase("y") &&
-                    !userInput.equalsIgnoreCase("no") &&
-                    !userInput.equalsIgnoreCase("n");
+            boolean invalidInput = true;
             while (invalidInput) {
                 System.out.println("Please enter yes or no.");
                 userInput = input.next();
-            }
-            if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
-                gameClient.setQuitGame(true);
-                GameClientUtil.gameExitMessage();
-                System.exit(0);
-            } else {
-                System.out.println("Exiting quit menu...");
-                Thread.sleep(2000);
+                if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
+                    invalidInput = false;
+                    gameClient.setQuitGame(true);
+                } else if (userInput.equalsIgnoreCase("no") || userInput.equalsIgnoreCase("n")) {
+                    invalidInput = false;
+                    System.out.println("Exiting quit menu...");
+                    Thread.sleep(2000);
+                }
             }
         }
         if(userInput.equalsIgnoreCase("help")) {
@@ -228,10 +238,13 @@ public class UserInputParser {
             listOfTrimmedInput = trimUserInput(userInput);
             if (listOfTrimmedInput.size() > 1) {
                 parseCommand(listOfTrimmedInput);
+            } else if(listOfTrimmedInput.get(0).equalsIgnoreCase("yes") ||
+                    listOfTrimmedInput.get(0).equalsIgnoreCase("no")) {
+                System.out.println("");
             }
             else {
-                System.out.println("Try entering commands in a [verb] [direction/noun] format such as" +
-                        " go north or take sword");
+                System.out.println("Try entering commands in a [verb] [direction/noun] format such as:" +
+                        " 'go north' or 'take sword'");
             }
         }
     }

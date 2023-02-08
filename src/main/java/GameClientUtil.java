@@ -70,7 +70,6 @@ public class GameClientUtil {
         logo.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         logoGraphics.drawString(titleGame, x_offset, y_offset);
 
-
         for (int y = 0; y < height; y++) {
             StringBuilder logoStringBuilder = new StringBuilder();
             for (int x = 0; x < width; x++) {
@@ -81,8 +80,6 @@ public class GameClientUtil {
             }
             System.out.println(ANSI_PURPLE + logoStringBuilder + ANSI_RESET);
         }
-
-
     }
 
     public static void gameStartMessage() throws InterruptedException, IOException {
@@ -103,7 +100,6 @@ public class GameClientUtil {
     }
 
     public static void playerHelpCall() throws IOException {
-
         File file = new File("src/main/resources/messages.json");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -112,12 +108,17 @@ public class GameClientUtil {
     }
 
     public static void startingVillageMessage() throws IOException {
-
         File file = new File("src/main/resources/messages.json");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         GameClientUtil gameVillageMessage = objectMapper.readValue(file, GameClientUtil.class);
         System.out.println(ANSI_CYAN + gameVillageMessage.getVillageStartMessage() + ANSI_RESET);
+    }
+
+    public static void endGameSequence() {
+        Game.destroyGameInstance();
+        gameExitMessage();
+        System.exit(0);
     }
 
     public static void gameExitMessage() {
@@ -128,24 +129,20 @@ public class GameClientUtil {
         // Prompt the user for input about starting the game
         System.out.println("\nWould you like to start Potion Quest?\n");
         Scanner input = new Scanner(System.in);
-        String userInput = input.nextLine();
-        boolean invalidInput = !userInput.equalsIgnoreCase("yes") &&
-                !userInput.equalsIgnoreCase("y") &&
-                !userInput.equalsIgnoreCase("no") &&
-                !userInput.equalsIgnoreCase("n");
+        String userInput = "";
+        boolean invalidInput = true;
         while (invalidInput) {
-            System.out.println("Please enter 'yes' or 'yo'");
+            System.out.println("Please enter 'yes' or 'no'");
             userInput = input.nextLine();
+            if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
+                invalidInput = false;
+            } else if (userInput.equalsIgnoreCase("no") || userInput.equalsIgnoreCase("n")) {
+                invalidInput = false;
+                System.out.println("Why would you start up a game if you don't want to play?");
+                endGameSequence();
+            }
         }
-        if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
-            // create new Game here
-            Game.createGameInstance();
-            GameClientUtil.printGameLogo();
-
-        } else {
-            System.out.println("Why would you start up a game if you don't want to play?");
-            System.exit(0);
-        }
+        Game.createGameInstance();
+        GameClientUtil.printGameLogo();
     }
-
 }

@@ -7,25 +7,25 @@ public class Combat {
     public static int playerAttack(Player player) {
         Random rng = new Random();
         int playerStrength = player.getStats().get("Strength");
-        return rng.nextInt(playerStrength);
+        return rng.nextInt(playerStrength + 1);
     }
 
     public static int playerDefend(Player player) {
         Random rng = new Random();
         int playerDefense = player.getStats().get("Defense");
-        return rng.nextInt(playerDefense);
+        return rng.nextInt(playerDefense + 1);
     }
 
     public static int monsterAttack(Monster wolf) {
         Random rng = new Random();
         int wolfStrength = wolf.getStats().get("Strength");
-        return rng.nextInt(wolfStrength);
+        return rng.nextInt(wolfStrength + 1);
     }
 
     public static int monsterDefend(Monster wolf) {
         Random rng = new Random();
         int wolfDefend = wolf.getStats().get("Defense");
-        return rng.nextInt(wolfDefend);
+        return rng.nextInt(wolfDefend + 1);
     }
 
     public static int playerTakeDamage(int playerDefend,
