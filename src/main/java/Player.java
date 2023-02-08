@@ -117,11 +117,19 @@ public class Player {
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
             System.out.println(description());
-            if (inventory.contains("Potion") && currentLocation.equals("Starting Village")) {
-                System.out.println("You won!");
-//                GameClientUtil.gameExitMessage();
-//                System.exit(0);
+            String inventoryCheck = null;
+            String locationCheck = null;
+            for (String location : this.currentLocation.getExits().keySet()) {
+                locationCheck = location;
             }
+            for (Item inventory : getInventory())
+                if (inventory.getName().equalsIgnoreCase("potion")) {
+                    if (locationCheck.equalsIgnoreCase("starting village")) {
+                        System.out.println("You saved your sister!");
+                        GameClientUtil.gameExitMessage();
+                        System.exit(0);
+                    }
+                }
         } else {
             System.out.println("Cannot move in that direction.");
         }

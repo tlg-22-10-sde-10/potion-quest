@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameClient {
     // flag to allow user to quickly exit the game
@@ -26,6 +23,9 @@ public class GameClient {
         (new Thread(new Timer())).start();
         // game runs below:
         do {
+            Game.checkWin(Game.getGameInstance().getPlayer().getInventory(),
+                    Game.getGameInstance().getPlayer().getCurrentLocation(),
+                    gameClient);
             GameClientUtil.availableCommands();
             String userInput = input.nextLine();
             UserInputParser.handleUserInput(userInput, gameClient);
@@ -33,6 +33,7 @@ public class GameClient {
         while (!gameClient.isQuitGame() && Game.getGameInstance().getPlayer().getHealth() > 0);
         GameClientUtil.endGameSequence();
     }
+
 
     public boolean isQuitGame() {
         return quitGame;
