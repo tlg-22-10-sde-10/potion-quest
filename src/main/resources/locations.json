@@ -1,59 +1,50 @@
 [
-    {
-      "name": "StartingVillage",
-      "items": [
-        "Trinket",
-        "Bag"
-      ],
-      "description": "A quaint small village near a dense forest. A few homes line the outskirts of town with the village tavern in the middle. To the north of the village there is a forest and to the South there is a Mountain Pass.",
-      "exits": {
-        "North": "Forest",
-        "South": "Mountain Pass"
-      }
-    },
-    {
-      "name": "Forest",
-      "items": [
-        "Rope"
-      ],
-      "description": "You have traveled north of the village into the forest. The forest has a flat path and will be an easier journey to find the potion. As you enter the forest you see dense tall pine trees and find a flat, narrow path.",
-      "exits": {
-        "East": "River",
-        "South": "StartingVillage"
-      }
-    },
-    {
-      "name": "Mountatin Pass",
-      "items": [
-        "Rope"
-      ],
-      "description": "You have traveled south of the village. Here you find a steep rocky slope that rises at a sharp angle and will be difficult to climb.",
-      "exits": {
-        "North": "StartingVillage",
-        "East": "River"
-      }
-    },
-    {
-      "name": "River",
-      "items": [
-        "Water Bottle"
-      ],
-      "description": "You have traveled to a roaring river with a strong current and a rocky bed. Prone to flooding and a great ambush site for enemies. To the east you see Village2 and to travel back to the Forest, you must choose North. To take the Mountatin Pass, you must travel South.",
-      "exits": {
-        "East": "Village2",
-        "North": "Forest",
-        "South": "Mountains"
-      }
-    },
-    {
-      "name": "Village2",
-      "items": [
-        "Potion"
-      ],
-      "description": "A large village that sits next to the large river, this is a bustling town where merchants and traders from across the country come to trade. This is where the doctor said you would find potion to cure your sister.",
-      "exits": {
-        "East": "River",
-        "South": "Trading Post"
-      }
+  {
+    "name": "Starting Village",
+    "description": "A quaint small village near a dense forest. \nA few homes line the outskirts of town with the village tavern in the middle. \nTo the north of the village there is a forest and to the South there is a Mountain Pass.",
+    "exits": {
+      "NORTH": "Forest",
+      "SOUTH": "Mountain Pass"
     }
+  },
+  {
+    "name": "Forest",
+    "description": "It is a densely wooded forest, with light streaming from the sky above. \nThe forest has a flat path and will be an easier journey to find the potion. \nAs you enter the forest you see dense tall pine trees and find a flat, narrow path.",
+    "exits": {
+      "EAST": "River North",
+      "SOUTH": "Starting Village"
+    }
+  },
+  {
+    "name": "Mountain Pass",
+    "description": "Before you lies the great mountain pass, here you recall tales of an old hermit guarding these trails. \nHere you find a steep rocky slope that rises at a sharp angle \nand will be difficult to climb. Watch your step.",
+    "exits": {
+      "NORTH": "Starting Village",
+      "EAST": "River South"
+    }
+  },
+  {
+    "name": "River North",
+    "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the east you see Village2 and to travel back to the Forest you must travel West.\n \nYou see a wolf approaching.\nType attack wolf to engage it in combat.",
+    "exits": {
+      "EAST": "Village2",
+      "WEST": "Forest"
+    }
+  },
+  {
+    "name": "River South",
+    "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the east you see Village2 and to travel back to the Mountains you must travel West.",
+    "exits": {
+      "EAST": "Village2",
+      "WEST": "Mountain Pass"
+    }
+  },
+  {
+    "name": "Village2",
+    "description": "A bustling town that sits next to the large river, \nthis is a bustling town where merchants and traders from across the country come to trade. \nThis is where the doctor said you would find potion to cure your sister.",
+    "exits": {
+      "NORTH": "River North",
+      "SOUTH": "River South"
+    }
+  }
 ]

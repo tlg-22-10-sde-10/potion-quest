@@ -1,31 +1,45 @@
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameClient {
+    // flag to allow user to quickly exit the game
+    public boolean quitGame = false;
+    private static long elapsedTime = 0L;
+    private static long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) throws InterruptedException, IOException {
+        Location.locationJsonParser();
+        Item.itemJsonParser();
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
-        // flag to allow user to quickly exit the game
-        boolean quitGame = false;
-
+        GameClient gameClient = new GameClient();
         // Welcome the user to the game
         GameClientUtil.gameStartMessage();
-        // Prompt the user for input about starting the game
-        System.out.println("\nWould you like to start Potion Quest?\n");
+        GameClientUtil.askPlayerIfTheyWantToStartGame();
 
-        GameClientUtil.startGame();
-        //print game logo / title screen
-        GameClientUtil.printGameLogo();
+        GameClientUtil.startingVillageMessage();
 
+        //starts timer thread, will print out the Game
+        (new Thread(new Timer())).start();
         // game runs below:
-        while(!quitGame) {
+        do {
+            Game.checkWin(Game.getGameInstance().getPlayer().getInventory(),
+                    Game.getGameInstance().getPlayer().getCurrentLocation(),
+                    gameClient);
             GameClientUtil.availableCommands();
             String userInput = input.nextLine();
-            if(userInput.equalsIgnoreCase("quit")) {
-                quitGame = true;
-            }
-            UserInputParser.handleUserInput(userInput);
+            UserInputParser.handleUserInput(userInput, gameClient);
         }
+        while (!gameClient.isQuitGame() && Game.getGameInstance().getPlayer().getHealth() > 0);
+        GameClientUtil.endGameSequence();
+    }
+
+
+    public boolean isQuitGame() {
+        return quitGame;
+    }
+
+    public void setQuitGame(boolean quitGame) {
+        this.quitGame = quitGame;
     }
 }

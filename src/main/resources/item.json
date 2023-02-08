@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Trinket",
+    "description": "Valuable item that you can trade for other items or maybe the potion at the next village"
+  },
+  {
+    "name": "Coin",
+    "description": "Collect these to buy items."
+  },
+  {
+    "name": "Sword",
+    "description": "Help you fight and defeat enemies you may encounter."
+  },
+  {
+    "name": "Armor",
+    "description": "Help protect you and keep your health up during the game."
+  },
+  {
+    "name": "Fish",
+    "description": "Eat the fish to increase your health"
+  },
+  {
+    "name": "Bread",
+    "description": "Eat the bread to increase your health"
+  },
+  {
+    "name": "Potion",
+    "description": "Quickly take the potion back to your home village to save your sister"
+  },
+  {
+    "name": "Ale",
+    "description": "Ale is a unique source of nutrition if you drink the ale it might have benefits but it might impact other areas of your defense."
+  },
+  {
+    "name": "Rope",
+    "description": "You may want to take the rope with you. In case you need to climb or cross an obstacle"
+  },
+  {
+    "name": "Bag",
+    "description": "You can use this to carry your items."
+  },
+  {
+    "name": "Water Bottle",
+    "description": "Use the water bottle to water and improve your health."
+  },
+  {
+    "name": "Torch",
+    "description": "Use this torch to light your way or fight off enemies."
+  }
+]

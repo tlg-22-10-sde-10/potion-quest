@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -5,12 +6,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class GameClientUtil {
 
     private String welcomeMessage = null;
     private String playerHelpCallMessage = null;
+    private String villageStartMessage = null;
 
     private static int width = 130;
     private static int height = 15;
@@ -42,6 +49,14 @@ public class GameClientUtil {
         this.playerHelpCallMessage = playerHelpCallMessage;
     }
 
+    public String getVillageStartMessage() {
+        return villageStartMessage;
+    }
+
+    public void setVillageStartMessage(String villageStartMessage) {
+        this.villageStartMessage = villageStartMessage;
+    }
+
     public static void printGameLogo() {
         BufferedImage bufferedImage = new BufferedImage(
                 width,
@@ -54,7 +69,6 @@ public class GameClientUtil {
         Graphics2D logo = (Graphics2D) logoGraphics;
         logo.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         logoGraphics.drawString(titleGame, x_offset, y_offset);
-
 
         for (int y = 0; y < height; y++) {
             StringBuilder logoStringBuilder = new StringBuilder();
@@ -81,12 +95,11 @@ public class GameClientUtil {
 
     public static void availableCommands() {
         System.out.println(ANSI_PURPLE + "======================================================================================");
-        System.out.println("Available commands: go [direction], get [item], use [item], help, quit");
+        System.out.println("Available commands: go [direction], get [item], attack [creature], inventory, help, quit");
         System.out.println("======================================================================================" + ANSI_RESET);
     }
 
     public static void playerHelpCall() throws IOException {
-
         File file = new File("src/main/resources/messages.json");
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -94,27 +107,42 @@ public class GameClientUtil {
         System.out.println(ANSI_GREEN + gameHelpMessage.getPlayerHelpCallMessage() + ANSI_RESET);
     }
 
+    public static void startingVillageMessage() throws IOException {
+        File file = new File("src/main/resources/messages.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        GameClientUtil gameVillageMessage = objectMapper.readValue(file, GameClientUtil.class);
+        System.out.println(ANSI_CYAN + gameVillageMessage.getVillageStartMessage() + ANSI_RESET);
+    }
+
+    public static void endGameSequence() {
+        Game.destroyGameInstance();
+        gameExitMessage();
+        System.exit(0);
+    }
+
     public static void gameExitMessage() {
         System.out.println("Thank you for playing Potion Quest, have a nice day!");
     }
 
-    public static void startGame() {
+    public static void askPlayerIfTheyWantToStartGame() throws InterruptedException, IOException {
+        // Prompt the user for input about starting the game
+        System.out.println("\nWould you like to start Potion Quest?\n");
         Scanner input = new Scanner(System.in);
-        String userInput = input.nextLine();
-        while (!userInput.equalsIgnoreCase("yes") &&
-                !userInput.equalsIgnoreCase("y") &&
-                !userInput.equalsIgnoreCase("no") &&
-                !userInput.equalsIgnoreCase("n")) {
-            System.out.println("Please enter '[y]es' or '[n]o'");
+        String userInput = "";
+        boolean invalidInput = true;
+        while (invalidInput) {
+            System.out.println("Please enter 'yes' or 'no'");
             userInput = input.nextLine();
+            if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
+                invalidInput = false;
+            } else if (userInput.equalsIgnoreCase("no") || userInput.equalsIgnoreCase("n")) {
+                invalidInput = false;
+                System.out.println("Why would you start up a game if you don't want to play?");
+                endGameSequence();
+            }
         }
-        if (userInput.equalsIgnoreCase("yes") || userInput.equalsIgnoreCase("y")) {
-            // create new Game here
-            Game.createGameInstance();
-            GameClientUtil.printGameLogo();
-        } else {
-            System.out.println("Why would you start up a game if you don't want to play?");
-            System.exit(0);
-        }
+        Game.createGameInstance();
+        GameClientUtil.printGameLogo();
     }
 }
