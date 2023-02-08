@@ -114,10 +114,16 @@ public class Location {
     }
 
     public String description() {
-        return "You are in the " + this.name
-                + "\n" + "Paths are: " + this.exits.values()
-                + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
-                + "\n" + "You can find these items here: " + getItems();
+        return "You are now in the " + getName()
+                + "\n" + "Paths are: " + getExits().values()
+                .stream()
+                .map(p -> p.getName())
+                .collect(Collectors.toList())
+//                + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
+                + "\n" + "You can find these items here: " + getItems()
+                .stream()
+                .map(p -> p.getName())
+                .collect(Collectors.toList());
     }
 
 }

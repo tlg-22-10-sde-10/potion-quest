@@ -35,18 +35,44 @@ public class Game {
             Map<String, Item> mapOfAllItems = Item.itemJsonParser();
 
             Location startingVillage = mapOfAllLocations.get("Starting Village");
-            List<Item> itemsToAdd = new ArrayList<>();
+            List<Item> itemsToAddStartingVillage = new ArrayList<>();
             Item trinket = mapOfAllItems.get("Trinket");
             Item coin = mapOfAllItems.get("Bread");
-            itemsToAdd.add(trinket);
-            itemsToAdd.add(coin);
-            startingVillage.setItems(itemsToAdd);
+            itemsToAddStartingVillage.add(trinket);
+            itemsToAddStartingVillage.add(coin);
+            startingVillage.setItems(itemsToAddStartingVillage);
 
             Location forest = mapOfAllLocations.get("Forest");
+            Item rope1 = mapOfAllItems.get("Rope");
+            List<Item> itemsToAddForest = new ArrayList<>();
+            itemsToAddForest.add(rope1);
+            forest.setItems(itemsToAddForest);
+
             Location mountainPass = mapOfAllLocations.get("Mountain Pass");
+            Item rope2 = mapOfAllItems.get("Rope");
+            List<Item> itemsToAddMountains = new ArrayList<>();
+            itemsToAddMountains.add(rope2);
+            mountainPass.setItems(itemsToAddMountains);
+
             Location riverNorth = mapOfAllLocations.get("River North");
+            Item fish = mapOfAllItems.get("Fish");
+            List<Item> itemsToAddRiverNorth = new ArrayList<>();
+            itemsToAddRiverNorth.add(fish);
+            riverNorth.setItems(itemsToAddRiverNorth);
+
             Location riverSouth = mapOfAllLocations.get("River South");
+            Item waterBottle = mapOfAllItems.get("Ale");
+            List<Item> itemsToAddRiverSouth = new ArrayList<>();
+            itemsToAddRiverSouth.add(waterBottle);
+            riverSouth.setItems(itemsToAddRiverSouth);
+
             Location village2 = mapOfAllLocations.get("Village2");
+            Item potion = mapOfAllItems.get("Potion");
+            Item sword = mapOfAllItems.get("Sword");
+            List<Item> itemsToAddVillage2 = new ArrayList<>();
+            itemsToAddVillage2.add(potion);
+            itemsToAddVillage2.add(sword);
+            village2.setItems(itemsToAddVillage2);
 
             Player cindy = new Player("Cindy", 100, new ArrayList<>(5), playerStats, startingVillage);
 

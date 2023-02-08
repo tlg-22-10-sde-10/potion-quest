@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * UserInputParser accepts user input from the keyboard and handles situations from command combinations.
@@ -21,6 +22,8 @@ public class UserInputParser {
             add("look");
         }
     };
+
+    //need to update to consume JSON items instead
     private final ArrayList<String> nouns = new ArrayList<>() {
         {
             add("door");
@@ -42,6 +45,7 @@ public class UserInputParser {
             add("bag");
             add("torch");
             add("attack");
+            add("fish");
         }
     };
     private final ArrayList<String> monsters = new ArrayList<>() {
@@ -217,7 +221,8 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
             System.out.println("Your current inventory: " +
-                    Arrays.asList(Game.getGameInstance().getPlayer().getInventory()));
+                    Arrays.asList(Game.getGameInstance().getPlayer().getInventory()
+                            .stream().map(p -> p.getName()).collect(Collectors.toList())));
         }
         else {
             listOfTrimmedInput = trimUserInput(userInput);

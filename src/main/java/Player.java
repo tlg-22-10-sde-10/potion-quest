@@ -71,19 +71,27 @@ public class Player {
 
     public String takeItem(Item targetItem) {
         String display = "";
-        List<Item> itemsInThisLocation = getCurrentLocation().getItems();
-        Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
-        try {
-            if (targetItem.getName().equals("")) {
-                display = "nameless object"; // if no object specified
-            } else if (isTargetItemHere == false) {
-                display = "There is no " + targetItem + " here!";
-            } else {
-                transferOb(targetItem, getCurrentLocation().getItems(), getInventory());
-                display = targetItem.getName() + " taken!";
+        if (getInventory().size() == 5) {
+            System.out.println("You are at max inventory size, you must drop an item to take this one.");
+        }
+        else if (getInventory().contains(targetItem)) {
+            System.out.println("You already have this item.");
+        }
+        else {
+            List<Item> itemsInThisLocation = getCurrentLocation().getItems();
+            Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
+            try {
+                if (targetItem.getName().equals("")) {
+                    display = "nameless object"; // if no object specified
+                } else if (isTargetItemHere == false) {
+                    display = "There is no " + targetItem + " here!";
+                } else {
+                    transferOb(targetItem, getCurrentLocation().getItems(), getInventory());
+                    display = targetItem.getName() + " taken!";
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Item not found!");
             }
-        } catch (NullPointerException e) {
-            System.out.println("Item not found!");
         }
         return display;
     }
@@ -107,11 +115,13 @@ public class Player {
     }
 
     public void move(Direction direction) {
-        System.out.println(this.currentLocation);
         Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
+        if (getInventory().contains("Potion") && getCurrentLocation().equals("Starting Village")) {
+            GameClientUtil.gameExitMessage();
+            System.exit(0);
+        }
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
-            System.out.println("You moved to the " + targetLocation.getName());
             System.out.println(description());
         } else {
             System.out.println("Cannot move in that direction.");
@@ -132,6 +142,7 @@ public class Player {
 
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
+
     }
 
     public Map<String, Integer> getStats() {
@@ -151,8 +162,17 @@ public class Player {
     }
 
     public String description() {
-        return "Name: " + this.name + "\nHealth: " + health + "\n" + currentLocation.description() + "\nInventory " +
-                Arrays.asList(inventory);
+        return "Name: "
+                + this.name
+                + "\nHealth: "
+                + health
+                + "\n"
+                + currentLocation.description()
+                + "\nInventory "
+                +
+                getInventory().stream()
+                        .map(p -> p.getName())
+                        .collect(Collectors.toList());
     }
 
     @Override
