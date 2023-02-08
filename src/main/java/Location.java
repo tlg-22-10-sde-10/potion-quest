@@ -14,6 +14,15 @@ public class Location {
     private List<Item> items;
     private Map<String, Location> exits;
     private String description;
+    private List<Direction> availableDirections;
+
+    public List<Direction> getAvailableDirections() {
+        return availableDirections;
+    }
+
+    public void setAvailableDirections(List<Direction> availableDirections) {
+        this.availableDirections = availableDirections;
+    }
 
     public Location() {
     }
@@ -81,6 +90,14 @@ public class Location {
         return adjacentLocationNames;
     }
 
+    public List<String> displayExits() {
+        List<String> exits = new ArrayList<>();
+        for (String direction : this.getExits().keySet()) {
+            exits.add(direction);
+        }
+        return exits;
+    }
+
     public String getName() {
         return name;
     }
@@ -115,11 +132,9 @@ public class Location {
 
     public String description() {
         return "You are now in the " + getName()
-                + "\n" + "Paths are: " + getExits().values()
-                .stream()
-                .map(p -> p.getName())
-                .collect(Collectors.toList())
-//                + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
+                + "\n" + getDescription()
+                + "\n" + "Directions are: " + displayExits()
+                + "\n" + "Adjacent to your location is the: " + displayAdjacentLocations()
                 + "\n" + "You can find these items here: " + getItems()
                 .stream()
                 .map(p -> p.getName())
