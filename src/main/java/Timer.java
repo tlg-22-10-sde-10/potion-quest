@@ -18,7 +18,6 @@ public class Timer implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("You have 7 minutes to complete the game.");
 
         while (elapsedTime < (7*60 * 1000)) {
             elapsedTime = (new Date()).getTime() - startTime;
