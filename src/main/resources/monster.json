@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Wolf",
+    "stats": {
+      "strength": 10,
+      "defense": 5
+    },
+    "health": 20,
+    "id": 1
+  },
+  {
+    "name": "Spider",
+    "stats": {
+      "strength": 10,
+      "defense": 5
+    },
+    "id": 2
+  },
+  {
+    "name": "Archer",
+    "stats": {
+      "strength": 5,
+      "defense": 5
+    },
+    "id": 3
+  },
+  {
+    "name": "Troll",
+    "stats": {
+      "strength": 10,
+      "defense": 5
+    },
+    "id": 4
+  }
+]
