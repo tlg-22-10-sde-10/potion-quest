@@ -238,11 +238,7 @@ public class UserInputParser {
             listOfTrimmedInput = trimUserInput(userInput);
             if (listOfTrimmedInput.size() > 1) {
                 parseCommand(listOfTrimmedInput);
-            } else if(listOfTrimmedInput.get(0).equalsIgnoreCase("yes") ||
-                    listOfTrimmedInput.get(0).equalsIgnoreCase("no")) {
-                System.out.println("");
-            }
-            else {
+            } else {
                 System.out.println("Try entering commands in a [verb] [direction/noun] format such as:" +
                         " 'go north' or 'take sword'");
             }
