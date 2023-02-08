@@ -73,11 +73,9 @@ public class Player {
         String display = "";
         if (getInventory().size() == 5) {
             System.out.println("You are at max inventory size, you must drop an item to take this one.");
-        }
-        else if (getInventory().contains(targetItem)) {
+        } else if (getInventory().contains(targetItem)) {
             System.out.println("You already have this item.");
-        }
-        else {
+        } else {
             List<Item> itemsInThisLocation = getCurrentLocation().getItems();
             Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
             try {
@@ -116,13 +114,14 @@ public class Player {
 
     public void move(Direction direction) {
         Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
-        if (getInventory().contains("Potion") && getCurrentLocation().equals("Starting Village")) {
-            GameClientUtil.gameExitMessage();
-            System.exit(0);
-        }
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
             System.out.println(description());
+            if (inventory.contains("Potion") && currentLocation.equals("Starting Village")) {
+                System.out.println("You won!");
+//                GameClientUtil.gameExitMessage();
+//                System.exit(0);
+            }
         } else {
             System.out.println("Cannot move in that direction.");
         }
@@ -169,10 +168,10 @@ public class Player {
                 + "\n"
                 + currentLocation.description()
                 + "\nInventory "
-                +
-                getInventory().stream()
-                        .map(p -> p.getName())
-                        .collect(Collectors.toList());
+                + getInventory()
+                .stream()
+                .map(p -> p.getName())
+                .collect(Collectors.toList());
     }
 
     @Override
