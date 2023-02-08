@@ -14,10 +14,14 @@ public class Game {
     private InteractionVerb interactionVerb;
     private Noun noun;
     private Item item;
+    private Map<String, Item> items;
+    private Map<String, Location> locations;
 
-    private Game(Player player, Monster wolf) {
+    private Game(Player player, Monster wolf, Map<String, Item> items, Map<String, Location> locations) {
         setPlayer(player);
         setMonster(wolf);
+        setItems(items);
+        setLocations(locations);
     }
 
     public static Game createGameInstance() throws IOException {
@@ -102,9 +106,40 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(cindy, wolf);
+//            checkWin(cindy.getInventory(), cindy.getCurrentLocation());
+            gameInstance = new Game(cindy, wolf, mapOfAllItems, mapOfAllLocations);
         }
         return gameInstance;
+    }
+
+    public static void checkWin(List<Item> inventory, Location location, GameClient gameClient) throws IOException {
+        Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
+        Map<String, Item> mapOfAllItems = Item.itemJsonParser();
+        System.out.println(inventory);
+        System.out.println(mapOfAllItems);
+        if (inventory.equals(mapOfAllItems.get("Potion"))) {
+            System.out.println("You have the potion");
+            if (location.equals(mapOfAllLocations.get("Starting Village"))) {
+                System.out.println("You are back in the starting village");
+                gameClient.setQuitGame(true);
+            }
+        }
+    }
+
+    public Map<String, Item> getItems() {
+        return items;
+    }
+
+    public void setItems(Map<String, Item> items) {
+        this.items = items;
+    }
+
+    public Map<String, Location> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(Map<String, Location> locations) {
+        this.locations = locations;
     }
 
     public static void destroyGameInstance() {
@@ -113,6 +148,14 @@ public class Game {
 
     public static Game getGameInstance() {
         return gameInstance;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public Item getItem() {
+        return item;
     }
 
     public Player getPlayer() {
@@ -129,5 +172,10 @@ public class Game {
 
     public void setMonster(Monster wolf) {
         this.monster = wolf;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 }

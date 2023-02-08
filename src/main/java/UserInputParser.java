@@ -231,8 +231,8 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
             System.out.println("Your current inventory: " +
-                    Arrays.asList(Game.getGameInstance().getPlayer().getInventory()
-                            .stream().map(p -> p.getName()).collect(Collectors.toList())));
+                    Game.getGameInstance().getPlayer().getInventory()
+                            .stream().map(p -> p.getName()).collect(Collectors.toList()));
         }
         else {
             listOfTrimmedInput = trimUserInput(userInput);
