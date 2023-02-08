@@ -32,32 +32,57 @@ public class Game {
                     "Charisma", 10,
                     "Luck", 10);
             Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
+            Map<String, Item> mapOfAllItems = Item.itemJsonParser();
 
             Location startingVillage = mapOfAllLocations.get("Starting Village");
-            List<Item> startingVillageItems = startingVillage.getItems();
-            Item trinket = new Item("trinket", "a small locket");
-            Item bag = new Item("bag", "a small bag that can take 5 items");
-            List<Item> listOfItems = new ArrayList<>();
-            listOfItems.add(trinket);
-            listOfItems.add(bag);
-            startingVillage.setItems(listOfItems);
+            List<Item> itemsToAddStartingVillage = new ArrayList<>();
+            Item trinket = mapOfAllItems.get("Trinket");
+            Item coin = mapOfAllItems.get("Bread");
+            itemsToAddStartingVillage.add(trinket);
+            itemsToAddStartingVillage.add(coin);
+            startingVillage.setItems(itemsToAddStartingVillage);
 
             Location forest = mapOfAllLocations.get("Forest");
-            Location mountainPass = mapOfAllLocations.get("Mountain Pass");
-            Location riverNorth = mapOfAllLocations.get("River North");
-            Location riverSouth = mapOfAllLocations.get("River South");
-            Location village2 = mapOfAllLocations.get("Village2");
+            Item rope1 = mapOfAllItems.get("Rope");
+            List<Item> itemsToAddForest = new ArrayList<>();
+            itemsToAddForest.add(rope1);
+            forest.setItems(itemsToAddForest);
 
-            Player bryce = new Player("Bryce", 100, new ArrayList<>(5), playerStats, startingVillage);
+            Location mountainPass = mapOfAllLocations.get("Mountain Pass");
+            Item rope2 = mapOfAllItems.get("Rope");
+            List<Item> itemsToAddMountains = new ArrayList<>();
+            itemsToAddMountains.add(rope2);
+            mountainPass.setItems(itemsToAddMountains);
+
+            Location riverNorth = mapOfAllLocations.get("River North");
+            Item fish = mapOfAllItems.get("Fish");
+            List<Item> itemsToAddRiverNorth = new ArrayList<>();
+            itemsToAddRiverNorth.add(fish);
+            riverNorth.setItems(itemsToAddRiverNorth);
+
+            Location riverSouth = mapOfAllLocations.get("River South");
+            Item waterBottle = mapOfAllItems.get("Ale");
+            List<Item> itemsToAddRiverSouth = new ArrayList<>();
+            itemsToAddRiverSouth.add(waterBottle);
+            riverSouth.setItems(itemsToAddRiverSouth);
+
+            Location village2 = mapOfAllLocations.get("Village2");
+            Item potion = mapOfAllItems.get("Potion");
+            Item sword = mapOfAllItems.get("Sword");
+            List<Item> itemsToAddVillage2 = new ArrayList<>();
+            itemsToAddVillage2.add(potion);
+            itemsToAddVillage2.add(sword);
+            village2.setItems(itemsToAddVillage2);
+
+            Player cindy = new Player("Cindy", 100, new ArrayList<>(5), playerStats, startingVillage);
+
             Map<String, Integer> monsterStats = Map.of(
                     "Health", 20,
                     "Strength", 10,
                     "Defense", 5
             );
+
             Monster wolf = new Monster("Wolf", monsterStats);
-
-            System.out.println(startingVillage.description());
-
 
             startingVillage.addAdjacentLocation("NORTH", forest);
             startingVillage.addAdjacentLocation("SOUTH", mountainPass);
@@ -77,7 +102,7 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(bryce, wolf);
+            gameInstance = new Game(cindy, wolf);
         }
         return gameInstance;
     }

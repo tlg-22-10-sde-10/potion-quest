@@ -1,16 +1,13 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Player {
-    private static String name;
-    private static int health;
-    private static List<Item> inventory;
-    private static Map<String, Integer> stats;
-    private static Location currentLocation;
+    private String name;
+    private int health;
+    private List<Item> inventory;
+    private Map<String, Integer> stats;
+    private Location currentLocation;
 
     public Player() {
 
@@ -37,23 +34,22 @@ public class Player {
         setCurrentLocation(startingLocation);
     }
 
-    public static Item convertInputNounToTargetObject(String noun) {
-//        List<Item> itemsInThisLocation = getCurrentLocation().getItems();
+    public Item convertInputNounToTargetObject(String noun) {
+        List<Item> itemsInThisLocation = getCurrentLocation().getItems();
         List<Item> itemsInPlayerInventory = getInventory();
         List<Item> allItems = new ArrayList<>();
         if (itemsInPlayerInventory.equals(null)) {
-            allItems = null;
+            allItems.addAll(itemsInThisLocation);
         }
-        else {
-//            allItems.addAll(itemsInThisLocation);
+        if (itemsInThisLocation.equals(null)) {
+            allItems.addAll(itemsInPlayerInventory);
+        } else {
+            allItems.addAll(itemsInThisLocation);
             allItems.addAll(itemsInPlayerInventory);
         }
-//        List<String> itemsInThisLocationNames =
-//        itemsInThisLocation.stream().map(Item::getName).collect(Collectors.toList());
-//        List<String> itemsInPlayerInventoryNames =
-//        itemsInPlayerInventory.stream().map(Item::getName).collect(Collectors.toList());
         for (Item item : allItems) {
-            if (item.getName().equals(noun)) {
+            if (item.getName().toLowerCase().equals(noun)) {
+                System.out.println(item.getName());
                 return item;
             }
         }
@@ -63,53 +59,69 @@ public class Player {
     public static void lookAtItem(Item itemYouAreLookingAt) {
         try {
             System.out.println(itemYouAreLookingAt.getDescription());
-        }
-        catch(NullPointerException e) {
+        } catch (NullPointerException e) {
             System.out.println("Not a valid item to look at!");
         }
     }
 
     private static void transferOb(Item targetItem, List<Item> objectToRemove, List<Item> objectToAdd) {
         objectToRemove.remove(targetItem);
-//        objectToAdd.add(targetItem);
+        objectToAdd.add(targetItem);
     }
 
-    public static String takeItem(Item targetItem) {
+    public String takeItem(Item targetItem) {
         String display = "";
-        List<Item> itemsInThisLocation = getCurrentLocation().getItems();
-        Boolean isTargetItemHere = itemsInThisLocation.contains("targetItem");
-        if (targetItem.getName().equals("")) {
-            display = "nameless object"; // if no object specified
+        if (getInventory().size() == 5) {
+            System.out.println("You are at max inventory size, you must drop an item to take this one.");
         }
-        if (isTargetItemHere == null) {
-            display = "There is no " + targetItem + " here!";
-        } else {
-            transferOb(targetItem, getCurrentLocation().getItems(), getInventory());
-            display = targetItem.getName() + " taken!";
+        else if (getInventory().contains(targetItem)) {
+            System.out.println("You already have this item.");
+        }
+        else {
+            List<Item> itemsInThisLocation = getCurrentLocation().getItems();
+            Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
+            try {
+                if (targetItem.getName().equals("")) {
+                    display = "nameless object"; // if no object specified
+                } else if (isTargetItemHere == false) {
+                    display = "There is no " + targetItem + " here!";
+                } else {
+                    transferOb(targetItem, getCurrentLocation().getItems(), getInventory());
+                    display = targetItem.getName() + " taken!";
+                }
+            } catch (NullPointerException e) {
+                System.out.println("Item not found!");
+            }
         }
         return display;
     }
 
-    public static String dropItem(Item targetItem) {
+    public String dropItem(Item targetItem) {
         String display = "";
-//        List<Item> itemsInThisLocation = getCurrentLocation().getItems();
         Boolean isTargetItemHere = getInventory().contains(targetItem);
-        if (targetItem.equals("")) {
-            display = "Which object would you like to drop?"; // if no object specified
-        } else if (isTargetItemHere == null) {
-            display = "That is not in your inventory!";
-        } else {
-            transferOb(targetItem, getInventory(), getCurrentLocation().getItems());
-            display = targetItem.getName() + " dropped.";
+        try {
+            if (targetItem.getName().equals("")) {
+                display = "Which object would you like to drop?"; // if no object specified
+            } else if (isTargetItemHere == false) {
+                display = "That is not in your inventory!";
+            } else {
+                transferOb(targetItem, getInventory(), getCurrentLocation().getItems());
+                display = targetItem.getName() + " dropped.";
+            }
+        } catch (NullPointerException e) {
+            System.out.println("This item is not valid!");
         }
         return display;
     }
 
-    public static void move(Direction direction) {
-        Location targetLocation = currentLocation.getAdjacentLocation(direction);
+    public void move(Direction direction) {
+        Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
+        if (getInventory().contains("Potion") && getCurrentLocation().equals("Starting Village")) {
+            GameClientUtil.gameExitMessage();
+            System.exit(0);
+        }
         if (targetLocation != null) {
-            currentLocation = targetLocation;
-            System.out.println("You moved to the " + targetLocation.getName());
+            setCurrentLocation(targetLocation);
             System.out.println(description());
         } else {
             System.out.println("Cannot move in that direction.");
@@ -124,12 +136,13 @@ public class Player {
         this.health = health;
     }
 
-    public static List<Item> getInventory() {
-        return inventory;
+    public List<Item> getInventory() {
+        return this.inventory;
     }
 
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
+
     }
 
     public Map<String, Integer> getStats() {
@@ -140,17 +153,26 @@ public class Player {
         this.stats = stats;
     }
 
-    public static Location getCurrentLocation() {
-        return currentLocation;
+    public Location getCurrentLocation() {
+        return this.currentLocation;
     }
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
     }
 
-    public static String description() {
-        return "Name: " + name + "\nHealth: " + health + "\n" + currentLocation.description() + "\nInventory " +
-                Arrays.asList(inventory);
+    public String description() {
+        return "Name: "
+                + this.name
+                + "\nHealth: "
+                + health
+                + "\n"
+                + currentLocation.description()
+                + "\nInventory "
+                +
+                getInventory().stream()
+                        .map(p -> p.getName())
+                        .collect(Collectors.toList());
     }
 
     @Override

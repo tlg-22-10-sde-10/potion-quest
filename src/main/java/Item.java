@@ -26,22 +26,21 @@ public class Item {
         this.description = description;
     }
 
-//    public static Map<String, Item> itemJsonParser() throws IOException {
-////        File file = new File("src/main/resources/locations.json");
-//        Map<String, Item> itemMap;
-//        try (InputStream inputStream = Item.class.getClassLoader().getResourceAsStream("locations.json")) {
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//            List<Location> locations = objectMapper.readValue(inputStream, new TypeReference<List<Location>>() {
-//            });
-//            locations.
-//            itemMap = items
-//                    .stream()
-//                    .collect(Collectors.toMap(Item::getName, Function.identity()));
-//        }
-//        System.out.println(itemMap.getClass());
-//        return itemMap;
-//    }
+    public static Map<String, Item> itemJsonParser() throws IOException {
+        Map<String, Item> itemsMap;
+//        File file = new File("src/main/resources/item.json");
+        try (InputStream inputStream = Item.class.getClassLoader().getResourceAsStream("item.json")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<Item> items = objectMapper.readValue(inputStream, new TypeReference<List<Item>>() {
+            });
+            itemsMap = items
+                    .stream()
+                    .collect(Collectors.toMap(Item::getName, Function.identity()));
+
+        }
+        return itemsMap;
+    }
 
     public String getName() {
         return name;

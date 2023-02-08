@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * UserInputParser accepts user input from the keyboard and handles situations from command combinations.
@@ -14,12 +15,15 @@ public class UserInputParser {
     private final ArrayList<String> interactionVerbs = new ArrayList<>() {
         {
             add("take");
-            add("grab");
+            add("get");
             add("drop");
             add("use");
             add("talk");
+            add("look");
         }
     };
+
+    //need to update to consume JSON items instead
     private final ArrayList<String> nouns = new ArrayList<>() {
         {
             add("door");
@@ -41,6 +45,7 @@ public class UserInputParser {
             add("bag");
             add("torch");
             add("attack");
+            add("fish");
         }
     };
     private final ArrayList<String> monsters = new ArrayList<>() {
@@ -67,6 +72,8 @@ public class UserInputParser {
      */
     public static void parseCommand(List<String> wordlist) {
         UserInputParser inputParser = new UserInputParser();
+        Player player = Game.getGameInstance().getPlayer();
+        Location location = Game.getGameInstance().getPlayer().getCurrentLocation();
         String firstArgumentOfUserInput;
         String secondArgumentOfUserInput;
         firstArgumentOfUserInput = wordlist.get(0).toLowerCase();
@@ -77,7 +84,7 @@ public class UserInputParser {
         } else if (inputParser.getMovementVerbs().contains(firstArgumentOfUserInput)) {
             if (inputParser.getDirections().contains(secondArgumentOfUserInput)) {
                 // movement and direction are valid, move player
-                updatePlayerLocation(secondArgumentOfUserInput);
+                updatePlayerLocation(secondArgumentOfUserInput, player, location);
             } else {
                 System.out.println("Invalid direction. Try 'North', 'East', 'South', or 'West' after 'Go' or 'Move'");
             }
@@ -86,16 +93,17 @@ public class UserInputParser {
                 System.out.println("Invalid command. Please pair 'go' and 'move' with directions only.");
             } else if(inputParser.getNouns().contains(secondArgumentOfUserInput)) {
                 // interact with nouns here
-                Item item = Player.convertInputNounToTargetObject(secondArgumentOfUserInput);
+                Item item = player.convertInputNounToTargetObject(secondArgumentOfUserInput);
                 if (firstArgumentOfUserInput.equalsIgnoreCase("take")
-                || firstArgumentOfUserInput.equalsIgnoreCase("grab")) {
-                    Player.takeItem(item);
+                || firstArgumentOfUserInput.equalsIgnoreCase("get"))
+                {
+                    player.takeItem(item);
                 }
                 if (firstArgumentOfUserInput.equalsIgnoreCase("drop")) {
-                    Player.dropItem(item);
+                    player.dropItem(item);
                 }
                 if (firstArgumentOfUserInput.equalsIgnoreCase("look")) {
-                    Player.lookAtItem(item);
+                    player.lookAtItem(item);
                 }
             } else {
                 System.out.println("Invalid noun.");
@@ -112,24 +120,24 @@ public class UserInputParser {
         }
     }
 
-    public static void updatePlayerLocation(String secondArgumentOfUserInput) {
+    public static void updatePlayerLocation(String secondArgumentOfUserInput, Player player, Location location) {
         Direction direction;
         switch (secondArgumentOfUserInput) {
             case "north":
                 direction = Direction.NORTH;
-                Player.move(direction);
+                player.move(direction);
                 break;
             case "south":
                 direction = Direction.SOUTH;
-                Player.move(direction);
+                player.move(direction);
                 break;
             case "east":
                 direction = Direction.EAST;
-                Player.move(direction);
+                player.move(direction);
                 break;
             case "west":
                 direction = Direction.WEST;
-                Player.move(direction);
+                player.move(direction);
                 break;
             default:
                 System.out.println("Not a valid direction.");
@@ -213,7 +221,8 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
             System.out.println("Your current inventory: " +
-                    Arrays.asList(Game.getGameInstance().getPlayer().getInventory()));
+                    Arrays.asList(Game.getGameInstance().getPlayer().getInventory()
+                            .stream().map(p -> p.getName()).collect(Collectors.toList())));
         }
         else {
             listOfTrimmedInput = trimUserInput(userInput);
