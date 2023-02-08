@@ -32,15 +32,15 @@ public class Game {
                     "Charisma", 10,
                     "Luck", 10);
             Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
+            Map<String, Item> mapOfAllItems = Item.itemJsonParser();
 
             Location startingVillage = mapOfAllLocations.get("Starting Village");
-            List<Item> startingVillageItems = startingVillage.getItems();
-            Item trinket = new Item("trinket", "a small locket");
-            Item bag = new Item("bag", "a small bag that can take 5 items");
-            List<Item> listOfItems = new ArrayList<>();
-            listOfItems.add(trinket);
-            listOfItems.add(bag);
-            startingVillage.setItems(listOfItems);
+            List<Item> itemsToAdd = new ArrayList<>();
+            Item trinket = mapOfAllItems.get("Trinket");
+            Item coin = mapOfAllItems.get("Bread");
+            itemsToAdd.add(trinket);
+            itemsToAdd.add(coin);
+            startingVillage.setItems(itemsToAdd);
 
             Location forest = mapOfAllLocations.get("Forest");
             Location mountainPass = mapOfAllLocations.get("Mountain Pass");
@@ -48,16 +48,15 @@ public class Game {
             Location riverSouth = mapOfAllLocations.get("River South");
             Location village2 = mapOfAllLocations.get("Village2");
 
-            Player bryce = new Player("Bryce", 100, new ArrayList<>(5), playerStats, startingVillage);
+            Player cindy = new Player("Cindy", 100, new ArrayList<>(5), playerStats, startingVillage);
+
             Map<String, Integer> monsterStats = Map.of(
                     "Health", 20,
                     "Strength", 10,
                     "Defense", 5
             );
+
             Monster wolf = new Monster("Wolf", monsterStats);
-
-            System.out.println(startingVillage.description());
-
 
             startingVillage.addAdjacentLocation("NORTH", forest);
             startingVillage.addAdjacentLocation("SOUTH", mountainPass);
@@ -77,7 +76,7 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(bryce, wolf);
+            gameInstance = new Game(cindy, wolf);
         }
         return gameInstance;
     }

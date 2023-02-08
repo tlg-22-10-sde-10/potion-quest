@@ -33,6 +33,23 @@ public class Location {
         this.exits = exits;
     }
 
+    //method will iterate through printing out each location on file.
+    //need to continue researching the creation of each location and accessing individual elements
+    public static Map<String, Location> locationJsonParser() throws IOException {
+//        File file = new File("src/main/resources/locations.json");
+        Map<String, Location> locationMap;
+        try (InputStream inputStream = Location.class.getClassLoader().getResourceAsStream("locations.json")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<Location> locations = objectMapper.readValue(inputStream, new TypeReference<List<Location>>() {
+            });
+            locationMap = locations
+                    .stream()
+                    .collect(Collectors.toMap(Location::getName, Function.identity()));
+        }
+        return locationMap;
+    }
+
     public void addAdjacentLocation(String direction, Location location) {
         exits.put(direction, location);
     }
@@ -52,14 +69,6 @@ public class Location {
         }
     }
 
-//    public List<Direction> displayExits() {
-//        List<Direction> exits = new ArrayList<>();
-//        for (Direction direction : exits.keySet()) {
-//            exits.add(direction);
-//        }
-//        return exits;
-//    }
-
     public List<String> displayAdjacentLocations() {
         List<Location> adjacentLocations = new ArrayList<>();
         List<String> adjacentLocationNames = new ArrayList<>();
@@ -70,30 +79,6 @@ public class Location {
             adjacentLocationNames.add(name);
         }
         return adjacentLocationNames;
-    }
-
-    public String description() {
-        return "You are in the " + this.name
-                + "\n" + "Paths are: " + this.exits.values()
-                + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
-                + "\n" + "You can find these items here: " + getItems();
-    }
-
-    //method will iterate through printing out each location on file.
-    //need to continue researching the creation of each location and accessing individual elements
-    public static Map<String, Location> locationJsonParser() throws IOException {
-//        File file = new File("src/main/resources/locations.json");
-        Map<String, Location> locationMap;
-        try (InputStream inputStream = Location.class.getClassLoader().getResourceAsStream("locations.json")) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            List<Location> locations = objectMapper.readValue(inputStream, new TypeReference<List<Location>>() {
-            });
-            locationMap = locations
-                    .stream()
-                    .collect(Collectors.toMap(Location::getName, Function.identity()));
-        }
-        return locationMap;
     }
 
     public String getName() {
@@ -109,7 +94,7 @@ public class Location {
     }
 
     public void setItems(List<Item> items) {
-        items = items;
+        this.items = items;
     }
 
     public Map<String, Location> getExits() {
@@ -127,4 +112,12 @@ public class Location {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String description() {
+        return "You are in the " + this.name
+                + "\n" + "Paths are: " + this.exits.values()
+                + "\n" + "Adjacent to your location is: " + displayAdjacentLocations()
+                + "\n" + "You can find these items here: " + getItems();
+    }
+
 }

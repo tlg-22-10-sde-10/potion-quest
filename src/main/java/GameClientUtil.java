@@ -148,19 +148,4 @@ public class GameClientUtil {
         }
     }
 
-    public static Map<String, Item> itemJsonParser() throws IOException {
-        Map<String, Item> itemsMap;
-//        File file = new File("src/main/resources/item.json");
-        try (InputStream inputStream = Item.class.getClassLoader().getResourceAsStream("item.json")) {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            List<Item> items = objectMapper.readValue(inputStream, new TypeReference<List<Item>>() {
-            });
-            itemsMap = items
-                    .stream()
-                    .collect(Collectors.toMap(Item::getName, Function.identity()));
-
-        }
-        return itemsMap;
-    }
 }

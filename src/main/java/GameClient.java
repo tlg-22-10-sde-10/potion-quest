@@ -12,6 +12,7 @@ public class GameClient {
 
    public static void main(String[] args) throws InterruptedException, IOException {
        Location.locationJsonParser();
+       Item.itemJsonParser();
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         GameClient gameClient = new GameClient();
