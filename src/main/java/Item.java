@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -55,5 +56,16 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // System.out.println("Television.equals");
+        boolean result = false;
+        if (obj instanceof Item) {
+            Item other = (Item) obj;
+            result = Objects.equals(this.getName(), other.getName());
+        }
+        return result;
     }
 }

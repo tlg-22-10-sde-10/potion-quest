@@ -141,4 +141,15 @@ public class Location {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        // System.out.println("Television.equals");
+        boolean result = false;
+        if (obj instanceof Location) {
+            Location other = (Location) obj;
+            result = Objects.equals(this.getName(), other.getName());
+        }
+        return result;
+    }
+
 }
