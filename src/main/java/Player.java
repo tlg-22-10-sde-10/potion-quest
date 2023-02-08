@@ -128,7 +128,7 @@ public class Player {
     }
 
     public int getHealth() {
-        return health;
+        return this.health;
     }
 
     public void setHealth(int health) {
@@ -145,7 +145,7 @@ public class Player {
     }
 
     public Map<String, Integer> getStats() {
-        return stats;
+        return this.stats;
     }
 
     public void setStats(Map<String, Integer> stats) {

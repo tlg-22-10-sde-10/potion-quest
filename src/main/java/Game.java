@@ -74,7 +74,7 @@ public class Game {
             itemsToAddVillage2.add(sword);
             village2.setItems(itemsToAddVillage2);
 
-            Player cindy = new Player("Cindy", 100, new ArrayList<>(5), playerStats, startingVillage);
+            Player cindy = new Player("Cindy", playerHealth, new ArrayList<>(5), playerStats, startingVillage);
 
             Map<String, Integer> monsterStats = Map.of(
                     "Health", 20,

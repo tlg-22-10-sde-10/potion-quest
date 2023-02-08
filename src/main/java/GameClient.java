@@ -10,9 +10,9 @@ public class GameClient {
     private static long elapsedTime = 0L;
     private static long startTime = System.currentTimeMillis();
 
-   public static void main(String[] args) throws InterruptedException, IOException {
-       Location.locationJsonParser();
-       Item.itemJsonParser();
+    public static void main(String[] args) throws InterruptedException, IOException {
+        Location.locationJsonParser();
+        Item.itemJsonParser();
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         GameClient gameClient = new GameClient();
@@ -23,15 +23,16 @@ public class GameClient {
         GameClientUtil.startingVillageMessage();
 
         //starts timer thread, will print out the Game
-       (new Thread(new Timer())).start();
-    // game runs below:
-    while (!gameClient.isQuitGame()) {
-        GameClientUtil.availableCommands();
-        String userInput = input.nextLine();
-        UserInputParser.handleUserInput(userInput, gameClient);
+        (new Thread(new Timer())).start();
+        // game runs below:
+        do {
+            GameClientUtil.availableCommands();
+            String userInput = input.nextLine();
+            UserInputParser.handleUserInput(userInput, gameClient);
+        }
+        while (!gameClient.isQuitGame() && Game.getGameInstance().getPlayer().getHealth() > 0);
+        GameClientUtil.endGameSequence();
     }
-}
-
 
     public boolean isQuitGame() {
         return quitGame;
