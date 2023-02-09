@@ -145,4 +145,21 @@ public class GameClientUtil {
         Game.createGameInstance();
         GameClientUtil.printGameLogo();
     }
+
+    public void playMusic(int i){
+        Sound sound = new Sound();
+        sound.setFile(i);
+        sound.play();
+        sound.loopMusic();
+    }
+
+    public void playSoundEffect(int i){
+        Sound sound = new Sound();
+        sound.setFile(i);
+        sound.play();
+    }
+
+    public void stopMusic(int i){
+        stopMusic(i);
+    }
 }

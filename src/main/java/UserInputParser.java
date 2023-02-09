@@ -148,8 +148,8 @@ public class UserInputParser {
         String combatReport = "";
         Player player = Game.getGameInstance().getPlayer();
         int playerHealth = player.getHealth();
-        Monster monster = Game.getGameInstance().getMonster();
-        int monsterHealth = monster.getStats().get("Health");
+        Monster monster = Game.getGameInstance().getMonsters().get("Wolf");
+        int monsterHealth = monster.getHealth();
         int totalMonsterDamageTaken = 0;
         int totalPlayerDamageTaken = 0;
         while(monsterHealth > 0) {
@@ -162,20 +162,25 @@ public class UserInputParser {
             int playerDamageTaken = Combat.playerTakeDamage(playerDefend, monsterAttack);
             totalPlayerDamageTaken += playerDamageTaken;
             monsterHealth -= monsterDamageTaken;
-            monster.setStats(Map.of(
-                    "Health", monsterHealth,
-                    "Strength", 10,
-                    "Defense", 5
-            ));
+
             playerHealth -= playerDamageTaken;
+            if(playerHealth < 0){
+                playerHealth = 0;
+            }
             player.setHealth(playerHealth);
             String monsterName = monster.getName();
             combatReport = "After a hard fought battle, you did " + totalMonsterDamageTaken + " total damage to the " +
                     monsterName + " and slayed it." +
                             "\nYou took " + totalPlayerDamageTaken + " damage." +
-                            "\nYour current hp is " + playerHealth + "." +
-                            "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
+                            "\nYour current hp is " + playerHealth + ".";
+            if(monsterHealth <= 0) {
+                combatReport += "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
+            }
+            if(playerHealth == 0){
+                combatReport += "\nGame Over. You died.";
+            }
         }
+
         return combatReport;
     }
 

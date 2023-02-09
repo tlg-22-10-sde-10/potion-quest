@@ -4,7 +4,7 @@ import java.util.*;
 public class Game {
     private static Game gameInstance = null;
     private Player player;
-    private Monster monster;
+//    private Monster monster;
     private Location currentLocation;
     //private int time
     private Direction direction;
@@ -13,10 +13,11 @@ public class Game {
     private Item item;
     private Map<String, Item> items;
     private Map<String, Location> locations;
+    private Map<String, Monster> monsters;
 
-    private Game(Player player, Monster wolf, Map<String, Item> items, Map<String, Location> locations) {
+    private Game(Player player, Map<String, Monster> monsters, Map<String, Item> items, Map<String, Location> locations) {
         setPlayer(player);
-        setMonster(wolf);
+        setMonsters(monsters);
         setItems(items);
         setLocations(locations);
     }
@@ -34,6 +35,8 @@ public class Game {
                     "Luck", 10);
             Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
             Map<String, Item> mapOfAllItems = Item.itemJsonParser();
+            Map<String, Monster> mapOfAllMonsters = Monster.monsterJsonParser();
+
 
             Location startingVillage = mapOfAllLocations.get("Starting Village");
             List<Item> itemsToAddStartingVillage = new ArrayList<>();
@@ -48,6 +51,8 @@ public class Game {
             List<Item> itemsToAddForest = new ArrayList<>();
             itemsToAddForest.add(rope1);
             forest.setItems(itemsToAddForest);
+            Monster wolf = mapOfAllMonsters.get("Wolf");
+
 
             Location mountainPass = mapOfAllLocations.get("Mountain Pass");
             Item rope2 = mapOfAllItems.get("Rope");
@@ -83,7 +88,7 @@ public class Game {
                     "Defense", 5
             );
 
-            Monster wolf = new Monster("Wolf", monsterStats);
+            System.out.println(wolf.getStats());
 
             startingVillage.addAdjacentLocation("NORTH", forest);
             startingVillage.addAdjacentLocation("SOUTH", mountainPass);
@@ -103,7 +108,7 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(cindy, wolf, mapOfAllItems, mapOfAllLocations);
+            gameInstance = new Game(cindy, mapOfAllMonsters, mapOfAllItems, mapOfAllLocations);
         }
         return gameInstance;
     }
@@ -138,6 +143,14 @@ public class Game {
         this.locations = locations;
     }
 
+    public Map<String, Monster> getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(Map<String, Monster> monsters) {
+        this.monsters = monsters;
+    }
+
     public static void destroyGameInstance() {
         gameInstance = null;
     }
@@ -162,12 +175,5 @@ public class Game {
         this.player = player;
     }
 
-    public Monster getMonster() {
-        return monster;
-    }
-
-    public void setMonster(Monster wolf) {
-        this.monster = wolf;
-    }
 
 }
