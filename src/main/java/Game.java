@@ -14,10 +14,13 @@ public class Game {
     private Map<String, Item> items;
     private Map<String, Location> locations;
     private Map<String, Monster> monsters;
+    private Map<String, Characters> characters;
 
-    private Game(Player player, Map<String, Monster> monsters, Map<String, Item> items, Map<String, Location> locations) {
+    private Game(Player player, Map<String, Monster> monsters, Map<String, Item> items, Map<String, Location> locations,
+                 Map<String, Characters> characters) {
         setPlayer(player);
         setMonsters(monsters);
+        setCharacters(characters);
         setItems(items);
         setLocations(locations);
     }
@@ -36,6 +39,7 @@ public class Game {
             Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
             Map<String, Item> mapOfAllItems = Item.itemJsonParser();
             Map<String, Monster> mapOfAllMonsters = Monster.monsterJsonParser();
+            Map<String, Characters> mapOfAllCharacters = Characters.characterJsonParser();
 
             Location startingVillage = mapOfAllLocations.get("Starting Village");
             List<Item> itemsToAddStartingVillage = new ArrayList<>();
@@ -58,6 +62,7 @@ public class Game {
             List<Item> itemsToAddMountains = new ArrayList<>();
             itemsToAddMountains.add(rope2);
             mountainPass.setItems(itemsToAddMountains);
+            Characters hermit = mapOfAllCharacters.get("Hermit");
 
             Location riverNorth = mapOfAllLocations.get("River North");
             Item fish = mapOfAllItems.get("Fish");
@@ -100,7 +105,7 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(cindy, mapOfAllMonsters, mapOfAllItems, mapOfAllLocations);
+            gameInstance = new Game(cindy, mapOfAllMonsters, mapOfAllItems, mapOfAllLocations, mapOfAllCharacters);
         }
         return gameInstance;
     }
@@ -137,6 +142,14 @@ public class Game {
 
     public void setMonsters(Map<String, Monster> monsters) {
         this.monsters = monsters;
+    }
+
+    public Map<String, Characters> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(Map<String, Characters> characters) {
+        this.characters = characters;
     }
 
     public static void destroyGameInstance() {

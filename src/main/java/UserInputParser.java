@@ -56,6 +56,13 @@ public class UserInputParser {
             add("bear");
         }
     };
+
+    private final ArrayList<String> characters = new ArrayList<>() {
+        {
+            add("hermit");
+            add("trader");
+        }
+    };
     private final ArrayList<String> directions = new ArrayList<>() {
         {
             add("north");
@@ -76,6 +83,7 @@ public class UserInputParser {
         UserInputParser inputParser = new UserInputParser();
         Player player = Game.getGameInstance().getPlayer();
         Location location = Game.getGameInstance().getPlayer().getCurrentLocation();
+        Characters hermit = Game.getGameInstance().getCharacters().get("Hermit");
         String firstArgumentOfUserInput;
         String secondArgumentOfUserInput;
         firstArgumentOfUserInput = wordlist.get(0).toLowerCase();
@@ -115,11 +123,13 @@ public class UserInputParser {
             }
         } else if(firstArgumentOfUserInput.equalsIgnoreCase("attack")) {
             if(inputParser.getMonsters().contains(secondArgumentOfUserInput)) {
+
                 System.out.println(handleCombatEncounter());
             } else {
                 System.out.println("Invalid command, please pair 'attack' with a monster name.");
             }
-        } else {
+        }
+        else {
             System.out.println("Invalid interaction verb. For interacting with items, try 'take', 'grab', 'drop', or " +
                     "'use'. For NPCs try 'talk'");
         }
@@ -317,6 +327,10 @@ public class UserInputParser {
 
     public ArrayList<String> getMonsters() {
         return monsters;
+    }
+
+    public ArrayList<String> getCharacters() {
+        return characters;
     }
 
     public ArrayList<String> getDirections() {

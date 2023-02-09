@@ -77,6 +77,7 @@ public class Player {
             System.out.println("This item is not valid!");
         }
         return display;
+
     }
 
     private static void transferOb(Item targetItem, List<Item> objectToRemove, List<Item> objectToAdd) {
