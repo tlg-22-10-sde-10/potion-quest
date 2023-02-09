@@ -5,7 +5,6 @@ public class Game {
     private static Game gameInstance = null;
     private Player player;
     private Monster monster;
-    private Location currentLocation;
     //private int time
     private Direction direction;
     private InteractionVerb interactionVerb;
@@ -94,11 +93,11 @@ public class Game {
             mountainPass.addAdjacentLocation("NORTH", startingVillage);
             mountainPass.addAdjacentLocation("EAST", riverSouth);
 
-            riverNorth.addAdjacentLocation("EAST", village2);
+            riverNorth.addAdjacentLocation("SOUTH", village2);
             riverNorth.addAdjacentLocation("WEST", forest);
 
             riverSouth.addAdjacentLocation("WEST", mountainPass);
-            riverSouth.addAdjacentLocation("EAST", village2);
+            riverSouth.addAdjacentLocation("NORTH", village2);
 
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
@@ -113,9 +112,10 @@ public class Game {
         Map<String, Item> mapOfAllItems = Item.itemJsonParser();
         System.out.println(inventory);
         System.out.println(mapOfAllItems);
-        if (inventory.equals(mapOfAllItems.get("Potion"))) {
+        if (inventory.contains(mapOfAllItems.get("Potion"))) {
             System.out.println("You have the potion");
-            if (location.equals(mapOfAllLocations.get("Starting Village"))) {
+            System.out.println(Game.getGameInstance().getPlayer().getCurrentLocation().getName());
+            if (location.getName().equalsIgnoreCase("Starting Village")) {
                 System.out.println("You are back in the starting village");
                 gameClient.setQuitGame(true);
             }
@@ -144,10 +144,6 @@ public class Game {
 
     public static Game getGameInstance() {
         return gameInstance;
-    }
-
-    public Location getCurrentLocation() {
-        return currentLocation;
     }
 
     public Item getItem() {
