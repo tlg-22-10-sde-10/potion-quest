@@ -152,7 +152,7 @@ public class UserInputParser {
         int monsterHealth = monster.getHealth();
         int totalMonsterDamageTaken = 0;
         int totalPlayerDamageTaken = 0;
-        while(monsterHealth > 0) {
+        while(monsterHealth > 0 && playerHealth > 0) {
             int playerAttack = Combat.playerAttack(player);
             int playerDefend = Combat.playerDefend(player);
             int monsterAttack = Combat.monsterAttack(monster);
@@ -164,19 +164,17 @@ public class UserInputParser {
             monsterHealth -= monsterDamageTaken;
 
             playerHealth -= playerDamageTaken;
-            if(playerHealth < 0){
-                playerHealth = 0;
-            }
             player.setHealth(playerHealth);
             String monsterName = monster.getName();
             combatReport = "After a hard fought battle, you did " + totalMonsterDamageTaken + " total damage to the " +
-                    monsterName + " and slayed it." +
+                    monsterName +
                             "\nYou took " + totalPlayerDamageTaken + " damage." +
                             "\nYour current hp is " + playerHealth + ".";
             if(monsterHealth <= 0) {
                 combatReport += "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
             }
-            if(playerHealth == 0){
+
+            if(playerHealth == 0) {
                 combatReport += "\nGame Over. You died.";
             }
         }
@@ -185,15 +183,50 @@ public class UserInputParser {
     }
 
     public static String displayBasicMap() {
-        return "                         Forest    ---West/East--- River North"   +
+        String startingVillage = Game.getGameInstance().getLocations().get("Starting Village").getName();
+        String forest = Game.getGameInstance().getLocations().get("Forest").getName();
+        String riverNorth = Game.getGameInstance().getLocations().get("River North").getName();
+        String riverSouth = Game.getGameInstance().getLocations().get("River South").getName();
+        String village2 = Game.getGameInstance().getLocations().get("Village2").getName();
+        String mountainPass = Game.getGameInstance().getLocations().get("Mountain Pass").getName();
+        String green = "\u001B[32m";
+        String reset = "\u001B[0m";
+        String playerCurrentLocation = Game.getGameInstance().getPlayer().getCurrentLocation().getName();
+        switch(playerCurrentLocation) {
+            case "Starting Village":
+                startingVillage = green + startingVillage + reset;
+                break;
+            case "Forest":
+                forest = green + forest + reset;
+                break;
+            case "River North":
+                riverNorth = green + riverNorth + reset;
+                break;
+            case "River South":
+                riverSouth = green + riverSouth + reset;
+                break;
+            case "Village2":
+                village2 = green + village2 + reset;
+                break;
+            case "Mountain Pass":
+                mountainPass = green + mountainPass + reset;
+                break;
+            default:
+                // do nothing
+                break;
+        }
+
+        return "Tip: Your current location is in green." +
+                "\n                       " + forest + "    ---West/East--- "   + riverNorth +
                 "\n                        /                              \\" +
                 "\n                      North/South                       North/South" +
                 "\n                      /                                   \\" +
-                "\n       Starting Village                                     Village 2" +
+                "\n       " + startingVillage + "                                   " + village2 +
                 "\n                      \\                                   /" +
                 "\n                    North/South                           North/South" +
                 "\n                       \\                                 /" +
-                "\n                        Mountain Pass ---West/East--- River South";
+                "\n                      " + mountainPass + "---West/East---" + riverSouth +
+                "\n";
     }
 
     private static List<String> trimUserInput(String userInput) {
