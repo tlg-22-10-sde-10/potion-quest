@@ -20,6 +20,7 @@ public class UserInputParser {
             add("use");
             add("talk");
             add("look");
+            add("heal");
         }
     };
 
@@ -46,6 +47,7 @@ public class UserInputParser {
             add("torch");
             add("attack");
             add("fish");
+            add("character");
         }
     };
     private final ArrayList<String> monsters = new ArrayList<>() {
@@ -104,6 +106,9 @@ public class UserInputParser {
                 }
                 if (firstArgumentOfUserInput.equalsIgnoreCase("look")) {
                     player.lookAtItem(item);
+                }
+                if (firstArgumentOfUserInput.equalsIgnoreCase("heal")) {
+                    player.useHealingItem(item);
                 }
             } else {
                 System.out.println("Invalid noun.");

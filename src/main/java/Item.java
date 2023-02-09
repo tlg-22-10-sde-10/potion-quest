@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class Item {
     private String name;
     private String description;
+    private int statBuff;
 
     public Item(){
 
@@ -25,6 +26,14 @@ public class Item {
     public Item(String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public int getStatBuff() {
+        return statBuff;
+    }
+
+    public void setStatBuff(int statBuff) {
+        this.statBuff = statBuff;
     }
 
     public static Map<String, Item> itemJsonParser() throws IOException {
