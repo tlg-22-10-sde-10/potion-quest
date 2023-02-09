@@ -8,7 +8,8 @@ public class Player {
     private Map<String, Integer> stats;
     private Location currentLocation;
 
-    public Player() {}
+    public Player() {
+    }
 
     public Player(String name, int health, Location startingLocation) {
         this.name = name;
@@ -61,23 +62,33 @@ public class Player {
         }
     }
 
-    public String useHealingItem(Item targetItem) {
-        String display = "";
-        Boolean isTargetItemHere = getInventory().contains(targetItem);
+    public void useHealingItem() {
+        List<Item> itemsInPlayerInventory = getInventory();
+        List<Item> toRemove = new ArrayList<Item>();
+
         try {
-            if (targetItem.getName().equals("")) {
-                display = "Which object would you like to use?"; // if no object specified
-            } else if (isTargetItemHere == false) {
-                display = "That is not in your inventory!";
-            } else {
-                this.health = targetItem.getStatBuff() + this.health;
-                display = targetItem.getName() + " used.";
+            for (Item item : itemsInPlayerInventory) {
+                if (item.getStatBuff() > 0) {
+                    this.health = item.getStatBuff() + this.health;
+                    System.out.println("You used " + item.getName()
+                            + " to heal yourself by "
+                            + item.getStatBuff()
+                            + " points.");
+                    toRemove.add(item);
+                }
+                else {
+                    System.out.println("You don't have any healing items.");
+                }
             }
         } catch (NullPointerException e) {
             System.out.println("This item is not valid!");
         }
+<<<<<<< Updated upstream
         return display;
 
+=======
+        itemsInPlayerInventory.removeAll(toRemove);
+>>>>>>> Stashed changes
     }
 
     private static void transferOb(Item targetItem, List<Item> objectToRemove, List<Item> objectToAdd) {
@@ -93,8 +104,7 @@ public class Player {
             System.out.println("You already have this item.");
         } else if (!getCurrentLocation().getItems().contains(targetItem)) {
             System.out.println("There is no such item to be found here.");
-        }
-        else {
+        } else {
             List<Item> itemsInThisLocation = getCurrentLocation().getItems();
             Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
             try {
