@@ -15,6 +15,9 @@ public class Monster {
     private int health;
     private int id;
 
+    public Monster() {
+    }
+
     public Monster(String name, Map<String, Integer> stats) {
         setName(name);
         setStats(stats);
@@ -51,5 +54,21 @@ public class Monster {
 
     public void setStats(Map<String, Integer> stats) {
         this.stats = stats;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
