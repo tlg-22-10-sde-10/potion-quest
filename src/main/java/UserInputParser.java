@@ -105,6 +105,9 @@ public class UserInputParser {
                 if (firstArgumentOfUserInput.equalsIgnoreCase("look")) {
                     player.lookAtItem(item);
                 }
+                if (firstArgumentOfUserInput.equalsIgnoreCase("use")) {
+                    player.useItem(item);
+                }
             } else {
                 System.out.println("Invalid noun.");
             }

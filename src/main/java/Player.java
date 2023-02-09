@@ -8,9 +8,7 @@ public class Player {
     private Map<String, Integer> stats;
     private Location currentLocation;
 
-    public Player() {
-
-    }
+    public Player() {}
 
     public Player(String name, int health, Location startingLocation) {
         this.name = name;
@@ -63,6 +61,24 @@ public class Player {
         }
     }
 
+    public String useItem(Item targetItem) {
+        String display = "";
+        Boolean isTargetItemHere = getInventory().contains(targetItem);
+        try {
+            if (targetItem.getName().equals("")) {
+                display = "Which object would you like to use?"; // if no object specified
+            } else if (isTargetItemHere == false) {
+                display = "That is not in your inventory!";
+            } else {
+                this.health = targetItem.getStatBuff() + this.health;
+                display = targetItem.getName() + " used.";
+            }
+        } catch (NullPointerException e) {
+            System.out.println("This item is not valid!");
+        }
+        return display;
+    }
+
     private static void transferOb(Item targetItem, List<Item> objectToRemove, List<Item> objectToAdd) {
         objectToRemove.remove(targetItem);
         objectToAdd.add(targetItem);
@@ -74,7 +90,10 @@ public class Player {
             System.out.println("You are at max inventory size, you must drop an item to take this one.");
         } else if (getInventory().contains(targetItem)) {
             System.out.println("You already have this item.");
-        } else {
+        } else if (!getCurrentLocation().getItems().contains(targetItem)) {
+            System.out.println("There is no such item to be found here.");
+        }
+        else {
             List<Item> itemsInThisLocation = getCurrentLocation().getItems();
             Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
             try {
