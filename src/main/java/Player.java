@@ -63,6 +63,11 @@ public class Player {
         }
     }
 
+    public static void talkToCharacter(Characters characterTalking){
+        System.out.println("Inside talk to Character");
+            System.out.println(characterTalking.getDialogue());
+    }
+
     private static void transferOb(Item targetItem, List<Item> objectToRemove, List<Item> objectToAdd) {
         objectToRemove.remove(targetItem);
         objectToAdd.add(targetItem);
