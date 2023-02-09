@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -94,9 +95,11 @@ public class GameClientUtil {
     }
 
     public static void availableCommands() {
-        System.out.println(ANSI_PURPLE + "======================================================================================");
+        System.out.println();
+        System.out.println(ANSI_PURPLE + "===========================================================================================");
         System.out.println("Available commands: go [direction], get [item], attack [creature], map, inventory, help, quit");
-        System.out.println("======================================================================================" + ANSI_RESET);
+        System.out.println("================================================================================================" + ANSI_RESET);
+        System.out.println();
     }
 
     public static void playerHelpCall() throws IOException {
@@ -105,6 +108,7 @@ public class GameClientUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         GameClientUtil gameHelpMessage = objectMapper.readValue(file, GameClientUtil.class);
         System.out.println(ANSI_GREEN + gameHelpMessage.getPlayerHelpCallMessage() + ANSI_RESET);
+        System.out.println();
     }
 
     public static void startingVillageMessage() throws IOException {
@@ -113,6 +117,7 @@ public class GameClientUtil {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         GameClientUtil gameVillageMessage = objectMapper.readValue(file, GameClientUtil.class);
         System.out.println(ANSI_CYAN + gameVillageMessage.getVillageStartMessage() + ANSI_RESET);
+        System.out.println();
     }
 
     public static void endGameSequence() {
@@ -144,22 +149,38 @@ public class GameClientUtil {
         }
         Game.createGameInstance();
         GameClientUtil.printGameLogo();
+        System.out.println();
     }
 
-    public void playMusic(int i){
+    public static String displayHUD() {
+        String hud = "";
+        Player player = Game.getGameInstance().getPlayer();
+        String currentLocation = player.getCurrentLocation().getName();
+        Set<Map.Entry<String, Location>> locationEntrySet = player.getCurrentLocation().getExits().entrySet();
+        hud += "Location: " + currentLocation;
+        hud += " | Health " + player.getHealth() + " \\ 100";
+        hud += " | Inventory: " + player.getInventory()
+                .stream()
+                .map(Item::getName)
+                .collect(Collectors.toList());
+        hud += " | Time left " + Timer.getTimeRemainingMin() + ":" + Timer.getTimeRemainingSec();
+        hud += "\n\n" + player.getCurrentLocation().description() + "\n";
+        return hud;
+    }
+    public void playMusic(int i) {
         Sound sound = new Sound();
         sound.setFile(i);
         sound.play();
         sound.loopMusic();
     }
 
-    public void playSoundEffect(int i){
+    public void playSoundEffect(int i) {
         Sound sound = new Sound();
         sound.setFile(i);
         sound.play();
     }
 
-    public void stopMusic(int i){
+    public void stopMusic(int i) {
         stopMusic(i);
     }
 }
