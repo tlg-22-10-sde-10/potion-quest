@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Combat {
     private Player player = Game.getGameInstance().getPlayer();
-    private Monster wolf = Game.getGameInstance().getMonster();
+    private Monster wolf = Game.getGameInstance().getMonsters().get("Wolf");
 
     public static int playerAttack(Player player) {
         Random rng = new Random();
@@ -18,13 +18,13 @@ public class Combat {
 
     public static int monsterAttack(Monster wolf) {
         Random rng = new Random();
-        int wolfStrength = wolf.getStats().get("Strength");
+        int wolfStrength = wolf.getStats().get("strength");
         return rng.nextInt(wolfStrength + 1);
     }
 
     public static int monsterDefend(Monster wolf) {
         Random rng = new Random();
-        int wolfDefend = wolf.getStats().get("Defense");
+        int wolfDefend = wolf.getStats().get("defense");
         return rng.nextInt(wolfDefend + 1);
     }
 

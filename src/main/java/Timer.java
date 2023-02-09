@@ -4,12 +4,16 @@ public class Timer implements Runnable {
 
     private static long startTime = System.currentTimeMillis();
     private static long elapsedTime = 0L;
+    private static long timeRemainingMin;
+    private static long timeRemainingSec;
 
     @Override
     public void run() {
-
-        while (elapsedTime < (7*60 * 1000)) {
+    long totalTime = 7 * 60 * 1000;
+        while (elapsedTime < totalTime) {
             elapsedTime = (new Date()).getTime() - startTime;
+            timeRemainingSec = (totalTime - elapsedTime) / 1000 % 60;
+            timeRemainingMin = (totalTime - elapsedTime) / 1000 / 60;
         }
         if (elapsedTime == (7*60 * 1000)) {
             System.out.println("==================================");
@@ -21,6 +25,20 @@ public class Timer implements Runnable {
         }
     }
 
+    public static long getTimeRemainingMin() {
+        return timeRemainingMin;
+    }
 
+    public static void setTimeRemainingMin(int timeRemainingMin) {
+        Timer.timeRemainingMin = timeRemainingMin;
+    }
+
+    public static long getTimeRemainingSec() {
+        return timeRemainingSec;
+    }
+
+    public static void setTimeRemainingSec(int timeRemainingSec) {
+        Timer.timeRemainingSec = timeRemainingSec;
+    }
 }
 

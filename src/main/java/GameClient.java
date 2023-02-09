@@ -23,12 +23,12 @@ public class GameClient {
         (new Thread(new Timer())).start();
         // game runs below:
         do {
-            Game.checkWin(Game.getGameInstance().getPlayer().getInventory(),
-                    Game.getGameInstance().getPlayer().getCurrentLocation(),
-                    gameClient);
             GameClientUtil.availableCommands();
             String userInput = input.nextLine();
             UserInputParser.handleUserInput(userInput, gameClient);
+            Game.checkWin(Game.getGameInstance().getPlayer().getInventory(),
+                    Game.getGameInstance().getPlayer().getCurrentLocation(),
+                    gameClient);
         }
         while (!gameClient.isQuitGame() && Game.getGameInstance().getPlayer().getHealth() > 0);
         GameClientUtil.endGameSequence();
