@@ -19,7 +19,6 @@ public class Timer implements Runnable {
             System.out.println("==================================");
             System.out.println("You ran out of time...Game Over");
             System.out.println("==================================");
-//            gameClient.setQuitGame(true);
             GameClientUtil.gameExitMessage();
             System.exit(0);
         }

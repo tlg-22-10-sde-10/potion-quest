@@ -221,7 +221,7 @@ public class UserInputParser {
                 break;
         }
 
-        return "Tip: Your current location is in green." +
+        return "\nTip: Your current location is in green." +
                 "\n                       " + forest + "    ---West/East--- "   + riverNorth +
                 "\n                        /                              \\" +
                 "\n                      North/South                       North/South" +

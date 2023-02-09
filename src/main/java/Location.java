@@ -131,10 +131,7 @@ public class Location {
     }
 
     public String description() {
-        return "You are now in the " + getName()
-                + "\n" + getDescription()
-                + "\n" + "Directions are: " + displayExits()
-                + "\n" + "Adjacent to your location is the: " + displayAdjacentLocations()
+        return  "\n" + getDescription()
                 + "\n" + "You can find these items here: " + getItems()
                 .stream()
                 .map(p -> p.getName())

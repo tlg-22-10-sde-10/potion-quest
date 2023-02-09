@@ -134,7 +134,6 @@ public class Player {
         Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
-            System.out.println(description());
             String locationCheck = null;
             for (String location : this.currentLocation.getExits().keySet()) {
                 locationCheck = location;
@@ -183,21 +182,6 @@ public class Player {
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
-    }
-
-    public String description() {
-        return "Name: "
-                + this.name
-                + "\nHealth: "
-                + health
-                + "\n"
-                + currentLocation.description()
-                + "\nInventory "
-                + getInventory()
-                .stream()
-                .map(p -> p.getName())
-                .collect(Collectors.toList())
-                + "\nTime left " + Timer.getTimeRemainingMin() + ":" + Timer.getTimeRemainingSec();
     }
 
     @Override

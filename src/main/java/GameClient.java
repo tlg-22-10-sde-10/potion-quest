@@ -16,7 +16,6 @@ public class GameClient {
         // Welcome the user to the game
         GameClientUtil.gameStartMessage();
         GameClientUtil.askPlayerIfTheyWantToStartGame();
-
         GameClientUtil.startingVillageMessage();
 
         //starts timer thread, will print out the Game
@@ -24,6 +23,7 @@ public class GameClient {
         // game runs below:
         do {
             GameClientUtil.availableCommands();
+            System.out.println(GameClientUtil.displayHUD());;
             String userInput = input.nextLine();
             UserInputParser.handleUserInput(userInput, gameClient);
             Game.checkWin(Game.getGameInstance().getPlayer().getInventory(),
