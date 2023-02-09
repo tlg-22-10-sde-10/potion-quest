@@ -27,7 +27,7 @@
     "name": "River North",
     "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the east you see Village2 and to travel back to the Forest you must travel West.\n \nYou see a wolf approaching.\nType attack wolf to engage it in combat.",
     "exits": {
-      "EAST": "Village2",
+      "SOUTH": "Village2",
       "WEST": "Forest"
     }
   },
@@ -35,7 +35,7 @@
     "name": "River South",
     "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the east you see Village2 and to travel back to the Mountains you must travel West.",
     "exits": {
-      "EAST": "Village2",
+      "NORTH": "Village2",
       "WEST": "Mountain Pass"
     }
   },

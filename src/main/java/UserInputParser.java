@@ -179,6 +179,18 @@ public class UserInputParser {
         return combatReport;
     }
 
+    public static String displayBasicMap() {
+        return "                         Forest    ---West/East--- River North"   +
+                "\n                        /                              \\" +
+                "\n                      North/South                       North/South" +
+                "\n                      /                                   \\" +
+                "\n       Starting Village                                     Village 2" +
+                "\n                      \\                                   /" +
+                "\n                    North/South                           North/South" +
+                "\n                       \\                                 /" +
+                "\n                        Mountain Pass ---West/East--- River South";
+    }
+
     private static List<String> trimUserInput(String userInput) {
         String punctuation = " \t,.:;?!\"'";
         List<String> listOfStrings = new ArrayList<>();
@@ -220,6 +232,9 @@ public class UserInputParser {
                     Thread.sleep(2000);
                 }
             }
+        }
+        if(userInput.equalsIgnoreCase("map")) {
+            System.out.println(UserInputParser.displayBasicMap());
         }
         if(userInput.equalsIgnoreCase("help")) {
             // display help message

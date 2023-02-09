@@ -147,7 +147,7 @@ public class Location {
         boolean result = false;
         if (obj instanceof Location) {
             Location other = (Location) obj;
-            result = Objects.equals(this.getName(), other.getName());
+            result = Objects.equals(this.getName().toLowerCase(), other.getName().toLowerCase());
         }
         return result;
     }
