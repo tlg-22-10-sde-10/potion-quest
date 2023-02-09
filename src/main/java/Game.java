@@ -41,13 +41,12 @@ public class Game {
             Map<String, Monster> mapOfAllMonsters = Monster.monsterJsonParser();
             Map<String, Characters> mapOfAllCharacters = Characters.characterJsonParser();
 
-
             Location startingVillage = mapOfAllLocations.get("Starting Village");
             List<Item> itemsToAddStartingVillage = new ArrayList<>();
             Item trinket = mapOfAllItems.get("Trinket");
-            Item coin = mapOfAllItems.get("Bread");
+            Item bread = mapOfAllItems.get("Bread");
             itemsToAddStartingVillage.add(trinket);
-            itemsToAddStartingVillage.add(coin);
+            itemsToAddStartingVillage.add(bread);
             startingVillage.setItems(itemsToAddStartingVillage);
 
             Location forest = mapOfAllLocations.get("Forest");
@@ -87,12 +86,6 @@ public class Game {
 
             Player cindy = new Player("Cindy", playerHealth, new ArrayList<>(5), playerStats, startingVillage);
 
-            Map<String, Integer> monsterStats = Map.of(
-                    "Health", 20,
-                    "Strength", 10,
-                    "Defense", 5
-            );
-
 
             startingVillage.addAdjacentLocation("NORTH", forest);
             startingVillage.addAdjacentLocation("SOUTH", mountainPass);
@@ -120,9 +113,8 @@ public class Game {
     public static void checkWin(List<Item> inventory, Location location, GameClient gameClient) throws IOException {
         Map<String, Item> mapOfAllItems = Item.itemJsonParser();
         if (inventory.contains(mapOfAllItems.get("Potion"))) {
-            System.out.println("You have the potion");
             if (location.getName().equalsIgnoreCase("Starting Village")) {
-                System.out.println("You are back in the starting village");
+                //TODO: Add win confirmation statement
                 gameClient.setQuitGame(true);
             }
         }

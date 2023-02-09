@@ -8,9 +8,7 @@ public class Player {
     private Map<String, Integer> stats;
     private Location currentLocation;
 
-    public Player() {
-
-    }
+    public Player() {}
 
     public Player(String name, int health, Location startingLocation) {
         this.name = name;
@@ -63,9 +61,28 @@ public class Player {
         }
     }
 
+
     public static void talkToCharacter(Characters characterTalking){
         System.out.println("Inside talk to Character");
             System.out.println(characterTalking.getDialogue());
+
+    public String useHealingItem(Item targetItem) {
+        String display = "";
+        Boolean isTargetItemHere = getInventory().contains(targetItem);
+        try {
+            if (targetItem.getName().equals("")) {
+                display = "Which object would you like to use?"; // if no object specified
+            } else if (isTargetItemHere == false) {
+                display = "That is not in your inventory!";
+            } else {
+                this.health = targetItem.getStatBuff() + this.health;
+                display = targetItem.getName() + " used.";
+            }
+        } catch (NullPointerException e) {
+            System.out.println("This item is not valid!");
+        }
+        return display;
+
     }
 
     private static void transferOb(Item targetItem, List<Item> objectToRemove, List<Item> objectToAdd) {
@@ -79,7 +96,10 @@ public class Player {
             System.out.println("You are at max inventory size, you must drop an item to take this one.");
         } else if (getInventory().contains(targetItem)) {
             System.out.println("You already have this item.");
-        } else {
+        } else if (!getCurrentLocation().getItems().contains(targetItem)) {
+            System.out.println("There is no such item to be found here.");
+        }
+        else {
             List<Item> itemsInThisLocation = getCurrentLocation().getItems();
             Boolean isTargetItemHere = itemsInThisLocation.contains(targetItem);
             try {
@@ -120,7 +140,6 @@ public class Player {
         Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
-            System.out.println(description());
             String locationCheck = null;
             for (String location : this.currentLocation.getExits().keySet()) {
                 locationCheck = location;
@@ -169,21 +188,6 @@ public class Player {
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
-    }
-
-    public String description() {
-        return "Name: "
-                + this.name
-                + "\nHealth: "
-                + health
-                + "\n"
-                + currentLocation.description()
-                + "\nInventory "
-                + getInventory()
-                .stream()
-                .map(p -> p.getName())
-                .collect(Collectors.toList())
-                + "\nTime left " + Timer.getTimeRemainingMin() + ":" + Timer.getTimeRemainingSec();
     }
 
     @Override
