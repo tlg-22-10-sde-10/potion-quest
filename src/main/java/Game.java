@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Game {
     private static Game gameInstance = null;
@@ -25,7 +22,7 @@ public class Game {
     }
 
     public static Game createGameInstance() throws IOException {
-        if(gameInstance == null) {
+        if (gameInstance == null) {
             int playerHealth = 100;
             String[] inventory = new String[5];
             Map<String, Integer> playerStats = Map.of(
@@ -106,7 +103,6 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-//            checkWin(cindy.getInventory(), cindy.getCurrentLocation());
             gameInstance = new Game(cindy, wolf, mapOfAllItems, mapOfAllLocations);
         }
         return gameInstance;
@@ -174,8 +170,4 @@ public class Game {
         this.monster = wolf;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
 }

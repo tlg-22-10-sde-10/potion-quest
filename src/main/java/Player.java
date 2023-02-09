@@ -198,4 +198,5 @@ public class Player {
 //                .append(Arrays.toString(getCurrentLocation().getExits()));
         return playerInformation.toString();
     }
+
 }
