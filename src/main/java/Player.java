@@ -61,9 +61,9 @@ public class Player {
         }
     }
 
-    public String useItem(Item targetItem) {
+    public String useHealingItem(Item targetItem) {
         String display = "";
-        Boolean isTargetItemHere = getInventory().contains(targetItem);
+        Boolean isTargetItemHere = getInventory().contains(targetItem).;
         try {
             if (targetItem.getName().equals("")) {
                 display = "Which object would you like to use?"; // if no object specified
