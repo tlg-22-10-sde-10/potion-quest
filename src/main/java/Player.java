@@ -61,11 +61,6 @@ public class Player {
         }
     }
 
-
-    public static void talkToCharacter(Characters characterTalking){
-        System.out.println("Inside talk to Character");
-            System.out.println(characterTalking.getDialogue());
-
     public String useHealingItem(Item targetItem) {
         String display = "";
         Boolean isTargetItemHere = getInventory().contains(targetItem);
