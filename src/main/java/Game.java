@@ -114,13 +114,9 @@ public class Game {
     }
 
     public static void checkWin(List<Item> inventory, Location location, GameClient gameClient) throws IOException {
-        Map<String, Location> mapOfAllLocations = Location.locationJsonParser();
         Map<String, Item> mapOfAllItems = Item.itemJsonParser();
-        System.out.println(inventory);
-        System.out.println(mapOfAllItems);
         if (inventory.contains(mapOfAllItems.get("Potion"))) {
             System.out.println("You have the potion");
-            System.out.println(Game.getGameInstance().getPlayer().getCurrentLocation().getName());
             if (location.getName().equalsIgnoreCase("Starting Village")) {
                 System.out.println("You are back in the starting village");
                 gameClient.setQuitGame(true);

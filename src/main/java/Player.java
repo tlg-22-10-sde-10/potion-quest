@@ -1,6 +1,5 @@
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Player {
     private String name;
@@ -117,7 +116,6 @@ public class Player {
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
             System.out.println(description());
-            String inventoryCheck = null;
             String locationCheck = null;
             for (String location : this.currentLocation.getExits().keySet()) {
                 locationCheck = location;
@@ -179,7 +177,8 @@ public class Player {
                 + getInventory()
                 .stream()
                 .map(p -> p.getName())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList())
+                + "\nTime left " + Timer.getTimeRemainingMin() + ":" + Timer.getTimeRemainingSec();
     }
 
     @Override
