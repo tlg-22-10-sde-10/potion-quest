@@ -37,13 +37,12 @@ public class Game {
             Map<String, Item> mapOfAllItems = Item.itemJsonParser();
             Map<String, Monster> mapOfAllMonsters = Monster.monsterJsonParser();
 
-
             Location startingVillage = mapOfAllLocations.get("Starting Village");
             List<Item> itemsToAddStartingVillage = new ArrayList<>();
             Item trinket = mapOfAllItems.get("Trinket");
-            Item coin = mapOfAllItems.get("Bread");
+            Item bread = mapOfAllItems.get("Bread");
             itemsToAddStartingVillage.add(trinket);
-            itemsToAddStartingVillage.add(coin);
+            itemsToAddStartingVillage.add(bread);
             startingVillage.setItems(itemsToAddStartingVillage);
 
             Location forest = mapOfAllLocations.get("Forest");
@@ -87,8 +86,6 @@ public class Game {
                     "Strength", 10,
                     "Defense", 5
             );
-
-            System.out.println(wolf.getStats());
 
             startingVillage.addAdjacentLocation("NORTH", forest);
             startingVillage.addAdjacentLocation("SOUTH", mountainPass);
