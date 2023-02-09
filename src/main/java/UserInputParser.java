@@ -116,7 +116,7 @@ public class UserInputParser {
                     player.lookAtItem(item);
                 }
                 if (firstArgumentOfUserInput.equalsIgnoreCase("heal")) {
-                    player.useHealingItem(item);
+                    player.useHealingItem();
                 }
             } else {
                 System.out.println("Invalid noun.");
