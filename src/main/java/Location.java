@@ -42,7 +42,6 @@ public class Location {
     //method will iterate through printing out each location on file.
     //need to continue researching the creation of each location and accessing individual elements
     public static Map<String, Location> locationJsonParser() throws IOException {
-//        File file = new File("src/main/resources/locations.json");
         Map<String, Location> locationMap;
         try (InputStream inputStream = Location.class.getClassLoader().getResourceAsStream("locations.json")) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -172,14 +171,6 @@ public class Location {
     }
 
     public String description() {
-//        String description = getDescription();
-//        description += characterDescription();
-//        description += getItems()
-//                .stream()
-//                .map(p -> p.getName())
-//                .collect(Collectors.toList());
-//        description += monsterDescription();
-
         String display = new StringBuilder()
                 .append("\n").append(getDescription())
                 .append("\n").append(characterDescription())
@@ -190,5 +181,4 @@ public class Location {
                 .append("\n").append(monsterDescription()).toString();
         return display;
     }
-
 }
