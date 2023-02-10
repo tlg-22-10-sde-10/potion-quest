@@ -17,8 +17,6 @@ public class Characters {
     public Characters() {
 
     }
-
-
     //reads talkingnpc.json, creates map of monster from the file
     public static Map<String, Characters> characterJsonParser() throws IOException {
         Map<String, Characters> charactersMap;

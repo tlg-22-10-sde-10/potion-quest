@@ -19,7 +19,7 @@ public class GameClient {
         Sound sound = new Sound();
         sound.playSound();
         //starts timer thread, will print out the Game
-        (new Thread(new Timer())).start();
+        (new Thread(new Timer(System.currentTimeMillis(), 7L, 0L, 0L))).start();
         // game runs below:
         do {
             GameClientUtil.availableCommands();

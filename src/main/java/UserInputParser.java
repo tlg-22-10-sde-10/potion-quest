@@ -355,8 +355,16 @@ public class UserInputParser {
         if (userInput.equalsIgnoreCase("")) {
             System.out.println("You must enter a command!");
         }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
         if (userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
+=======
+        if(userInput.equalsIgnoreCase("inventory")) {
+>>>>>>> Stashed changes
+=======
+        if(userInput.equalsIgnoreCase("inventory")) {
+>>>>>>> Stashed changes
             System.out.println(displayInventory());
         }
         else {
