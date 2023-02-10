@@ -15,6 +15,11 @@ public class Location {
     private Map<String, Location> exits;
     private String description;
     private List<Direction> availableDirections;
+    private List<Monster> monsters;
+    private List<Characters> characters;
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\u001B[34m";
 
     public Location() {
     }
@@ -37,7 +42,6 @@ public class Location {
     //method will iterate through printing out each location on file.
     //need to continue researching the creation of each location and accessing individual elements
     public static Map<String, Location> locationJsonParser() throws IOException {
-//        File file = new File("src/main/resources/locations.json");
         Map<String, Location> locationMap;
         try (InputStream inputStream = Location.class.getClassLoader().getResourceAsStream("locations.json")) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -130,11 +134,51 @@ public class Location {
         this.availableDirections = availableDirections;
     }
 
+    public List<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(List<Monster> monster) {
+        this.monsters = monster;
+    }
+
+    public List<Characters> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Characters> characters) {
+        this.characters = characters;
+    }
+
+    public String monsterDescription() throws NullPointerException, IndexOutOfBoundsException {
+        String str = "";
+        try {
+            str = "There is a " + ANSI_RED + getMonsters().get(0).getName() + ANSI_RESET + " here.";
+        } catch (Exception e) {
+            System.out.println("");
+        }
+        return str;
+    }
+
+    public String characterDescription() throws NullPointerException, IndexOutOfBoundsException {
+        String str = "";
+        try {
+            str = "A " + ANSI_BLUE + getCharacters().get(0).getName() + ANSI_RESET + " is here.";
+        } catch (Exception e) {
+            System.out.println("");
+        }
+        return str;
+    }
+
     public String description() {
-        return  "\n" + getDescription()
-                + "\n" + "You can find these items here: " + getItems()
-                .stream()
-                .map(p -> p.getName())
-                .collect(Collectors.toList());
+        String display = new StringBuilder()
+                .append("\n").append(getDescription())
+                .append("\n").append(characterDescription())
+                .append("\n").append("You can find these items here: ").append(getItems()
+                        .stream()
+                        .map(p -> p.getName())
+                        .collect(Collectors.toList()))
+                .append("\n").append(monsterDescription()).toString();
+        return display;
     }
 }

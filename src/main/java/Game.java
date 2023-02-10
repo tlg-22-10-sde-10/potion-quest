@@ -52,6 +52,9 @@ public class Game {
             itemsToAddForest.add(rope1);
             forest.setItems(itemsToAddForest);
             Monster wolf = mapOfAllMonsters.get("Wolf");
+            List<Monster> monstersToAdd = new ArrayList<>();
+            monstersToAdd.add(wolf);
+            forest.setMonsters(monstersToAdd);
 
 
             Location mountainPass = mapOfAllLocations.get("Mountain Pass");
@@ -60,6 +63,9 @@ public class Game {
             itemsToAddMountains.add(rope2);
             mountainPass.setItems(itemsToAddMountains);
             Characters hermit = mapOfAllCharacters.get("Hermit");
+            List<Characters> charactersToAdd = new ArrayList<>();
+            charactersToAdd.add(hermit);
+            mountainPass.setCharacters(charactersToAdd);
 
             Location riverNorth = mapOfAllLocations.get("River North");
             Item fish = mapOfAllItems.get("Fish");
