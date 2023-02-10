@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-
+import org.apache.commons.lang3.StringUtils;
 /**
  * UserInputParser accepts user input from the keyboard and handles situations from command combinations.
  */
@@ -202,7 +202,7 @@ public class UserInputParser {
         return combatReport;
     }
 
-    public static String displayBasicMap() {
+    public static String displayMap() {
         String startingVillage = Game.getGameInstance().getLocations().get("Starting Village").getName();
         String forest = Game.getGameInstance().getLocations().get("Forest").getName();
         String riverNorth = Game.getGameInstance().getLocations().get("River North").getName();
@@ -249,6 +249,84 @@ public class UserInputParser {
                 "\n";
     }
 
+    public static String displayInventory() {
+        StringBuilder detailedInventory = new StringBuilder();
+        List<Item> playerInventory = Game.getGameInstance().getPlayer().getInventory();
+        int inventorySize = playerInventory.size();
+        switch(inventorySize) {
+            case(1):
+                String item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
+                detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
+                detailedInventory.append("\n|").append(item1)
+                        .append("| |          | |          | |          | |");
+                detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
+                break;
+            case(2):
+                item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
+                String item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
+                detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
+                detailedInventory.append("\n|").append(item1)
+                        .append("| |")
+                        .append(item2)
+                        .append("| |          | |          | |          |");
+                detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
+                break;
+            case(3):
+                item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
+                item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
+                String item3 = String.format(StringUtils.center(playerInventory.get(2).getName(), 10));
+                detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
+                detailedInventory.append("\n|").append(item1)
+                        .append("| |")
+                        .append(item2)
+                        .append("| |")
+                        .append(item3)
+                        .append("| |          | |          |");
+                detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
+                break;
+            case(4):
+                item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
+                item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
+                item3 = String.format(StringUtils.center(playerInventory.get(2).getName(), 10));
+                String item4 = String.format(StringUtils.center(playerInventory.get(3).getName(), 10));
+                detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
+                detailedInventory.append("\n|").append(item1)
+                        .append("| |")
+                        .append(item2)
+                        .append("| |")
+                        .append(item3)
+                        .append("| |")
+                        .append(item4)
+                        .append("| |          |");
+                detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
+                break;
+            case(5):
+                item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
+                item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
+                item3 = String.format(StringUtils.center(playerInventory.get(2).getName(), 10));
+                item4 = String.format(StringUtils.center(playerInventory.get(3).getName(), 10));
+                String item5 = String.format(StringUtils.center(playerInventory.get(4).getName(), 10));
+                detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
+                detailedInventory.append("\n|").append(item1)
+                        .append("| |")
+                        .append(item2)
+                        .append("| |")
+                        .append(item3)
+                        .append("| |")
+                        .append(item4)
+                        .append("| |")
+                        .append(item5)
+                        .append("|");
+                detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
+                break;
+            default:
+                detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
+                detailedInventory.append("\n|          | |          | |          | |          | |          |");
+                detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
+        }
+        return detailedInventory.toString();
+    }
+
     private static List<String> trimUserInput(String userInput) {
         String punctuation = " \t,.:;?!\"'";
         List<String> listOfStrings = new ArrayList<>();
@@ -292,7 +370,7 @@ public class UserInputParser {
             }
         }
         if(userInput.equalsIgnoreCase("map")) {
-            System.out.println(UserInputParser.displayBasicMap());
+            System.out.println(UserInputParser.displayMap());
         }
         if(userInput.equalsIgnoreCase("help")) {
             // display help message
@@ -303,9 +381,10 @@ public class UserInputParser {
         }
         if(userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
-            System.out.println("Your current inventory: " +
-                    Game.getGameInstance().getPlayer().getInventory()
-                            .stream().map(p -> p.getName()).collect(Collectors.toList()));
+//            System.out.println("Your current inventory: " +
+//                    Game.getGameInstance().getPlayer().getInventory()
+//                            .stream().map(p -> p.getName()).collect(Collectors.toList()));
+            System.out.println(displayInventory());
         }
         else {
             listOfTrimmedInput = trimUserInput(userInput);
