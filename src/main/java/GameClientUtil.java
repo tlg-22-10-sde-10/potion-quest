@@ -156,14 +156,14 @@ public class GameClientUtil {
         String hud = "";
         Player player = Game.getGameInstance().getPlayer();
         String currentLocation = player.getCurrentLocation().getName();
-        Set<Map.Entry<String, Location>> locationEntrySet = player.getCurrentLocation().getExits().entrySet();
+        String timeRemaining = String.format("%02d:%02d", Timer.getTimeRemainingMin(), Timer.getTimeRemainingSec());
         hud += "Location: " + currentLocation;
         hud += " | Health " + player.getHealth() + " \\ 100";
         hud += " | Inventory: " + player.getInventory()
                 .stream()
                 .map(Item::getName)
                 .collect(Collectors.toList());
-        hud += " | Time left " + Timer.getTimeRemainingMin() + ":" + Timer.getTimeRemainingSec();
+        hud += " | Time left " + timeRemaining;
         hud += "\n\n" + player.getCurrentLocation().description() + "\n";
         return hud;
     }

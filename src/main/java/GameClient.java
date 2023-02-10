@@ -24,7 +24,7 @@ public class GameClient {
         // game runs below:
         do {
             GameClientUtil.availableCommands();
-            System.out.println(GameClientUtil.displayHUD());;
+            System.out.println(GameClientUtil.displayHUD());
             String userInput = input.nextLine();
             UserInputParser.handleUserInput(userInput, gameClient);
             Game.checkWin(Game.getGameInstance().getPlayer().getInventory(),

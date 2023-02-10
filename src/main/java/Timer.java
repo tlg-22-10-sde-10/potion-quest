@@ -1,11 +1,10 @@
 import java.util.Date;
 
 public class Timer implements Runnable {
-
     private static long startTime = System.currentTimeMillis();
     private static long elapsedTime = 0L;
-    private static long timeRemainingMin;
-    private static long timeRemainingSec;
+    private static long timeRemainingMin = 7L;
+    private static long timeRemainingSec = 0L;
 
     @Override
     public void run() {
@@ -13,14 +12,17 @@ public class Timer implements Runnable {
         while (elapsedTime < totalTime) {
             elapsedTime = (new Date()).getTime() - startTime;
             timeRemainingSec = (totalTime - elapsedTime) / 1000 % 60;
+            setTimeRemainingSec(timeRemainingSec);
             timeRemainingMin = (totalTime - elapsedTime) / 1000 / 60;
+            setTimeRemainingMin(timeRemainingMin);
         }
         if (elapsedTime == (7*60 * 1000)) {
+            System.out.println();
             System.out.println("==================================");
             System.out.println("You ran out of time...Game Over");
             System.out.println("==================================");
-            GameClientUtil.gameExitMessage();
-            System.exit(0);
+            System.out.println();
+            GameClientUtil.endGameSequence();
         }
     }
 
@@ -28,7 +30,7 @@ public class Timer implements Runnable {
         return timeRemainingMin;
     }
 
-    public static void setTimeRemainingMin(int timeRemainingMin) {
+    public void setTimeRemainingMin(long timeRemainingMin) {
         Timer.timeRemainingMin = timeRemainingMin;
     }
 
@@ -36,7 +38,7 @@ public class Timer implements Runnable {
         return timeRemainingSec;
     }
 
-    public static void setTimeRemainingSec(int timeRemainingSec) {
+    public static void setTimeRemainingSec(long timeRemainingSec) {
         Timer.timeRemainingSec = timeRemainingSec;
     }
 }
