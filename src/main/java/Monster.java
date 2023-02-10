@@ -35,7 +35,6 @@ public class Monster {
             monstersMap = monsters
                     .stream()
                     .collect(Collectors.toMap(Monster::getName, Function.identity()));
-
         }
         return monstersMap;
     }

@@ -2,10 +2,16 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import java.util.stream.Stream;
+
 /**
  * UserInputParser accepts user input from the keyboard and handles situations from command combinations.
  */
 public class UserInputParser {
+    Map<String, Item> itemsMap = Game.getGameInstance().getItems();
+    Map<String, Characters> charactersMap = Game.getGameInstance().getCharacters();
+    Map<String, Monster> monsterMap = Game.getGameInstance().getMonsters();
+
     private final ArrayList<String> movementVerbs = new ArrayList<>() {
         {
             add("go");
@@ -17,95 +23,74 @@ public class UserInputParser {
             add("take");
             add("get");
             add("drop");
-            add("use");
-//            add("talk");
+            add("talk");
             add("look");
             add("heal");
         }
     };
 
     //need to update to consume JSON items instead
-    private final ArrayList<String> nouns = new ArrayList<>() {
-        {
-            add("door");
-            add("trinket");
-            add("rope");
-            add("sword");
-            add("potion");
-            add("bread");
-            add("ale");
-            add("water");
-            add("rabbit");
-            add("river");
-            add("forest");
-            add("tavern");
-            add("armor");
-            add("shack");
-            add("house");
-            add("bag");
-            add("torch");
-            add("attack");
-            add("fish");
-            add("character");
-        }
-    };
-    private final ArrayList<String> monsters = new ArrayList<>() {
-        {
-            add("wolf");
-            add("bear");
-        }
-    };
+    private final ArrayList<String> nouns = new ArrayList<>(itemsMap.keySet());
 
-    private final ArrayList<String> characters = new ArrayList<>() {
-        {
-            add("hermit");
-            add("trader");
-        }
-    };
-    private final ArrayList<String> directions = new ArrayList<>() {
-        {
-            add("north");
-            add("south");
-            add("east");
-            add("west");
-        }
-    };
+    private final ArrayList<String> monsters = new ArrayList<>(monsterMap.keySet());
+
+    private final ArrayList<String> characters = new ArrayList<>(charactersMap.keySet());
+
+    private final List<String> directions = Stream.of(Direction.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
 
     /**
      * parseCommand takes a list of Strings called wordList and parses it based on a verb and direction/noun combination.
      * If 'go' or 'move' are the first word in the list, parseCommand expects a direction. Otherwise, it will check the
      * list of interactions verbs with the list of nouns.
      *
-     * @param wordlist  - a List of String from the user input.
+     * @param wordlist - a List of String from the user input.
      */
     public static void parseCommand(List<String> wordlist) {
         UserInputParser inputParser = new UserInputParser();
+        Characters hermit = inputParser.charactersMap.get("Hermit");
         Player player = Game.getGameInstance().getPlayer();
-        Location location = Game.getGameInstance().getPlayer().getCurrentLocation();
-        Characters hermit = Game.getGameInstance().getCharacters().get("Hermit");
+
         String firstArgumentOfUserInput;
         String secondArgumentOfUserInput;
+
         firstArgumentOfUserInput = wordlist.get(0).toLowerCase();
         secondArgumentOfUserInput = wordlist.get(1).toLowerCase();
+        secondArgumentOfUserInput = secondArgumentOfUserInput.substring(0, 1)
+                .toUpperCase() + secondArgumentOfUserInput.substring(1);
 
+        //only input of 2 words allowed
         if (wordlist.size() > 2) {
             System.out.println("Only 2 word commands allowed.");
         } else if (inputParser.getMovementVerbs().contains(firstArgumentOfUserInput)) {
-            if (inputParser.getDirections().contains(secondArgumentOfUserInput)) {
+            if (inputParser.getDirections().contains(secondArgumentOfUserInput.toUpperCase())) {
                 // movement and direction are valid, move player
-                updatePlayerLocation(secondArgumentOfUserInput, player, location);
+                updatePlayerLocation(secondArgumentOfUserInput, player);
             } else {
-                System.out.println("Invalid direction. Try 'North', 'East', 'South', or 'West' after 'Go' or 'Move'");
+                System.out.println("Invalid direction. Try 'NORTH', 'EAST', 'SOUTH', or 'WEST' after 'Go' or 'Move'");
             }
-        } else if(inputParser.getInteractionVerbs().contains(firstArgumentOfUserInput)) {
-            if(inputParser.getDirections().contains(secondArgumentOfUserInput)) {
+        } else if (firstArgumentOfUserInput.equalsIgnoreCase("attack")) {
+            if (inputParser.getMonsters().contains(secondArgumentOfUserInput)) {
+                System.out.println(handleCombatEncounter());
+            } else {
+                System.out.println("Invalid command, please pair 'attack' with a monster name.");
+            }
+        } else if (firstArgumentOfUserInput.equalsIgnoreCase("heal")) {
+            if (secondArgumentOfUserInput.equalsIgnoreCase("character")) {
+                player.useHealingItem();
+            } else {
+                System.out.println("Invalid command, please pair 'heal' with 'character'.");
+            }
+        } else if (inputParser.getInteractionVerbs().contains(firstArgumentOfUserInput)) {
+            if (inputParser.getDirections().contains(secondArgumentOfUserInput.toUpperCase())) {
                 System.out.println("Invalid command. Please pair 'go' and 'move' with directions only.");
-            } else if(inputParser.getNouns().contains(secondArgumentOfUserInput)) {
+            } else if (inputParser.getNouns()
+                    .contains(secondArgumentOfUserInput)) {
                 // interact with nouns here
-                Item item = player.convertInputNounToTargetObject(secondArgumentOfUserInput);
+                Item item = player.convertInputNounToTargetObject(secondArgumentOfUserInput.toLowerCase());
                 if (firstArgumentOfUserInput.equalsIgnoreCase("take")
-                || firstArgumentOfUserInput.equalsIgnoreCase("get"))
-                {
+                        || firstArgumentOfUserInput.equalsIgnoreCase("get")) {
                     player.takeItem(item);
                 }
                 if (firstArgumentOfUserInput.equalsIgnoreCase("drop")) {
@@ -114,48 +99,38 @@ public class UserInputParser {
                 if (firstArgumentOfUserInput.equalsIgnoreCase("look")) {
                     player.lookAtItem(item);
                 }
-                if (firstArgumentOfUserInput.equalsIgnoreCase("heal")) {
-                    player.useHealingItem();
+            } else if (inputParser.getCharacters()
+                    .contains(secondArgumentOfUserInput.substring(0, 1)
+                    .toUpperCase() + secondArgumentOfUserInput.substring(1))) {
+                if (firstArgumentOfUserInput.equalsIgnoreCase("talk")) {
+                    System.out.println("You are talking to the " + hermit.getName());
+                    player.talkToCharacters(hermit);
                 }
             } else {
                 System.out.println("Invalid noun.");
             }
-        } else if(firstArgumentOfUserInput.equalsIgnoreCase("attack")) {
-            if(inputParser.getMonsters().contains(secondArgumentOfUserInput)) {
-
-                System.out.println(handleCombatEncounter());
-            } else {
-                System.out.println("Invalid command, please pair 'attack' with a monster name.");
-            }
-        } else if(firstArgumentOfUserInput.equalsIgnoreCase("talk")){
-            if(inputParser.getCharacters().contains(secondArgumentOfUserInput)){
-                System.out.println("You are talking to the hermit");
-                player.talkToCharacters(Game.getGameInstance().getCharacters().get("Hermit"));
-
-                }
-            }
-        else {
+        } else {
             System.out.println("Invalid interaction verb. For interacting with items, try 'take', 'grab', 'drop', or " +
                     "'use'. For NPCs try 'talk'");
         }
     }
 
-    public static void updatePlayerLocation(String secondArgumentOfUserInput, Player player, Location location) {
+    public static void updatePlayerLocation(String secondArgumentOfUserInput, Player player) {
         Direction direction;
-        switch (secondArgumentOfUserInput) {
-            case "north":
+        switch (secondArgumentOfUserInput.toUpperCase()) {
+            case "NORTH":
                 direction = Direction.NORTH;
                 player.move(direction);
                 break;
-            case "south":
+            case "SOUTH":
                 direction = Direction.SOUTH;
                 player.move(direction);
                 break;
-            case "east":
+            case "EAST":
                 direction = Direction.EAST;
                 player.move(direction);
                 break;
-            case "west":
+            case "WEST":
                 direction = Direction.WEST;
                 player.move(direction);
                 break;
@@ -172,7 +147,7 @@ public class UserInputParser {
         int monsterHealth = monster.getHealth();
         int totalMonsterDamageTaken = 0;
         int totalPlayerDamageTaken = 0;
-        while(monsterHealth > 0 && playerHealth > 0) {
+        while (monsterHealth > 0 && playerHealth > 0) {
             int playerAttack = Combat.playerAttack(player);
             int playerDefend = Combat.playerDefend(player);
             int monsterAttack = Combat.monsterAttack(monster);
@@ -188,13 +163,13 @@ public class UserInputParser {
             String monsterName = monster.getName();
             combatReport = "After a hard fought battle, you did " + totalMonsterDamageTaken + " total damage to the " +
                     monsterName +
-                            "\nYou took " + totalPlayerDamageTaken + " damage." +
-                            "\nYour current hp is " + playerHealth + ".";
-            if(monsterHealth <= 0) {
+                    "\nYou took " + totalPlayerDamageTaken + " damage." +
+                    "\nYour current hp is " + playerHealth + ".";
+            if (monsterHealth <= 0) {
                 combatReport += "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
             }
 
-            if(playerHealth == 0) {
+            if (playerHealth == 0) {
                 combatReport += "\nGame Over. You died.";
             }
         }
@@ -212,7 +187,7 @@ public class UserInputParser {
         String green = "\u001B[32m";
         String reset = "\u001B[0m";
         String playerCurrentLocation = Game.getGameInstance().getPlayer().getCurrentLocation().getName();
-        switch(playerCurrentLocation) {
+        switch (playerCurrentLocation) {
             case "Starting Village":
                 startingVillage = green + startingVillage + reset;
                 break;
@@ -237,7 +212,7 @@ public class UserInputParser {
         }
 
         return "\nTip: Your current location is in green." +
-                "\n                       " + forest + "    ---West/East--- "   + riverNorth +
+                "\n                       " + forest + "    ---West/East--- " + riverNorth +
                 "\n                        /                              \\" +
                 "\n                      North/South                       North/South" +
                 "\n                      /                                   \\" +
@@ -344,7 +319,8 @@ public class UserInputParser {
      * 'quit' or 'help' a menu is shown. Any other one word command is not recognized. An empty String is also handled.
      * If the user enters in 2 Strings, the input is sent to trimUserInput to trim the input before sending it to
      * parseCommand.
-     * @param userInput - input from the user
+     *
+     * @param userInput  - input from the user
      * @param gameClient - instance of the GameClient
      * @throws IOException
      * @throws InterruptedException
@@ -353,7 +329,7 @@ public class UserInputParser {
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         List<String> listOfTrimmedInput;
-        if(userInput.equalsIgnoreCase("quit")) {
+        if (userInput.equalsIgnoreCase("quit")) {
             System.out.println("Are you sure you want to quit?");
             boolean invalidInput = true;
             while (invalidInput) {
@@ -372,18 +348,15 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("map")) {
             System.out.println(UserInputParser.displayMap());
         }
-        if(userInput.equalsIgnoreCase("help")) {
+        if (userInput.equalsIgnoreCase("help")) {
             // display help message
             GameClientUtil.playerHelpCall();
         }
-        if(userInput.equalsIgnoreCase("")) {
+        if (userInput.equalsIgnoreCase("")) {
             System.out.println("You must enter a command!");
         }
-        if(userInput.equalsIgnoreCase("inventory")) {
+        if (userInput.equalsIgnoreCase("inventory")) {
             // display player inventory
-//            System.out.println("Your current inventory: " +
-//                    Game.getGameInstance().getPlayer().getInventory()
-//                            .stream().map(p -> p.getName()).collect(Collectors.toList()));
             System.out.println(displayInventory());
         }
         else {
@@ -417,7 +390,7 @@ public class UserInputParser {
         return characters;
     }
 
-    public ArrayList<String> getDirections() {
+    public List<String> getDirections() {
         return directions;
     }
 }

@@ -8,10 +8,6 @@ public class GameClient {
     private static long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) throws InterruptedException, IOException {
-
-        Characters.characterJsonParser();
-        Location.locationJsonParser();
-        Item.itemJsonParser();
         // Scanner object for accepting user keyboard input
         Scanner input = new Scanner(System.in);
         GameClient gameClient = new GameClient();
