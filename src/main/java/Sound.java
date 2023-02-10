@@ -11,6 +11,7 @@ public class Sound {
             Clip clip = AudioSystem.getClip();
             clip.open(ais);
             clip.start();
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         }catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
 
         }
