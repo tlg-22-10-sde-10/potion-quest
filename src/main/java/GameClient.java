@@ -8,6 +8,7 @@ public class GameClient {
     private static long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) throws InterruptedException, IOException {
+
         Characters.characterJsonParser();
         Location.locationJsonParser();
         Item.itemJsonParser();
@@ -19,6 +20,8 @@ public class GameClient {
         GameClientUtil.askPlayerIfTheyWantToStartGame();
         GameClientUtil.startingVillageMessage();
 
+        Sound sound = new Sound();
+        sound.playSound();
         //starts timer thread, will print out the Game
         (new Thread(new Timer())).start();
         // game runs below:

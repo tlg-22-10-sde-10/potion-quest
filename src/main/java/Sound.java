@@ -1,29 +1,18 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.*;
 import java.io.IOException;
-import java.net.URL;
 
 public class Sound {
-    Clip clip;
-    URL soundURL []= new URL[10];
 
-    public Sound (){
-        soundURL[0] = getClass().getResource("");
-        soundURL[1] = getClass().getResource("");
-    }
 
-    public void setFile(int i){
+    public void playSound(){
+        String soundFile = "Medieval_game.wav";
         try{
-            AudioInputStream audioSystem = AudioSystem.getAudioInputStream(soundURL[i]);
-        } catch (Exception e){
+            AudioInputStream ais = AudioSystem.getAudioInputStream(this.getClass().getResource(soundFile));
+            Clip clip = AudioSystem.getClip();
+            clip.open(ais);
+            clip.start();
+        }catch (UnsupportedAudioFileException | IOException | LineUnavailableException e){
 
         }
     }
-
-    public void play(){clip.start();}
-    public void loopMusic(){clip.loop(Clip.LOOP_CONTINUOUSLY);}
-    public void stopMusic(){clip.stop();}
-
 }

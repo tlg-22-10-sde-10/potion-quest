@@ -187,21 +187,4 @@ public class GameClientUtil {
         hud += "\n\n" + player.getCurrentLocation().description() + "\n";
         return hud;
     }
-
-    public void playMusic(int i) {
-        Sound sound = new Sound();
-        sound.setFile(i);
-        sound.play();
-        sound.loopMusic();
-    }
-
-    public void playSoundEffect(int i) {
-        Sound sound = new Sound();
-        sound.setFile(i);
-        sound.play();
-    }
-
-    public void stopMusic(int i) {
-        stopMusic(i);
-    }
 }
