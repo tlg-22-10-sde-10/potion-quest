@@ -16,9 +16,8 @@ import java.util.stream.Collectors;
 
 public class GameClientUtil {
 
-    private String welcomeMessage = null;
-    private String playerHelpCallMessage = null;
-    private String villageStartMessage = null;
+    private String messageName;
+    private String message;
 
     private static int width = 130;
     private static int height = 15;
@@ -33,29 +32,20 @@ public class GameClientUtil {
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_RESET = "\u001B[0m";
 
-    public String getWelcomeMessage() {
-        return welcomeMessage;
+    public String getMessageName() {
+        return messageName;
     }
 
-    public void setWelcomeMessage(String welcomeMessage) {
-        this.welcomeMessage = welcomeMessage;
+    public void setMessageName(String messageName) {
+        this.messageName = messageName;
     }
 
-
-    public String getPlayerHelpCallMessage() {
-        return playerHelpCallMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public void setPlayerHelpCallMessage(String playerHelpCallMessage) {
-        this.playerHelpCallMessage = playerHelpCallMessage;
-    }
-
-    public String getVillageStartMessage() {
-        return villageStartMessage;
-    }
-
-    public void setVillageStartMessage(String villageStartMessage) {
-        this.villageStartMessage = villageStartMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public static void printGameLogo() {
@@ -84,12 +74,21 @@ public class GameClientUtil {
     }
 
     public static void gameStartMessage() throws InterruptedException, IOException {
-        Thread.sleep(2000);
-        File file = new File("src/main/resources/messages.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        GameClientUtil gameWelcomeMessage = objectMapper.readValue(file, GameClientUtil.class);
-        System.out.println(ANSI_CYAN + gameWelcomeMessage.getWelcomeMessage() + ANSI_RESET);
+        Map<String, GameClientUtil> messageMap;
+        try (
+                InputStream inputStream = GameClientUtil.class.getClassLoader().getResourceAsStream("messages.json")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<GameClientUtil> gameVillageMessage = objectMapper.readValue(inputStream, new
+                    TypeReference<List<GameClientUtil>>() {
+                    });
+            messageMap = gameVillageMessage
+                    .stream()
+                    .collect(Collectors.toMap(GameClientUtil::getMessageName, Function.identity()));
+
+        }
+        String startMessage = messageMap.get("welcomeMessage").getMessage();
+        System.out.println(ANSI_CYAN + startMessage + ANSI_RESET);
         System.out.println();
         Thread.sleep(2000);
     }
@@ -102,22 +101,43 @@ public class GameClientUtil {
         System.out.println();
     }
 
+
     public static void playerHelpCall() throws IOException {
-        File file = new File("src/main/resources/messages.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        GameClientUtil gameHelpMessage = objectMapper.readValue(file, GameClientUtil.class);
-        System.out.println(ANSI_GREEN + gameHelpMessage.getPlayerHelpCallMessage() + ANSI_RESET);
+        Map<String, GameClientUtil> messageMap;
+        try (
+                InputStream inputStream = GameClientUtil.class.getClassLoader().getResourceAsStream("messages.json")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<GameClientUtil> gameVillageMessage = objectMapper.readValue(inputStream, new
+                    TypeReference<List<GameClientUtil>>() {
+                    });
+            messageMap = gameVillageMessage
+                    .stream()
+                    .collect(Collectors.toMap(GameClientUtil::getMessageName, Function.identity()));
+
+        }
+        String helpMessage = messageMap.get("helpMessage").getMessage();
+        System.out.println(ANSI_GREEN + helpMessage + ANSI_RESET);
         System.out.println();
     }
 
     public static void startingVillageMessage() throws IOException {
-        File file = new File("src/main/resources/messages.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        GameClientUtil gameVillageMessage = objectMapper.readValue(file, GameClientUtil.class);
-        System.out.println(ANSI_CYAN + gameVillageMessage.getVillageStartMessage() + ANSI_RESET);
-        System.out.println();
+        Map<String, GameClientUtil> messageMap;
+        try (
+                InputStream inputStream = GameClientUtil.class.getClassLoader().getResourceAsStream("messages.json")) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            List<GameClientUtil> gameVillageMessage = objectMapper.readValue(inputStream, new
+                    TypeReference<List<GameClientUtil>>() {
+                    });
+            messageMap = gameVillageMessage
+                    .stream()
+                    .collect(Collectors.toMap(GameClientUtil::getMessageName, Function.identity()));
+
+        }
+
+        String villageMessage = messageMap.get("villageStartMessage").getMessage();
+        System.out.println(ANSI_CYAN + villageMessage + ANSI_RESET);
     }
 
     public static void endGameSequence() {
@@ -167,6 +187,7 @@ public class GameClientUtil {
         hud += "\n\n" + player.getCurrentLocation().description() + "\n";
         return hud;
     }
+
     public void playMusic(int i) {
         Sound sound = new Sound();
         sound.setFile(i);
