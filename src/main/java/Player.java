@@ -63,17 +63,17 @@ public class Player {
     }
 
     public static void talkToCharacters(Characters characterTalking){
-        System.out.println(Game.getGameInstance().getCharacters().get("Hermit").getDialogue());
+        System.out.println(characterTalking.getDialogue());
         Scanner scanner = new Scanner(System.in);
         String userChoice = scanner.nextLine();
         if(userChoice.equals("1")) {
-            System.out.println(Game.getGameInstance().getCharacters().get("Hermit").getResponses().get("1"));
+            System.out.println(characterTalking.getResponses().get("1"));
         }
        else if(userChoice.equals("2")){
-            System.out.println(Game.getGameInstance().getCharacters().get("Hermit").getResponses().get("2"));
+            System.out.println(characterTalking.getResponses().get("2"));
         }
        else if(userChoice.equals("3")){
-            System.out.println(Game.getGameInstance().getCharacters().get("Hermit").getResponses().get("3"));
+            System.out.println(characterTalking.getResponses().get("3"));
         }
     }
 
