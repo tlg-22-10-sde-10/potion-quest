@@ -4,8 +4,6 @@ import java.util.*;
 public class GameClient {
     // flag to allow user to quickly exit the game
     public boolean quitGame = false;
-    private static long elapsedTime = 0L;
-    private static long startTime = System.currentTimeMillis();
 
     public static void main(String[] args) throws InterruptedException, IOException {
         // Scanner object for accepting user keyboard input
@@ -16,9 +14,7 @@ public class GameClient {
         GameClientUtil.askPlayerIfTheyWantToStartGame();
         GameClientUtil.startingVillageMessage();
 
-        Sound sound = new Sound();
-        sound.playSound();
-        //starts timer thread, will print out the Game
+        // starts timer thread
         (new Thread(new Timer(System.currentTimeMillis(), 7L, 0L, 0L))).start();
         // game runs below:
         do {
@@ -33,7 +29,6 @@ public class GameClient {
         while (!gameClient.isQuitGame() && Game.getGameInstance().getPlayer().getHealth() > 0);
         GameClientUtil.endGameSequence();
     }
-
 
     public boolean isQuitGame() {
         return quitGame;

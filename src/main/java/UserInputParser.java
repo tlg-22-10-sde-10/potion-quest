@@ -359,6 +359,9 @@ public class UserInputParser {
         if(userInput.equalsIgnoreCase("inventory")) {
             System.out.println(displayInventory());
         }
+        if(userInput.equalsIgnoreCase("mute")) {
+            SoundUtil.toggleMusicMute();
+        }
         else {
             listOfTrimmedInput = trimUserInput(userInput);
             if (listOfTrimmedInput.size() > 1) {

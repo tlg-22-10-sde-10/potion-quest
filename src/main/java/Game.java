@@ -9,15 +9,18 @@ public class Game {
     private Map<String, Monster> monsters;
     private Map<String, Characters> characters;
 
+    private Sound sound;
+
     private Game(){};
 
     private Game(Player player, Map<String, Monster> monsters, Map<String, Item> items, Map<String, Location> locations,
-                 Map<String, Characters> characters) {
+                 Map<String, Characters> characters, Sound sound) {
         setPlayer(player);
         setMonsters(monsters);
         setCharacters(characters);
         setItems(items);
         setLocations(locations);
+        setSound(sound);
     }
 
     public static Game createGameInstance() throws IOException {
@@ -99,7 +102,10 @@ public class Game {
             village2.addAdjacentLocation("NORTH", riverNorth);
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
-            gameInstance = new Game(cindy, mapOfAllMonsters, mapOfAllItems, mapOfAllLocations, mapOfAllCharacters);
+            Sound sound = new Sound();
+            sound.playSound();
+
+            gameInstance = new Game(cindy, mapOfAllMonsters, mapOfAllItems, mapOfAllLocations, mapOfAllCharacters, sound);
         }
         return gameInstance;
     }
@@ -162,5 +168,11 @@ public class Game {
         this.player = player;
     }
 
+    public Sound getSound() {
+        return sound;
+    }
 
+    public void setSound(Sound sound) {
+        this.sound = sound;
+    }
 }
