@@ -130,7 +130,7 @@ public class UserInputParser {
         } else if(firstArgumentOfUserInput.equalsIgnoreCase("talk")){
             if(inputParser.getCharacters().contains(secondArgumentOfUserInput)){
                 System.out.println("You are talking to the hermit");
-                player.talkToCharacters(Game.getGameInstance().getCharacters().get("hermit"));
+                player.talkToCharacters(Game.getGameInstance().getCharacters().get("Hermit"));
 
                 }
             }
