@@ -16,6 +16,8 @@ public class Game {
     private Map<String, Monster> monsters;
     private Map<String, Characters> characters;
 
+    private Game(){};
+
     private Game(Player player, Map<String, Monster> monsters, Map<String, Item> items, Map<String, Location> locations,
                  Map<String, Characters> characters) {
         setPlayer(player);

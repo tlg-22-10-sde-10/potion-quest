@@ -80,21 +80,25 @@ public class Player {
     public void useHealingItem() {
         List<Item> itemsInPlayerInventory = getInventory();
         List<Item> toRemove = new ArrayList<Item>();
+        List<Item> healingItems = new ArrayList<>();
 
         try {
             for (Item item : itemsInPlayerInventory) {
                 if (item.getStatBuff() > 0) {
-                    this.health = item.getStatBuff() + this.health;
-                    System.out.println("You used " + item.getName()
-                            + " to heal yourself by "
-                            + item.getStatBuff()
-                            + " points.");
-                    toRemove.add(item);
-                }
-                else {
-                    System.out.println("You don't have any healing items.");
+                    healingItems.add(item);
                 }
             }
+                if (healingItems.size() > 0) {
+                    Item itemToUse = healingItems.get(0);
+                    this.health = itemToUse.getStatBuff() + this.health;
+                    System.out.println("You used " + itemToUse.getName()
+                            + " to heal yourself by "
+                            + itemToUse.getStatBuff()
+                            + " points.");
+                    toRemove.add(itemToUse);
+                } else {
+                    System.out.println("You don't have any healing items.");
+                }
         } catch (NullPointerException e) {
             System.out.println("This item is not valid!");
         }
@@ -155,19 +159,7 @@ public class Player {
         Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
         if (targetLocation != null) {
             setCurrentLocation(targetLocation);
-            String locationCheck = null;
-            for (String location : this.currentLocation.getExits().keySet()) {
-                locationCheck = location;
-            }
-            for (Item inventory : getInventory())
-                if (inventory.getName().equalsIgnoreCase("potion")) {
-                    if (locationCheck.equalsIgnoreCase("starting village")) {
-                        System.out.println("You saved your sister!");
-                        GameClientUtil.gameExitMessage();
-                        System.exit(0);
-                    }
-                }
-        } else {
+            } else {
             System.out.println("Cannot move in that direction.");
         }
     }
