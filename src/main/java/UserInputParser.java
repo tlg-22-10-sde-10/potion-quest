@@ -18,7 +18,7 @@ public class UserInputParser {
             add("get");
             add("drop");
             add("use");
-            add("talk");
+//            add("talk");
             add("look");
             add("heal");
         }
@@ -40,7 +40,6 @@ public class UserInputParser {
             add("forest");
             add("tavern");
             add("armor");
-            add("hermit");
             add("shack");
             add("house");
             add("bag");
@@ -128,7 +127,13 @@ public class UserInputParser {
             } else {
                 System.out.println("Invalid command, please pair 'attack' with a monster name.");
             }
-        }
+        } else if(firstArgumentOfUserInput.equalsIgnoreCase("talk")){
+            if(inputParser.getCharacters().contains(secondArgumentOfUserInput)){
+                System.out.println("You are talking to the hermit");
+                player.talkToCharacters(Game.getGameInstance().getCharacters().get("hermit"));
+
+                }
+            }
         else {
             System.out.println("Invalid interaction verb. For interacting with items, try 'take', 'grab', 'drop', or " +
                     "'use'. For NPCs try 'talk'");
