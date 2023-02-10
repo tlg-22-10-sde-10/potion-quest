@@ -14,7 +14,6 @@ public class Monster {
     private Map<String, Integer> stats;
     private int health;
     private int id;
-
     public Monster() {
     }
 

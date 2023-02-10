@@ -1,22 +1,27 @@
 import java.util.Date;
 
 public class Timer implements Runnable {
-    private static long startTime = System.currentTimeMillis();
-    private static long elapsedTime = 0L;
-    private static long timeRemainingMin = 7L;
-    private static long timeRemainingSec = 0L;
+    private long startTime;
+    private long elapsedTime;
+    private static long timeRemainingMin;
+    private static long timeRemainingSec;
+
+    public Timer(long startTime, long timeRemainingMin, long timeRemainingSec, long elapsedTime) {
+        setStartTime(startTime);
+        setTimeRemainingMin(timeRemainingMin);
+        setTimeRemainingSec(timeRemainingSec);
+        setElapsedTime(elapsedTime);
+    }
 
     @Override
     public void run() {
     long totalTime = 7 * 60 * 1000;
-        while (elapsedTime < totalTime) {
-            elapsedTime = (new Date()).getTime() - startTime;
-            timeRemainingSec = (totalTime - elapsedTime) / 1000 % 60;
-            setTimeRemainingSec(timeRemainingSec);
-            timeRemainingMin = (totalTime - elapsedTime) / 1000 / 60;
-            setTimeRemainingMin(timeRemainingMin);
+        while (getElapsedTime() < totalTime) {
+            setElapsedTime((new Date()).getTime() - getStartTime());
+            setTimeRemainingSec((totalTime - getElapsedTime()) / 1000 % 60);
+            setTimeRemainingMin((totalTime - getElapsedTime()) / 1000 / 60);
         }
-        if (elapsedTime == (7*60 * 1000)) {
+        if (getElapsedTime() == (7*60 * 1000)) {
             System.out.println();
             System.out.println("==================================");
             System.out.println("You ran out of time...Game Over");
@@ -38,8 +43,24 @@ public class Timer implements Runnable {
         return timeRemainingSec;
     }
 
-    public static void setTimeRemainingSec(long timeRemainingSec) {
+    public void setTimeRemainingSec(long timeRemainingSec) {
         Timer.timeRemainingSec = timeRemainingSec;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getElapsedTime() {
+        return elapsedTime;
+    }
+
+    public void setElapsedTime(long elapsedTime) {
+        this.elapsedTime = elapsedTime;
     }
 }
 

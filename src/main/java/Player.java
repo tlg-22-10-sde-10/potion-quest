@@ -11,21 +11,8 @@ public class Player {
     public Player() {
     }
 
-    public Player(String name, int health, Location startingLocation) {
-        this.name = name;
-        this.health = health;
-        setCurrentLocation(startingLocation);
-    }
-
-    public Player(String name, int health, Location startingLocation, List<Item> inventory) {
-        this.name = name;
-        this.health = health;
-        this.currentLocation = startingLocation;
-        this.inventory = inventory;
-    }
-
     public Player(String name, int health, List<Item> inventory, Map<String, Integer> stats, Location startingLocation) {
-        this.name = name;
+        setName(name);
         setHealth(health);
         setInventory(inventory);
         setStats(stats);
@@ -143,7 +130,7 @@ public class Player {
         try {
             if (targetItem.getName().equals("")) {
                 display = "Which object would you like to drop?"; // if no object specified
-            } else if (isTargetItemHere == false) {
+            } else if (!isTargetItemHere) {
                 display = "That is not in your inventory!";
             } else {
                 transferOb(targetItem, getInventory(), getCurrentLocation().getItems());
@@ -178,7 +165,6 @@ public class Player {
 
     public void setInventory(List<Item> inventory) {
         this.inventory = inventory;
-
     }
 
     public Map<String, Integer> getStats() {
@@ -197,21 +183,11 @@ public class Player {
         this.currentLocation = currentLocation;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder playerInformation = new StringBuilder();
-        playerInformation.append("Current Location: ")
-                .append(getCurrentLocation().getName())
-                .append("\tLocation items: ")
-                .append(Arrays.asList(inventory))
-                .append("\tHealth: ")
-                .append(getHealth())
-                .append(" \\ 100")
-                .append("\tInventory: ")
-                .append(Arrays.asList(getInventory()))
-                .append("\tPossible exits: ");
-//                .append(Arrays.toString(getCurrentLocation().getExits()));
-        return playerInformation.toString();
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }

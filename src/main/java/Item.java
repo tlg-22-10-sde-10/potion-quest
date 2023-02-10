@@ -67,14 +67,4 @@ public class Item {
         this.description = description;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        // System.out.println("Television.equals");
-        boolean result = false;
-        if (obj instanceof Item) {
-            Item other = (Item) obj;
-            result = Objects.equals(this.getName(), other.getName());
-        }
-        return result;
-    }
 }

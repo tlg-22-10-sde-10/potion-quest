@@ -16,14 +16,6 @@ public class Location {
     private String description;
     private List<Direction> availableDirections;
 
-    public List<Direction> getAvailableDirections() {
-        return availableDirections;
-    }
-
-    public void setAvailableDirections(List<Direction> availableDirections) {
-        this.availableDirections = availableDirections;
-    }
-
     public Location() {
     }
 
@@ -130,6 +122,14 @@ public class Location {
         this.description = description;
     }
 
+    public List<Direction> getAvailableDirections() {
+        return availableDirections;
+    }
+
+    public void setAvailableDirections(List<Direction> availableDirections) {
+        this.availableDirections = availableDirections;
+    }
+
     public String description() {
         return  "\n" + getDescription()
                 + "\n" + "You can find these items here: " + getItems()
@@ -137,16 +137,4 @@ public class Location {
                 .map(p -> p.getName())
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        // System.out.println("Television.equals");
-        boolean result = false;
-        if (obj instanceof Location) {
-            Location other = (Location) obj;
-            result = Objects.equals(this.getName().toLowerCase(), other.getName().toLowerCase());
-        }
-        return result;
-    }
-
 }

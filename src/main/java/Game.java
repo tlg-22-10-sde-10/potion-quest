@@ -4,13 +4,6 @@ import java.util.*;
 public class Game {
     private static Game gameInstance = null;
     private Player player;
-    private Monster monster;
-
-    //private int time
-    private Direction direction;
-    private InteractionVerb interactionVerb;
-    private Noun noun;
-    private Item item;
     private Map<String, Item> items;
     private Map<String, Location> locations;
     private Map<String, Monster> monsters;
@@ -30,7 +23,6 @@ public class Game {
     public static Game createGameInstance() throws IOException {
         if (gameInstance == null) {
             int playerHealth = 100;
-            String[] inventory = new String[5];
             Map<String, Integer> playerStats = Map.of(
                     "Strength", 10,
                     "Defense", 10,
@@ -160,10 +152,6 @@ public class Game {
 
     public static Game getGameInstance() {
         return gameInstance;
-    }
-
-    public Item getItem() {
-        return item;
     }
 
     public Player getPlayer() {
