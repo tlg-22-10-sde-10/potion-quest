@@ -167,6 +167,7 @@ public class UserInputParser {
                     "\nYour current hp is " + playerHealth + ".";
             if (monsterHealth <= 0) {
                 combatReport += "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
+                player.getCurrentLocation().getMonsters().remove(monster);
             }
 
             if (playerHealth == 0) {

@@ -53,6 +53,7 @@ public class Player {
         System.out.println(characterTalking.getDialogue());
         Scanner scanner = new Scanner(System.in);
         String userChoice = scanner.nextLine();
+
         if(userChoice.equals("1")) {
             System.out.println(characterTalking.getResponses().get("1"));
         }
