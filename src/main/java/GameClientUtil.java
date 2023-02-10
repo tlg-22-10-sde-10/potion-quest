@@ -184,7 +184,6 @@ public class GameClientUtil {
                 .map(Item::getName)
                 .collect(Collectors.toList());
         hud += " | Time left " + timeRemaining;
-//        hud += "\n\n" + player.getCurrentLocation().description() + "\n";
         return hud;
     }
 
