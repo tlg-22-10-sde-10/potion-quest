@@ -1,3 +1,5 @@
+package com.potionquest.game;
+
 import javax.sound.sampled.BooleanControl;
 
 public class SoundUtil {

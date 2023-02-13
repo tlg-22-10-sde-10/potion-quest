@@ -1,16 +1,16 @@
+package com.potionquest.client;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -177,7 +177,7 @@ public class GameClientUtil {
         Player player = Game.getGameInstance().getPlayer();
         String currentLocation = player.getCurrentLocation().getName();
         String timeRemaining = String.format("%02d:%02d", Timer.getTimeRemainingMin(), Timer.getTimeRemainingSec());
-        hud += "Location: " + currentLocation;
+        hud += "com.postionquest.game.Location: " + currentLocation;
         hud += " | Health " + player.getHealth() + " \\ 100";
         hud += " | Inventory: " + player.getInventory()
                 .stream()

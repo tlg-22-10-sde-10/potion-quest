@@ -1,3 +1,8 @@
+package com.potionquest.game;
+
+import com.potionquest.client.GameClient;
+import com.potionquest.client.GameClientUtil;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -47,7 +52,7 @@ public class Game {
             startingVillage.setItems(itemsToAddStartingVillage);
 
             Location forest = mapOfAllLocations.get("Forest");
-//            Item rope1 = mapOfAllItems.get("Rope");
+//            com.postionquest.game.Item rope1 = mapOfAllItems.get("Rope");
             List<Item> itemsToAddForest = new ArrayList<>();
 //            itemsToAddForest.add(rope1);
             forest.setItems(itemsToAddForest);

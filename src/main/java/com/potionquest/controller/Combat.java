@@ -1,3 +1,9 @@
+package com.potionquest.controller;
+
+import com.potionquest.game.Game;
+import com.potionquest.game.Monster;
+import com.potionquest.game.Player;
+
 import java.util.Random;
 
 public class Combat {

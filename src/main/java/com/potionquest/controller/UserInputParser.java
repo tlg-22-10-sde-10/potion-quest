@@ -1,13 +1,19 @@
+package com.potionquest.controller;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.postionquest.game.*;
+import com.potionquest.client.GameClient;
+import com.potionquest.client.GameClientUtil;
+import com.potionquest.game.*;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.Stream;
 
 /**
- * UserInputParser accepts user input from the keyboard and handles situations from command combinations.
+ * com.potionquest.controller.UserInputParser accepts user input from the keyboard and handles situations from command combinations.
  */
 public class UserInputParser {
     Map<String, Item> itemsMap = Game.getGameInstance().getItems();
@@ -186,7 +192,7 @@ public class UserInputParser {
                     }
 
                     if (playerHealth == 0) {
-                        combatReport += "\nGame Over. You died.";
+                        combatReport += "\ncom.postionquest.game.Game Over. You died.";
                     }
                 }
             } catch (NullPointerException e) {
@@ -335,13 +341,13 @@ public class UserInputParser {
     }
 
     /**
-     * handleUserInput works direction with user input from the GameClient main method. If the user enters 'inventory',
+     * handleUserInput works direction with user input from the com.client.GameClient main method. If the user enters 'inventory',
      * 'quit' or 'help' a menu is shown. Any other one word command is not recognized. An empty String is also handled.
      * If the user enters in 2 Strings, the input is sent to trimUserInput to trim the input before sending it to
      * parseCommand.
      *
      * @param userInput  - input from the user
-     * @param gameClient - instance of the GameClient
+     * @param gameClient - instance of the com.client.GameClient
      * @throws IOException
      * @throws InterruptedException
      */

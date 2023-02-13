@@ -1,5 +1,8 @@
+package com.potionquest.game;
+
+import com.postionquest.game.*;
+
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Player {
     private String name;
@@ -125,7 +128,7 @@ public class Player {
                     display = targetItem.getName() + " taken!";
                 }
             } catch (NullPointerException e) {
-                System.out.println("Item not found!");
+                System.out.println("com.postionquest.game.Item not found!");
             }
         }
         return display;

@@ -1,3 +1,8 @@
+package com.potionquest.game;
+
+import com.potionquest.client.*;
+import com.potionquest.client.GameClientUtil;
+
 import java.util.Date;
 
 public class Timer implements Runnable {
@@ -24,7 +29,7 @@ public class Timer implements Runnable {
         if (getElapsedTime() == (7*60 * 1000)) {
             System.out.println();
             System.out.println("==================================");
-            System.out.println("You ran out of time...Game Over");
+            System.out.println("You ran out of time...com.postionquest.game.Game Over");
             System.out.println("==================================");
             System.out.println();
             GameClientUtil.endGameSequence();
