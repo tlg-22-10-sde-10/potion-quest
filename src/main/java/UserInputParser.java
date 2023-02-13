@@ -74,7 +74,7 @@ public class UserInputParser {
             }
         } else if (firstArgumentOfUserInput.equalsIgnoreCase("attack")) {
             if (inputParser.getMonsters().contains(secondArgumentOfUserInput)) {
-                handleCombatEncounter();
+                System.out.println(handleCombatEncounter());
             } else {
                 System.out.println("Invalid command, please pair 'attack' with a monster name.");
             }
@@ -105,7 +105,6 @@ public class UserInputParser {
                     .contains(secondArgumentOfUserInput.substring(0, 1)
                             .toUpperCase() + secondArgumentOfUserInput.substring(1))) {
                 if (firstArgumentOfUserInput.equalsIgnoreCase("talk")) {
-                    System.out.println("You are talking to the " + hermit.getName());
                     player.talkToCharacters(hermit);
                 }
             } else {
@@ -141,7 +140,7 @@ public class UserInputParser {
         }
     }
 
-    private static void handleCombatEncounter() {
+    private static String handleCombatEncounter() {
         String combatReport = "";
         Player player = Game.getGameInstance().getPlayer();
         Location currentLocation = player.getCurrentLocation();
@@ -153,7 +152,7 @@ public class UserInputParser {
         //need to fix null pointer exception for fight monster and removing from monster list
         if(Game.getGameInstance().getPlayer().getCurrentLocation().getName() ==
                 Game.getGameInstance().getLocations().get("Forest").getName()) {
-            try {
+
                 int playerHealth = player.getHealth();
                 Monster monster = Game.getGameInstance().getMonsters().get("Wolf");
                 int monsterHealth = monster.getHealth();
@@ -189,12 +188,8 @@ public class UserInputParser {
                         combatReport += "\nGame Over. You died.";
                     }
                 }
-            } catch (NullPointerException e) {
-                System.out.println("This monster can't be found.");
-//            return combatReport;
-            }
         }
-//        return combatReport;
+        return combatReport;
     }
 
     public static String displayMap() {

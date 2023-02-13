@@ -52,6 +52,7 @@ public class Player {
     public static void talkToCharacters(Characters characterTalking){
         if(Game.getGameInstance().getPlayer().getCurrentLocation().getName() ==
                 Game.getGameInstance().getLocations().get("Mountain Pass").getName()) {
+            System.out.println("You are talking to the " + characterTalking.getName());
             System.out.println(characterTalking.getDialogue());
             Scanner scanner = new Scanner(System.in);
             String userChoice = scanner.nextLine();
@@ -151,9 +152,21 @@ public class Player {
 
     public void move(Direction direction) {
         Location targetLocation = getCurrentLocation().getAdjacentLocation(direction);
+
+        //Need to complete implementation, check if player has rope to cross either rivers
         if (targetLocation != null) {
-            setCurrentLocation(targetLocation);
+            if (targetLocation.getName().equalsIgnoreCase("north river")
+                    || targetLocation.getName().equalsIgnoreCase("south river")) {
+                if (!this.getInventory().contains("Rope")) {
+                    System.out.println("You can't cross the river without a rope.");
+                } else {
+                    setCurrentLocation(targetLocation);
+                }
             } else {
+                setCurrentLocation(targetLocation);
+            }
+        }
+        else {
             System.out.println("Cannot move in that direction.");
         }
     }
