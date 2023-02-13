@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>gameclient</groupId>
+  <groupId>com.potionquest.client.gameclient</groupId>
   <artifactId>potion-quest</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <build>
@@ -110,7 +110,7 @@
     <maven-surefire-report-plugin.version>3.0.0-M8</maven-surefire-report-plugin.version>
     <maven.compiler.source>11</maven.compiler.source>
     <maven-shade-plugin.version>3.4.1</maven-shade-plugin.version>
-    <main-class.name>com.potionquest.client.GameClient.Main</main-class.name>
+    <main-class.name>com.potionquest.client.GameClient</main-class.name>
     <maven.compiler.target>11</maven.compiler.target>
     <junit-jupiter.version>5.9.2</junit-jupiter.version>
     <maven-surefire-plugin.version>3.0.0-M8</maven-surefire-plugin.version>

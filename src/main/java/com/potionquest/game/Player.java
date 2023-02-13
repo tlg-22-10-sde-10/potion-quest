@@ -1,7 +1,5 @@
 package com.potionquest.game;
 
-import com.postionquest.game.*;
-
 import java.util.*;
 
 public class Player {

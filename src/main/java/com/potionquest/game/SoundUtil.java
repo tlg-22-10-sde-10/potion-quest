@@ -12,6 +12,5 @@ public class SoundUtil {
         } else {
             muteControl.setValue(!mute);
         }
-
     }
 }

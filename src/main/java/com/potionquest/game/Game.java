@@ -114,8 +114,6 @@ public class Game {
             village2.addAdjacentLocation("SOUTH", riverSouth);
 
             Sound sound = new Sound();
-            sound.playSound();
-
             gameInstance = new Game(cindy, mapOfAllMonsters, mapOfAllItems, mapOfAllLocations, mapOfAllCharacters, sound);
         }
         return gameInstance;

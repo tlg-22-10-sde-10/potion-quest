@@ -3,6 +3,7 @@ package com.potionquest.client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.potionquest.game.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -169,6 +170,7 @@ public class GameClientUtil {
         }
         Game.createGameInstance();
         GameClientUtil.printGameLogo();
+//        Game.getGameInstance().getSound().playSound();
         System.out.println();
     }
 
@@ -177,7 +179,7 @@ public class GameClientUtil {
         Player player = Game.getGameInstance().getPlayer();
         String currentLocation = player.getCurrentLocation().getName();
         String timeRemaining = String.format("%02d:%02d", Timer.getTimeRemainingMin(), Timer.getTimeRemainingSec());
-        hud += "com.postionquest.game.Location: " + currentLocation;
+        hud += "Location: " + currentLocation;
         hud += " | Health " + player.getHealth() + " \\ 100";
         hud += " | Inventory: " + player.getInventory()
                 .stream()

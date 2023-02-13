@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.postionquest.game.*;
 import com.potionquest.client.GameClient;
 import com.potionquest.client.GameClientUtil;
 import com.potionquest.game.*;
@@ -381,7 +380,7 @@ public class UserInputParser {
             System.out.println(displayInventory());
         }
         if (userInput.equalsIgnoreCase("mute")) {
-            SoundUtil.toggleMusicMute();
+//            SoundUtil.toggleMusicMute();
         } else {
             listOfTrimmedInput = trimUserInput(userInput);
             if (listOfTrimmedInput.size() > 1) {
