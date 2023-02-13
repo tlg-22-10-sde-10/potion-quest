@@ -47,9 +47,9 @@ public class Game {
             startingVillage.setItems(itemsToAddStartingVillage);
 
             Location forest = mapOfAllLocations.get("Forest");
-            Item rope1 = mapOfAllItems.get("Rope");
+//            Item rope1 = mapOfAllItems.get("Rope");
             List<Item> itemsToAddForest = new ArrayList<>();
-            itemsToAddForest.add(rope1);
+//            itemsToAddForest.add(rope1);
             forest.setItems(itemsToAddForest);
             Monster wolf = mapOfAllMonsters.get("Wolf");
             List<Monster> monstersToAdd = new ArrayList<>();
