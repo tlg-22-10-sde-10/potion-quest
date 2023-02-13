@@ -9,7 +9,7 @@
   },
   {
     "name": "Forest",
-    "description": "It is a densely wooded forest, with light streaming from the sky above. \nThe forest has a flat path and will be an easier journey to find the potion. \nAs you enter the forest you see dense tall pine trees and find a flat, narrow path.",
+    "description": "It is a densely wooded forest, with light streaming from the sky above. \nThe forest has a flat path and will be an easier journey to find the potion. \nAs you enter the forest you see dense tall pine trees and find a flat, narrow path heading east.",
     "exits": {
       "EAST": "River North",
       "SOUTH": "Whitby Village"
@@ -17,7 +17,7 @@
   },
   {
     "name": "Mountain Pass",
-    "description": "Before you lies the great mountain pass, here you recall tales of an old hermit guarding these trails. \nHere you find a steep rocky slope that rises at a sharp angle \nand will be difficult to climb. Watch your step.",
+    "description": "Before you lies the great mountain pass, here you recall tales of an old hermit guarding these trails. \nHere you find a steep rocky slope that rises at a sharp angle \nand will be difficult to climb. Watch your step. To the east you can see a river.",
     "exits": {
       "NORTH": "Whitby Village",
       "EAST": "River South"
@@ -25,7 +25,7 @@
   },
   {
     "name": "River North",
-    "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the east you see Langtoft Village and to travel back to the Forest you must travel West.",
+    "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the south you see Langtoft Village and to travel back to the Forest you must travel West.",
     "exits": {
       "SOUTH": "Langtoft Village",
       "WEST": "Forest"
@@ -33,7 +33,7 @@
   },
   {
     "name": "River South",
-    "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the east you see Langtoft Village and to travel back to the Mountains you must travel West.",
+    "description": "You have traveled to a roaring river with a strong current and a rocky bed. \nProne to flooding and a great ambush site for enemies. \nTo the north you see Langtoft Village and to travel back to the Mountains you must travel West.",
     "exits": {
       "NORTH": "Langtoft Village",
       "WEST": "Mountain Pass"
@@ -41,7 +41,7 @@
   },
   {
     "name": "Langtoft Village",
-    "description": "Langtoft is a bustling town that sits next to the large river, \nthis is a bustling town where merchants and traders from across the country come to trade. \nThis is where the doctor said you would find potion to cure your sister.",
+    "description": "Langtoft is a bustling town that sits next to the large river, \nthis is a bustling town where merchants and traders from across the country come to trade. \nThis is where the doctor said you would find potion to cure your sister.\n You can see River North and River south to your north and south, respectively.",
     "exits": {
       "NORTH": "River North",
       "SOUTH": "River South"
