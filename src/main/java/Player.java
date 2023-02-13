@@ -50,19 +50,25 @@ public class Player {
     }
 
     public static void talkToCharacters(Characters characterTalking){
-        System.out.println(characterTalking.getDialogue());
-        Scanner scanner = new Scanner(System.in);
-        String userChoice = scanner.nextLine();
+        if(Game.getGameInstance().getPlayer().getCurrentLocation().getName() ==
+                Game.getGameInstance().getLocations().get("Mountain Pass").getName()) {
+            System.out.println(characterTalking.getDialogue());
+            Scanner scanner = new Scanner(System.in);
+            String userChoice = scanner.nextLine();
+            if(userChoice.equals("1")) {
+                System.out.println(characterTalking.getResponses().get("1"));
+            }
+            else if(userChoice.equals("2")){
+                System.out.println(characterTalking.getResponses().get("2"));
+            }
+            else if(userChoice.equals("3")){
+                System.out.println(characterTalking.getResponses().get("3"));
+            }
+        }
+        else{
+            System.out.println("There is NO hermit here");
+        }
 
-        if(userChoice.equals("1")) {
-            System.out.println(characterTalking.getResponses().get("1"));
-        }
-       else if(userChoice.equals("2")){
-            System.out.println(characterTalking.getResponses().get("2"));
-        }
-       else if(userChoice.equals("3")){
-            System.out.println(characterTalking.getResponses().get("3"));
-        }
     }
 
     public void useHealingItem() {
