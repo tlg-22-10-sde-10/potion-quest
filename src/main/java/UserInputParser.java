@@ -179,17 +179,17 @@ public class UserInputParser {
     }
 
     public static String displayMap() {
-        String startingVillage = Game.getGameInstance().getLocations().get("Starting Village").getName();
+        String startingVillage = Game.getGameInstance().getLocations().get("Whitby Village").getName();
         String forest = Game.getGameInstance().getLocations().get("Forest").getName();
         String riverNorth = Game.getGameInstance().getLocations().get("River North").getName();
         String riverSouth = Game.getGameInstance().getLocations().get("River South").getName();
-        String village2 = Game.getGameInstance().getLocations().get("Village2").getName();
+        String village2 = Game.getGameInstance().getLocations().get("Langtoft Village").getName();
         String mountainPass = Game.getGameInstance().getLocations().get("Mountain Pass").getName();
         String green = "\u001B[32m";
         String reset = "\u001B[0m";
         String playerCurrentLocation = Game.getGameInstance().getPlayer().getCurrentLocation().getName();
         switch (playerCurrentLocation) {
-            case "Starting Village":
+            case "Whitby Village":
                 startingVillage = green + startingVillage + reset;
                 break;
             case "Forest":
@@ -201,7 +201,7 @@ public class UserInputParser {
             case "River South":
                 riverSouth = green + riverSouth + reset;
                 break;
-            case "Village2":
+            case "Langtoft Village":
                 village2 = green + village2 + reset;
                 break;
             case "Mountain Pass":

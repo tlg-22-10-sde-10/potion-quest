@@ -95,9 +95,9 @@ public class GameClientUtil {
 
     public static void availableCommands() {
         System.out.println();
-        System.out.println(ANSI_PURPLE + "===========================================================================================");
+        System.out.println(ANSI_PURPLE + "=====================================================================================================");
         System.out.println("Available commands: go [direction], get [item], attack [creature], map, inventory, help, quit, mute");
-        System.out.println("================================================================================================" + ANSI_RESET);
+        System.out.println("=====================================================================================================" + ANSI_RESET);
         System.out.println();
     }
 
