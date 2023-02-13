@@ -121,7 +121,12 @@ public class Game {
         if (inventory.contains(Game.gameInstance.getItems().get("Potion"))) {
             if (location.getName().equalsIgnoreCase("Whitby Village")) {
                 //TODO: Add win confirmation statement
-                gameClient.setQuitGame(true);
+//                gameClient.setQuitGame(true);
+                System.out.println("You were able to save your sister in the nick of time!" +
+                        "\nThough she will take days to fully recover, her life is no longer in jeopardy!" +
+                        "\nYou go back to your regular life, content with what it brings.");
+                System.out.println("\n");
+                GameClientUtil.endGameSequence();
             }
         }
     }
