@@ -1,3 +1,5 @@
+package com.potionquest.game;
+
 import javax.sound.sampled.BooleanControl;
 
 public class SoundUtil {
@@ -10,6 +12,5 @@ public class SoundUtil {
         } else {
             muteControl.setValue(!mute);
         }
-
     }
 }

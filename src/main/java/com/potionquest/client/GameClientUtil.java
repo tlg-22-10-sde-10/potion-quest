@@ -1,16 +1,17 @@
+package com.potionquest.client;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.potionquest.game.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -169,6 +170,7 @@ public class GameClientUtil {
         }
         Game.createGameInstance();
         GameClientUtil.printGameLogo();
+//        Game.getGameInstance().getSound().playSound();
         System.out.println();
     }
 

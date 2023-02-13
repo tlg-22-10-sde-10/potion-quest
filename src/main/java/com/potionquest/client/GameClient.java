@@ -1,3 +1,9 @@
+package com.potionquest.client;
+
+import com.potionquest.game.*;
+import com.potionquest.controller.*;
+import com.potionquest.game.Timer;
+
 import java.io.IOException;
 import java.util.*;
 
