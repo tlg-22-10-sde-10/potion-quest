@@ -118,7 +118,7 @@ public class Game {
 
     public static void checkWin(List<Item> inventory, Location location, GameClient gameClient) throws IOException {
         Map<String, Item> mapOfAllItems = Item.itemJsonParser();
-        if (inventory.contains(mapOfAllItems.get("Potion"))) {
+        if (inventory.contains(Game.gameInstance.getItems().get("Potion"))) {
             if (location.getName().equalsIgnoreCase("Starting Village")) {
                 //TODO: Add win confirmation statement
                 gameClient.setQuitGame(true);
