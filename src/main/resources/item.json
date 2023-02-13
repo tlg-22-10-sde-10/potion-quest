@@ -17,15 +17,18 @@
   },
   {
     "name": "Fish",
-    "description": "Eat the fish to increase your health"
+    "description": "Eat the fish to increase your health",
+    "statBuff": 2
   },
   {
     "name": "Bread",
-    "description": "Eat the bread to increase your health"
+    "description": "Eat the bread to increase your health",
+    "statBuff": 2
   },
   {
     "name": "Potion",
-    "description": "Quickly take the potion back to your home village to save your sister"
+    "description": "Quickly take the potion back to your home village to save your sister",
+    "statBuff": 100
   },
   {
     "name": "Ale",
@@ -41,7 +44,8 @@
   },
   {
     "name": "Water Bottle",
-    "description": "Use the water bottle to water and improve your health."
+    "description": "Use the water bottle to water and improve your health.",
+    "statBuff": 1
   },
   {
     "name": "Torch",
