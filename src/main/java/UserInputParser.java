@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
+
 import java.util.stream.Stream;
 
 /**
@@ -72,7 +74,7 @@ public class UserInputParser {
             }
         } else if (firstArgumentOfUserInput.equalsIgnoreCase("attack")) {
             if (inputParser.getMonsters().contains(secondArgumentOfUserInput)) {
-                System.out.println(handleCombatEncounter());
+                handleCombatEncounter();
             } else {
                 System.out.println("Invalid command, please pair 'attack' with a monster name.");
             }
@@ -101,7 +103,7 @@ public class UserInputParser {
                 }
             } else if (inputParser.getCharacters()
                     .contains(secondArgumentOfUserInput.substring(0, 1)
-                    .toUpperCase() + secondArgumentOfUserInput.substring(1))) {
+                            .toUpperCase() + secondArgumentOfUserInput.substring(1))) {
                 if (firstArgumentOfUserInput.equalsIgnoreCase("talk")) {
                     System.out.println("You are talking to the " + hermit.getName());
                     player.talkToCharacters(hermit);
@@ -139,43 +141,60 @@ public class UserInputParser {
         }
     }
 
-    private static String handleCombatEncounter() {
+    private static void handleCombatEncounter() {
         String combatReport = "";
         Player player = Game.getGameInstance().getPlayer();
-        int playerHealth = player.getHealth();
-        Monster monster = Game.getGameInstance().getMonsters().get("Wolf");
-        int monsterHealth = monster.getHealth();
-        int totalMonsterDamageTaken = 0;
-        int totalPlayerDamageTaken = 0;
-        while (monsterHealth > 0 && playerHealth > 0) {
-            int playerAttack = Combat.playerAttack(player);
-            int playerDefend = Combat.playerDefend(player);
-            int monsterAttack = Combat.monsterAttack(monster);
-            int monsterDefend = Combat.monsterDefend(monster);
-            int monsterDamageTaken = Combat.monsterTakeDamage(playerAttack, monsterDefend);
-            totalMonsterDamageTaken += monsterDamageTaken;
-            int playerDamageTaken = Combat.playerTakeDamage(playerDefend, monsterAttack);
-            totalPlayerDamageTaken += playerDamageTaken;
-            monsterHealth -= monsterDamageTaken;
+        Location currentLocation = player.getCurrentLocation();
+        Item rope = Game.getGameInstance().getItems().get("Rope");
+        List<Item> itemsToAddForest = new ArrayList<>();
+        itemsToAddForest.add(rope);
 
-            playerHealth -= playerDamageTaken;
-            player.setHealth(playerHealth);
-            String monsterName = monster.getName();
-            combatReport = "After a hard fought battle, you did " + totalMonsterDamageTaken + " total damage to the " +
-                    monsterName +
-                    "\nYou took " + totalPlayerDamageTaken + " damage." +
-                    "\nYour current hp is " + playerHealth + ".";
-            if (monsterHealth <= 0) {
-                combatReport += "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
-                player.getCurrentLocation().getMonsters().remove(monster);
-            }
+        //need to fix, this makes it so only combat is occurring in Forest
+        //need to fix null pointer exception for fight monster and removing from monster list
+        if(Game.getGameInstance().getPlayer().getCurrentLocation().getName() ==
+                Game.getGameInstance().getLocations().get("Forest").getName()) {
+            try {
+                int playerHealth = player.getHealth();
+                Monster monster = Game.getGameInstance().getMonsters().get("Wolf");
+                int monsterHealth = monster.getHealth();
+                int totalMonsterDamageTaken = 0;
+                int totalPlayerDamageTaken = 0;
 
-            if (playerHealth == 0) {
-                combatReport += "\nGame Over. You died.";
+                while (monsterHealth > 0 && playerHealth > 0) {
+                    int playerAttack = Combat.playerAttack(player);
+                    int playerDefend = Combat.playerDefend(player);
+                    int monsterAttack = Combat.monsterAttack(monster);
+                    int monsterDefend = Combat.monsterDefend(monster);
+                    int monsterDamageTaken = Combat.monsterTakeDamage(playerAttack, monsterDefend);
+                    totalMonsterDamageTaken += monsterDamageTaken;
+                    int playerDamageTaken = Combat.playerTakeDamage(playerDefend, monsterAttack);
+                    totalPlayerDamageTaken += playerDamageTaken;
+                    monsterHealth -= monsterDamageTaken;
+
+                    playerHealth -= playerDamageTaken;
+                    player.setHealth(playerHealth);
+                    String monsterName = monster.getName();
+                    combatReport = "After a hard fought battle, you did " + totalMonsterDamageTaken + " total damage to the " +
+                            monsterName +
+                            "\nYou took " + totalPlayerDamageTaken + " damage." +
+                            "\nYour current hp is " + playerHealth + ".";
+                    if (monsterHealth <= 0) {
+                        combatReport += "\nThe " + monsterName + " is no longer a concern. You should continue your journey.";
+                        combatReport += "\nThe monster dropped a " + rope.getName() + ".";
+                        currentLocation.setItems(itemsToAddForest);
+                        player.getCurrentLocation().getMonsters().remove(monster);
+                    }
+
+                    if (playerHealth == 0) {
+                        combatReport += "\nGame Over. You died.";
+                    }
+                }
+            } catch (NullPointerException e) {
+                System.out.println("This monster can't be found.");
+//            return combatReport;
             }
         }
-
-        return combatReport;
+//        return combatReport;
     }
 
     public static String displayMap() {
@@ -229,15 +248,15 @@ public class UserInputParser {
         StringBuilder detailedInventory = new StringBuilder();
         List<Item> playerInventory = Game.getGameInstance().getPlayer().getInventory();
         int inventorySize = playerInventory.size();
-        switch(inventorySize) {
-            case(1):
+        switch (inventorySize) {
+            case (1):
                 String item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
                 detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
                 detailedInventory.append("\n|").append(item1)
                         .append("| |          | |          | |          | |");
                 detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
                 break;
-            case(2):
+            case (2):
                 item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
                 String item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
                 detailedInventory.append("------------ ------------ ------------ ------------ ------------ ");
@@ -247,7 +266,7 @@ public class UserInputParser {
                         .append("| |          | |          | |          |");
                 detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
                 break;
-            case(3):
+            case (3):
                 item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
                 item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
                 String item3 = String.format(StringUtils.center(playerInventory.get(2).getName(), 10));
@@ -260,7 +279,7 @@ public class UserInputParser {
                         .append("| |          | |          |");
                 detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
                 break;
-            case(4):
+            case (4):
                 item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
                 item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
                 item3 = String.format(StringUtils.center(playerInventory.get(2).getName(), 10));
@@ -276,7 +295,7 @@ public class UserInputParser {
                         .append("| |          |");
                 detailedInventory.append("\n____________ ____________ ____________ ____________ ____________ ");
                 break;
-            case(5):
+            case (5):
                 item1 = String.format(StringUtils.center(playerInventory.get(0).getName(), 10));
                 item2 = String.format(StringUtils.center(playerInventory.get(1).getName(), 10));
                 item3 = String.format(StringUtils.center(playerInventory.get(2).getName(), 10));
@@ -346,7 +365,7 @@ public class UserInputParser {
                 }
             }
         }
-        if(userInput.equalsIgnoreCase("map")) {
+        if (userInput.equalsIgnoreCase("map")) {
             System.out.println(UserInputParser.displayMap());
         }
         if (userInput.equalsIgnoreCase("help")) {
@@ -357,13 +376,12 @@ public class UserInputParser {
             System.out.println("You must enter a command!");
         }
 
-        if(userInput.equalsIgnoreCase("inventory")) {
+        if (userInput.equalsIgnoreCase("inventory")) {
             System.out.println(displayInventory());
         }
-        if(userInput.equalsIgnoreCase("mute")) {
+        if (userInput.equalsIgnoreCase("mute")) {
             SoundUtil.toggleMusicMute();
-        }
-        else {
+        } else {
             listOfTrimmedInput = trimUserInput(userInput);
             if (listOfTrimmedInput.size() > 1) {
                 parseCommand(listOfTrimmedInput);
